@@ -23,7 +23,7 @@ var done = false;
 var dragging = false;
 
 // Elements
-var mainUrl = "https://localhost:44381/api/Chess/";
+var mainUrl = "/api/Chess/";
 var boardWidth = 0;
 var boardHeight = 0;
 
@@ -133,6 +133,10 @@ function generateChessElements() {
         chessClock2.appendChild(blackClock);
         chessClock1.appendChild(whiteClock);
     }
+
+    chessClock1.classList.add("hidden");
+    chessClock2.classList.add("hidden");
+
 
     // Choices
     chessGameElement.appendChild(build({
@@ -607,7 +611,7 @@ function makeChoice(optionTitle) {
         SelectedOption: optionTitle
     };
 
-    fetch(mainUrl + "makeMove",
+    fetch(apiUrl + mainUrl + "makeMove",
         {
             method: "POST",
             headers: {
@@ -1302,7 +1306,7 @@ function showLegalMoves(piece, afterGetMoves) {
     });
 
 
-    // fetch(mainUrl + "getLegalMoves",
+    // fetch(apiUrl + mainUrl + "getLegalMoves",
     //     {
     //         method: "POST",
     //         headers: {
@@ -1377,7 +1381,7 @@ function hideLegalMoves() {
 }
 
 function seeLegalSquares() {
-    fetch(mainUrl + "legalMoveSquares").then(response => response.json()).then(responseJson => {
+    fetch(apiUrl + mainUrl + "legalMoveSquares").then(response => response.json()).then(responseJson => {
         unPickPiece();
         responseJson.forEach(function (square) {
             if (flipped) {
@@ -1768,7 +1772,7 @@ function move(row1, col1, row2, col2) {
         console.error("Failed to make move:", error);
     }
 
-    // fetch(mainUrl + "makeMove",
+    // fetch(apiUrl + mainUrl + "makeMove",
     //    {
     //        method: "POST",
     //        headers: {
@@ -1812,7 +1816,7 @@ function savePremove(moveToSave) {
 }
 
 function executePremove() {
-    fetch(mainUrl + "makeMove",
+    fetch(apiUrl + mainUrl + "makeMove",
         {
             method: "POST",
             headers: {

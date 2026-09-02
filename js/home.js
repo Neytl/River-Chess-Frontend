@@ -67,7 +67,7 @@ async function abandonRun() {
         button.style.pointerEvents = "none";
         button.textContent = "Abandoning...";
 
-        const response = await fetch(
+        const response = await fetch(apiUrl + 
             `/api/run-state/${encodeURIComponent(guestId)}`,
             {
                 method: "DELETE"
@@ -120,7 +120,7 @@ async function createNewRun() {
         newGameButton.textContent = "Starting...";
         newGameButton.style.pointerEvents = "none";
 
-        const response = await fetch(
+        const response = await fetch(apiUrl + 
             `/api/run-state/${encodeURIComponent(guestId)}`,
             {
                 method: "POST",

@@ -1,4 +1,6 @@
-﻿// ******************************************
+﻿let apiUrl = (window.location.origin.includes("local") ? "" : "river-chess-bqa4a7f0cgaadghv.canadacentral-01.azurewebsites.net");
+
+// ******************************************
 //  Load Account
 // ******************************************
 let guestId = null;
@@ -83,7 +85,7 @@ async function configureGuestStorage() {
     let overridesAllowed = false;
 
     try {
-        const response = await fetch("/api/multiplayer/debug/config");
+        const response = await fetch(apiUrl + "/api/multiplayer/debug/config");
         overridesAllowed = response.ok;
     }
     catch {
@@ -123,7 +125,7 @@ async function initializeGuest() {
     }
 
     // Verify that the saved guest still exists.
-    const response = await fetch(`/api/guests/${guestId}`);
+    const response = await fetch(apiUrl + `/api/guests/${guestId}`);
 
     if (!response.ok) {
         if (!isOnHomePage) goHome();
@@ -138,7 +140,7 @@ async function initializeGuest() {
 }
 
 async function createGuest() {
-    const response = await fetch("/api/guests", {
+    const response = await fetch(apiUrl + "/api/guests", {
         method: "POST"
     });
 
@@ -163,7 +165,7 @@ async function loadRunState() {
         throw new Error("Cannot load run state without a guest ID.");
     }
 
-    const response = await fetch(
+    const response = await fetch(apiUrl + 
         `/api/run-state/${encodeURIComponent(guestId)}`
     );
 

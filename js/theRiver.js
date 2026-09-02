@@ -38,7 +38,7 @@ function displayRunState() {
 
     async function loadCurrentRun() {
 
-        const response = await fetch(
+        const response = await fetch(apiUrl + 
             `/api/run-state/${guestId}`
         );
 
@@ -136,7 +136,7 @@ function displayRunState() {
 
         // Send request to the server
         const response =
-            await fetch(
+            await fetch(apiUrl + 
                 `/api/run-state/${guestId}/rerollShop`,
                 {
                     method: "POST"
@@ -302,14 +302,14 @@ async function buyStone(stone, stoneElement) {
 
     // Update the UI
     stoneElement.classList.add("stone-purchased");
-    get("stonesContainer").appendChild(createStoneElement(stone, false, true));    
+    get("stonesContainer").appendChild(createStoneElement(stone, { sellable: true }));    
     runState.points -= stone.points;
     renderPoints();
     runState.stones.push({});
 
     // Send request to the server
     const response =
-        await fetch(
+        await fetch(apiUrl + 
             `/api/run-state/${guestId}/buyStone`,
             {
                 method: "POST",
@@ -389,7 +389,7 @@ async function sellStone(stone, stoneElement) {
 
     // Send request to the server
     const response =
-        await fetch(
+        await fetch(apiUrl + 
             `/api/run-state/${guestId}/sellStone`,
             {
                 method: "POST",
