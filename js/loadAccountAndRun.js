@@ -1,4 +1,4 @@
-﻿let apiUrl = (window.location.origin.includes("local") ? "" : "river-chess-bqa4a7f0cgaadghv.canadacentral-01.azurewebsites.net");
+﻿let apiUrl = (window.location.origin.includes("local") ? "" : "https://river-chess-bqa4a7f0cgaadghv.canadacentral-01.azurewebsites.net");
 
 // ******************************************
 //  Load Account
