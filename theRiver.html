@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>The River</title>
+
+    <link href='css/siteStyles.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/theRiver.css">
+    <link rel="stylesheet" href="/css/stones.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <div id="menuOverlay" class="menu-overlay"></div>
+
+    <aside id="sideMenu" class="side-menu">
+
+        <div class="side-menu-header">
+            <h2>Menu</h2>
+
+            <button id="closeMenuButton"
+                    class="close-menu-button"
+                    aria-label="Close menu">
+                ×
+            </button>
+        </div>
+
+        <!-- Empty for now -->
+
+    </aside>
+
+
+    <!-- =========================
+         TOP NAVIGATION
+    ========================== -->
+
+    <nav class="top-nav">
+
+        <button id="menuButton"
+                class="nav-button"
+                aria-label="Open menu">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <a href="/index.html"
+           class="home-button"
+           aria-label="Home">
+
+            🏠
+
+        </a>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="river-page">
+
+        <!--<div id="shopAndHeader">-->
+        <!-- SHOP HEADER -->
+
+        <section class="river-header">
+
+            <div class="shop-sign">
+
+                <h1>THE RIVER</h1>
+
+            </div>
+
+
+            <div class="run-info">
+
+                <div id="roundDisplay"
+                     class="round-display">
+                    Round 1
+                </div>
+
+
+                <div class="lives-display">
+
+                    <span class="lives-label">
+                        Lives:
+                    </span>
+
+                    <div id="livesContainer"
+                         class="lives-container">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SHOP
+        ========================== -->
+
+        <section class="shop-section">
+
+            <div class="shop-layout">
+
+
+                <!-- SHOP STONES -->
+
+                <div id="shopStones"
+                     class="shop-stones">
+                </div>
+
+
+                <!-- SHOP ACTIONS -->
+
+                <div class="shop-actions">
+
+                    <button id="nextGameButton"
+                            class="river-button next-game-button">
+                        <div>Next</div>
+                        <div>Game</div>
+                    </button>
+
+
+                    <button id="rerollButton"
+                            class="river-button reroll-button">
+                        <div>Reroll</div>
+                        <div>
+                            <img src="imgs/icons/rewind.png" />
+                            <span id="rewinds">-</span>
+                        </div>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- POINTS -->
+
+            <div class="points-section">
+
+                <div class="points-label">
+
+                    Points
+
+                </div>
+
+
+                <div id="pointsDice"
+                     class="points-dice">
+
+                </div>
+
+            </div>
+
+        </section>
+        <!--</div>-->
+        <!-- =========================
+             PLAYER STONES
+        ========================== -->
+
+        <section class="owned-stones-section">
+            <div id="stonesContainer" class="player-stones">
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/utility.js"></script>
+    <script src="js/loadAccountAndRun.js"></script>
+    <script src="js/theRiver.js"></script>
+    <script src="/js/stones.js"></script>
+    <script src="js/sideMenu.js"></script>
+    <script src="lib/signalr/signalr.min.js"></script>
+    <script src="js/multiplayerClient.js"></script>
+</body>
+</html>

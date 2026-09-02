@@ -1,0 +1,503 @@
+﻿
+:root {
+    --foreground-color: #404040;
+    --white-piece-outline-color: white;
+    --black-piece-outline-color: white;
+}
+
+/***********************
+ * Chess game styles
+ * *********************/
+
+html #body .hidden {
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    display: none;
+    border: none;
+}
+
+#chessElement {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10em;
+    z-index: 1;
+}
+
+#message {
+    font-size: 2em;
+}
+
+    #message.spaceBelow {
+        margin-bottom: .5em;
+    }
+
+#secondaryMessage {
+    display: flex;
+    justify-content: center;
+    min-height: 3em;
+}
+
+.chessClockContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1em;
+    padding: .5em;
+}
+
+.paddingTop {
+    padding-top: 1em;
+}
+
+.chessClock {
+    background-color: #282828;
+    border: solid 2px black;
+    width: 3em;
+    text-align: center;
+    z-index: 11;
+}
+
+    .chessClock.active {
+        border: solid 1px white;
+    }
+
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+/*****************
+ * Rank/File
+ * ***************/
+
+#rank, #file {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    opacity: 0.7;
+}
+
+#rank {
+    left: -1.2em;
+    height: -webkit-fill-available;
+    flex-direction: column;
+}
+
+#file {
+    bottom: -1.5em;
+    width: -webkit-fill-available;
+}
+
+.flippedBoard #rank {
+    flex-direction: column-reverse;
+}
+
+
+.flippedBoard #file {
+    flex-direction: row-reverse;
+}
+
+.shrink {
+    max-width: fit-content;
+}
+
+/*****************
+ * Board 
+ * ***************/
+
+#boardContainer {
+    position: relative;
+}
+
+#boardDiv {
+    color: black;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    border-top: solid black 3px;
+    border-left: solid black 3px;
+}
+
+.square, .gameObject {
+    width: 60px;
+    height: 60px;
+}
+
+.square {
+    border-bottom: solid black 3px;
+    border-right: solid black 3px;
+}
+
+.dark {
+    background-color: #C3914E;
+}
+
+.light {
+    background-color: #EEBB75;
+}
+
+/* Choosing Square */
+.choosingSquare:hover {
+    cursor: pointer;
+}
+
+.choosingSquare > .square:hover {
+    box-shadow: inset 0 0 3em 0px #fefff67a;
+}
+
+.choosingSquare .gameObject.piece {
+    pointer-events: none;
+}
+
+
+/*****************
+ * Overlay
+ * ***************/
+
+.gameObject {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    transition: .5s;
+}
+
+    .gameObject > :first-child {
+        max-height: -webkit-fill-available;
+    }
+
+/*****************
+ * Squares
+ * ***************/
+
+.picked {
+    z-index: 13;
+    box-shadow: inset 0 0 1em 2px #fff942;
+}
+
+
+.legalMove {
+    z-index: 13;
+    box-shadow: inset 0 0 3em 0 #fefff67a;
+}
+
+    .legalMove.special {
+        z-index: 12;
+        box-shadow: inset 0 0 3em 0 #091a20ad;
+    }
+
+/* TODO - Use for token types */
+
+.legalStrikeMove {
+    box-shadow: inset 0 0 7px 11px #ffac65;
+}
+
+.waitingDoom {
+    box-shadow: inset 0 0 1em 0px #da2508;
+}
+
+.impendingDoom {
+    box-shadow: inset 0 0 2em 4px #da2508;
+}
+
+.lake {
+    background-color: aqua;
+    border-radius: 20px;
+    outline: none;
+}
+
+
+/*****************
+ * Tokens
+ * ***************/
+
+.token {
+    z-index: 12;
+}
+
+@keyframes explode {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: white;
+    }
+
+    to {
+        background-color: #EEBB75;
+    }
+}
+
+.explode {
+    animation-name: explode;
+    animation-duration: .2s;
+}
+
+.gameObject.voidToken {
+    opacity: 0;
+    width: 66px;
+    height: 66px;
+    transform: translate(-3px, -3px);
+    background-color: var(--foreground-color);
+}
+
+.square.void {
+    background-color: #fff0;
+}
+
+/*****************
+ * Pieces
+ * ***************/
+
+.gameObject.piece {
+    z-index: 14;
+    pointer-events: all;
+}
+
+.pieceImg {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.piece.hardMove {
+    transition: none;
+}
+
+.piece.dragging, .dragging {
+    filter: opacity(0);
+    transition: 0s;
+}
+
+
+.flipped {
+    transform: scaleY(-1);
+}
+
+.pieceIndicator {
+    position: absolute;
+    width: 2em;
+    height: 2em;
+    top: -1.2em;
+    right: .3em;
+}
+
+img.pieceImg.Black {
+    filter: drop-shadow(2px 0 0 var(--black-piece-outline-color)) drop-shadow(0 2px 0 var(--black-piece-outline-color)) drop-shadow(-2px 0 0 var(--black-piece-outline-color)) drop-shadow(0 -2px 0 var(--black-piece-outline-color));
+    /*filter: drop-shadow(2px 0 0 #282828) drop-shadow(0 2px 0 #282828) drop-shadow(-2px 0 0 #282828) drop-shadow(0 -2px 0 #282828);*/
+}
+
+img.pieceImg.White {
+    filter: drop-shadow(2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 2px 0 var(--white-piece-outline-color)) drop-shadow(-2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -2px 0 var(--white-piece-outline-color));
+    /*    filter: drop-shadow(1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 1px 0 var(--white-piece-outline-color)) drop-shadow(-1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -1px 0 var(--white-piece-outline-color));*/
+}
+
+
+/*****************
+ * Graveyard
+ * ***************/
+
+#GY {
+    position: absolute;
+    top: 0;
+    right: -10em;
+    width: 10em;
+    display: flex;
+    height: -webkit-fill-available;
+    flex-direction: column;
+}
+
+.flippedBoard #GY {
+    flex-direction: column-reverse;
+}
+
+#GY > div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 50%;
+}
+
+#GY img {
+    width: 2.5em;
+    height: 2.5em;
+}
+
+#GY > div:last-child {
+    justify-content: flex-end
+}
+
+.flippedBoard #GY > div {
+    flex-direction: column-reverse;
+}
+
+
+/*******************************************************************************
+ **** Popups
+ ******************************************************************************/
+
+.popup {
+    position: absolute;
+    background-color: white;
+    color: black;
+    border-radius: 1em;
+    padding: .8em;
+    box-shadow: black 0 0 .6em;
+    z-index: 20;
+}
+
+.keepsakePopup {
+    width: 10em;
+}
+
+.popup > div {
+    display: flex;
+    flex-direction: column;
+    gap: .4em;
+    text-align: center;
+}
+
+.keepsakePopup > span:first-child {
+    text-decoration: underline;
+}
+
+
+.popup img {
+    width: 1em;
+    height: 1em;
+}
+
+
+
+.popup.dropdown {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+    cursor: pointer;
+    user-select: none;
+    width: auto;
+}
+
+.dropdown img {
+    width: 1em;
+    height: 1em;
+}
+
+.dropdown > .dropdownOption {
+    display: flex;
+    flex-direction: row;
+    gap: .3em;
+    align-items: center;
+    padding: .6em;
+}
+
+    .dropdown > .dropdownOption:hover {
+        background-color: #c3c3c3;
+        text-decoration: underline;
+    }
+
+.dropdownOption span {
+    width: max-content;
+}
+
+
+
+/*****************
+ * Choices
+ * ***************/
+
+#choicesContainer {
+    border-radius: 2em;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    padding: .3em;
+    margin-bottom: 1em;
+}
+
+#choiceTitle {
+    text-decoration: underline;
+    padding: .2em 1em;
+    font-size: 1.2em;
+}
+
+#choices {
+    display: flex;
+    grid-gap: .3em;
+}
+
+.option {
+    border-radius: 2em;
+    padding: 1em;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 8em;
+    grid-gap: 0.5em;
+}
+
+    .option span {
+        text-align: center;
+    }
+
+
+    .option:hover {
+        background-color: #d3d3d3;
+    }
+
+#boardDiv.makingAChoice .piece {
+    pointer-events: none;
+}
+
+.blacksChoice#choicesContainer {
+    background-color: #282828;
+    color: white;
+}
+
+.blacksChoice .option:hover {
+    background-color: #404040;
+}
+
+/*****************
+* Animations
+******************/
+
+.flash-white {
+    animation: flashOnce .5s ease-out 1;
+    border-radius: 50%;
+}
+
+@keyframes flashOnce {
+    0% {
+        filter: brightness(1) invert(0); /* Start normal */
+        background-color: none;
+    }
+
+    30% {
+        box-shadow: 0 0 20px 5px rgba(0, 0,0, 0.6);
+        background-color: rgba(0, 0,0, 0.4);
+        filter: brightness(0) invert(1); /* Peak flash (solid white) */
+    }
+
+    38% {
+        box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0,0, 0.4);
+        filter: brightness(0) invert(1); /* Peak flash (solid white) */
+    }
+
+    48% {
+        filter: brightness(1) invert(0); /* Fade smoothly back to normal */
+        background-color: none;
+    }
+
+    100% {
+        filter: brightness(1) invert(0); /* Fade smoothly back to normal */
+    }
+}

@@ -1,0 +1,200 @@
+﻿/* =========================
+   COLORS
+========================= */
+:root {
+    --river-dark: #142c36;
+    --river-mid: #24556a;
+    --river-light: #5c9fb0;
+    --paper: #efe4c9;
+    --paper-dark: #d6c39c;
+    --gold: #d9ad54;
+    --stone-size: 82px;
+}
+
+
+/* =========================
+   COLORS
+========================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+html,
+body {
+    margin: 0;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    user-select: none;
+    color: #eaf4f5;
+    background: radial-gradient( circle at 20% 20%, rgba(60, 130, 145, 0.35), transparent 30% ), radial-gradient( circle at 80% 70%, rgba(25, 90, 110, 0.45), transparent 35% ), linear-gradient( 135deg, #0b1820, #102b36 45%, #081216 );
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.river-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5em 1em;
+    position: relative;
+    flex-direction: column;
+    flex-grow: 1
+}
+
+
+    /* Subtle river-like flowing bands */
+
+    .river-page::before,
+    .river-page::after {
+        content: "";
+        position: fixed;
+        width: 140%;
+        height: 180px;
+        left: -20%;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: rotate(-8deg);
+    }
+
+    .river-page::before {
+        top: 18%;
+        background: linear-gradient( 90deg, transparent, rgba(45, 120, 145, 0.12), rgba(90, 180, 190, 0.18), transparent );
+    }
+
+    .river-page::after {
+        bottom: 12%;
+        background: linear-gradient( 90deg, transparent, rgba(20, 80, 110, 0.1), rgba(70, 150, 170, 0.15), transparent );
+    }
+
+
+/* =========================
+   NAVIGATION
+========================= */
+.top-nav {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    background: rgba(10, 25, 30, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+.nav-button {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+    .nav-button span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: white;
+        border-radius: 5px;
+    }
+
+
+.home-button {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+    .home-button:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: scale(1.05);
+    }
+
+
+/* =========================
+   SIDE MENU
+========================= */
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 82vw);
+    height: 100vh;
+    z-index: 1000;
+    background: linear-gradient( 180deg, #1e3d48, #10252d );
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+}
+
+
+    .side-menu.open {
+        transform: translateX(0);
+    }
+
+
+.side-menu-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+    .side-menu-header h2 {
+        margin: 0;
+    }
+
+
+.close-menu-button {
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+
+    .menu-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }

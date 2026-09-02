@@ -1,0 +1,339 @@
+﻿/* =========================================
+   STONES SECTION
+   ========================================= */
+
+.stones-section {
+    margin-bottom: 28px;
+    padding: 1.5rem;
+    border-radius: 14px;
+    background: linear-gradient( 135deg, rgba(20, 65, 78, 0.9), rgba(10, 35, 48, 0.95) );
+    border: 1px solid rgba(150, 210, 220, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+.stones-header {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d9f3ef;
+}
+
+
+/* =========================================
+   STONE LIST
+   ========================================= */
+
+.stones-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+
+.no-stones {
+    color: rgba(220, 240, 240, 0.55);
+    font-style: italic;
+}
+
+
+/* =========================================
+   INDIVIDUAL STONE
+   ========================================= */
+
+.stone-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+    .stone-image {
+        display: block;
+        width: 72px;
+        height: 72px;
+        object-fit: contain;
+    }
+
+    /* Optional: slightly stronger shadow while hovered */
+    .stone-wrapper .stone-image {
+        filter: drop-shadow( 0 5px 4px rgba(0, 0, 0, 0.4) );
+    }
+
+    /* =========================================
+   MAIN STONE POPUP
+   ========================================= */
+
+    .stone-popup {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 10px);
+        transform: translateX(-50%) translateY(5px);
+        width: 260px;
+        padding: 1rem;
+        border-radius: 10px;
+        background: linear-gradient( 145deg, rgba(26, 37, 42, 0.98), rgba(10, 18, 22, 0.98) );
+        border: 1px solid rgba(180, 220, 220, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+        z-index: 100;
+    }
+
+.stone-wrapper:hover .stone-popup, .stone-wrapper.stone-popup-open .stone-popup {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+    .stone-wrapper.stone-popup-open .stone-popup {
+        pointer-events: auto;
+    }
+
+    .stone-popup-title {
+        margin-bottom: 0.5rem;
+        font-size: 1.05rem;
+        font-weight: bold;
+        color: #f2e8c9;
+    }
+
+
+    .stone-popup-description {
+        color: #d7e2e3;
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+
+
+    /* =========================================
+   SECONDARY TOOLTIP PANEL
+   ========================================= */
+
+    .stone-tooltips-popup {
+        position: absolute;
+        top: 0;
+        width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 0.75rem;
+        border-radius: 10px;
+        background: rgba(15, 25, 30, 0.98);
+        border: 1px solid rgba(130, 190, 200, 0.25);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.15s ease;
+        z-index: 101;
+    }
+
+
+    /*
+ * Secondary popup normally appears
+ * to the right of the main popup.
+ */
+
+    .tooltip-right {
+        left: calc(100% + 12px);
+    }
+
+
+    /*
+ * If there isn't enough space,
+ * JavaScript applies this class.
+ */
+
+    .tooltip-left {
+        right: calc(100% + 12px);
+    }
+
+
+    /*
+ * Show tooltips along with
+ * the main popup.
+ */
+.stone-wrapper:hover
+.stone-tooltips-popup, .stone-wrapper.stone-popup-open .stone-tooltips-popup {
+    opacity: 1;
+    visibility: visible;
+}
+
+    /* =========================================
+   INDIVIDUAL TOOLTIP
+   ========================================= */
+
+    .stone-tooltip {
+        padding: 0.6rem;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        color: #dce9e8;
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+
+
+        .stone-tooltip > div:first-child {
+            margin-bottom: 0.25rem;
+            font-weight: bold;
+            color: #f0d99a;
+        }
+
+
+
+/* =========================
+   BUY / SELL
+========================= */
+
+.stone-action-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 7px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.buy-button {
+    background: #356b43;
+}
+
+
+.sell-button {
+    background: #874444;
+}
+
+
+.stone-action-button:hover {
+    filter: brightness(1.1);
+}
+
+
+    /* =========================================
+   GO STONE
+   ========================================= */
+
+    .stone-wrapper {
+        position: relative;
+        width: 88px;
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1;
+        transition: transform 0.15s ease;
+    }
+
+
+        /* Grow the entire stone + relic together */
+        .stone-wrapper:hover, .stone-wrapper.stone-popup-open {
+            transform: scale(1.1);
+            z-index: 100;
+        }
+
+    /* White Go stone */
+        .stone-wrapper::before {
+            content: "";
+            position: absolute;
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            background: radial-gradient( circle at 35% 28%, #ffffff 0%, #ddefee 45%, #d4d0c5 75%, #aaa69c 100% );
+            /* Black outline */
+            border: 2px solid #111;
+            box-sizing: border-box;
+            box-shadow: inset -5px -7px 10px rgba(0, 0, 0, 0.5), inset 4px 4px 8px rgba(255, 255, 255, 0.9), 0 5px 8px rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+    /* Relic artwork */
+    .stone-image {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        z-index: 1;
+        filter: drop-shadow( 0 3px 2px rgba(0, 0, 0, 0.3) );
+        transition: filter 0.15s ease;
+    }
+
+
+    /* =========================================
+   STONE POINT INDICATOR
+   ========================================= */
+
+    .stone-points {
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+
+    .stone-point-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+
+/* =========================================
+   Purchased
+   ========================================= */
+
+.stone-wrapper.stone-purchased {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* =========================
+   BLACK GO STONE VARIANT
+   ========================= */
+
+.stone-wrapper.stone-black::before {
+    background: #111;
+    border: 2px solid #000;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2), inset 0 -4px 8px rgba(0, 0, 0, 0.9), 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* White outline around the relic image */
+.stone-wrapper.stone-black .stone-image {
+    filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
+}
+
+/* =========================
+   FLIPPED STONE VARIANT
+   ========================= */
+
+/* Move point dots below the stone */
+.stone-wrapper.stone-flipped .stone-points {
+    top: auto;
+    bottom: -8px;
+}
+
+/* Open the popup downward */
+.stone-wrapper.stone-flipped .stone-popup {
+    top: calc(100% + 12px);
+    bottom: auto;
+}

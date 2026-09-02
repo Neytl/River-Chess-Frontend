@@ -1,0 +1,7 @@
+﻿
+.river-page {
+    justify-content: space-between;
+}
+    .river-page::after, .river-page::before {
+        z-index: -1;
+    }

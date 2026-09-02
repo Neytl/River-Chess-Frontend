@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>River Chess</title>
+    <link href='css/siteStyles.css' rel='stylesheet' type='text/css'>
+    <link href='css/home.css' rel='stylesheet' type='text/css'>
+    <link href='css/stones.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <div id="menuOverlay" class="menu-overlay"></div>
+
+    <aside id="sideMenu" class="side-menu">
+
+        <div class="side-menu-header">
+            <h2>Menu</h2>
+
+            <button id="closeMenuButton"
+                    class="close-menu-button"
+                    aria-label="Close menu">
+                ×
+            </button>
+        </div>
+
+        <!-- Empty for now -->
+
+    </aside>
+
+
+    <!-- =========================
+         TOP NAVIGATION
+    ========================== -->
+
+    <nav class="top-nav">
+
+        <button id="menuButton"
+                class="nav-button"
+                aria-label="Open menu">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+        <a href="/index.html"
+           class="home-button"
+           aria-label="Home">
+
+            🏠
+
+        </a>
+
+    </nav>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="river-page">
+
+        <!--<div id="shopAndHeader">-->
+
+        <div class="river-container">
+
+            <div class="river-header">
+                <div class="river-icon">♜</div>
+
+                <div>
+                    <h1>River Chess</h1>
+                    <!--<p>Choose your path.</p>-->
+                </div>
+            </div>
+
+
+            <!-- Show this section when there is NO active run -->
+            <section id="newGamePanel" class="river-panel">
+
+                <h2>Begin a New Run</h2>
+
+                <p class="panel-description">
+                    Select your starting material
+                </p>
+
+                <div class="game-option">
+                    <label for="startingPoints">Points</label>
+
+                    <select id="startingPoints">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option selected value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                    </select>
+                </div>
+
+                <div id="newGameButton" class="river-button primary-button">
+                    New Game
+                </div>
+            </section>
+
+
+            <!-- Show this section when a run IS in progress -->
+            <div id="continueGamePanel" class="river-panel hidden">
+
+                <h2>A Journey Is Already Underway</h2>
+
+                <p class="panel-description">
+                    Continue where you left off, or abandon this run and begin again.
+                </p>
+
+                <div class="run-info">
+                    <div class="run-stat">
+                        <span class="stat-label">Round</span>
+                        <span id="currentRound" class="stat-value">1</span>
+                    </div>
+
+                    <div class="run-stat">
+                        <span class="stat-label">Lives</span>
+                        <span id="currentLives" class="stat-value">1</span>
+                    </div>
+
+                    <div class="run-stat">
+                        <span class="stat-label">Points</span>
+                        <span id="currentPoints" class="stat-value">4</span>
+                    </div>
+                </div>
+
+                <div class="stones-section">
+                    <div class="stones-header">Stones</div>
+
+                    <div id="stonesContainer" class="stones-container"></div>
+                </div>
+
+                <div class="button-row">
+                    <a href="/theRiver" class="river-button primary-button">
+                        Continue
+                    </a>
+
+                    <button id="abandonRunButton"
+                            class="river-button danger-button">
+                        Abandon Run
+                    </button>
+                </div>
+
+            </div>
+    </main>
+
+    <script src="js/utility.js"></script>
+    <script src="js/loadAccountAndRun.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/stones.js"></script>
+    <script src="js/sideMenu.js"></script>
+</body>
+</html>

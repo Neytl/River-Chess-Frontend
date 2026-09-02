@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>River Chess</title>
+    <link href='css/siteStyles.css' rel='stylesheet' type='text/css'>
+    <link href='css/play.css' rel='stylesheet' type='text/css'>
+    <link href='css/stones.css' rel='stylesheet' type='text/css'>
+    <link href='css/chessStyles.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+    <!-- =========================
+         SIDE MENU
+    ========================== -->
+
+    <div id="menuOverlay" class="menu-overlay"></div>
+
+    <aside id="sideMenu" class="side-menu">
+
+        <div class="side-menu-header">
+            <h2>Menu</h2>
+
+            <button id="closeMenuButton"
+                    class="close-menu-button"
+                    aria-label="Close menu">
+                ×
+            </button>
+        </div>
+
+        <!-- Empty for now -->
+
+    </aside>
+
+
+    <!-- =========================
+         TOP NAVIGATION
+    ========================== -->
+
+    <nav class="top-nav">
+
+        <button id="menuButton"
+                class="nav-button"
+                aria-label="Open menu">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+        <button id="resignButton"
+                class="nav-button">
+            <img src="imgs/icons/resign.png" />
+        </button>
+    </nav>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="river-page">
+        <!--Opponent Stones-->
+        <div id="opponentStonesContainer" class="stones-container"></div>
+
+        <!--Chess!-->
+        <div id="chessContainer">
+
+        </div>
+
+        <!--Player Stones-->
+        <div id="playerStonesContainer" class="stones-container"></div>
+    </main>
+
+
+    <script src="js/utility.js"></script>
+    <script src="js/loadAccountAndRun.js"></script>
+    <script src="js/play.js"></script>
+    <script src="js/stones.js"></script>
+    <script src="js/sideMenu.js"></script>
+    <script src="lib/signalr/signalr.min.js"></script>
+    <script src="js/multiplayerClient.js"></script>
+    <script src="js/chess.js"></script>
+    <script src="js/chessClock.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+﻿
+/* ------------------------- */
+/* Main Container            */
+/* ------------------------- */
+
+.river-container {
+    width: 100%;
+    max-width: 650px;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ------------------------- */
+/* Header                    */
+/* ------------------------- */
+
+.river-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 10px 20px;
+}
+
+    .river-header h1 {
+        margin: 0;
+        font-size: 2.4rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #f1e5bd;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .river-header p {
+        margin: 4px 0 0;
+        color: #8db6bd;
+        font-size: 1rem;
+    }
+
+.river-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border-radius: 14px;
+    background: linear-gradient( 145deg, #2c5c68, #173943 );
+    border: 1px solid rgba(150, 220, 220, 0.25);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ------------------------- */
+/* Panels                    */
+/* ------------------------- */
+
+.river-panel {
+    padding: 32px;
+    border-radius: 18px;
+    background: linear-gradient( 145deg, rgba(25, 55, 65, 0.94), rgba(12, 30, 38, 0.96) );
+    border: 1px solid rgba(120, 190, 195, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+    .river-panel h2 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        color: #f1e5bd;
+        font-size: 1.6rem;
+    }
+
+.panel-description {
+    margin-top: 0;
+    margin-bottom: 28px;
+    color: #9bbcc1;
+    line-height: 1.5;
+}
+
+
+/* ------------------------- */
+/* Game Options              */
+/* ------------------------- */
+
+.game-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 10px;
+    border: 1px solid rgba(100, 180, 190, 0.12);
+}
+
+    .game-option label {
+        color: #c7dbdc;
+        font-weight: 600;
+    }
+
+    .game-option select {
+        min-width: 110px;
+        padding: 9px 12px;
+        color: #eaf4f5;
+        font-size: 1rem;
+        background: #183a45;
+        border: 1px solid rgba(120, 210, 210, 0.3);
+        border-radius: 7px;
+        outline: none;
+        cursor: pointer;
+    }
+
+        .game-option select:focus {
+            border-color: #6bbbc3;
+            box-shadow: 0 0 0 3px rgba(100, 190, 200, 0.12);
+        }
+
+
+/* ------------------------- */
+/* Run Information           */
+/* ------------------------- */
+
+.run-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.run-stat {
+    padding: 18px 10px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(120, 190, 195, 0.1);
+}
+
+.stat-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #789fa5;
+}
+
+.stat-value {
+    display: block;
+    color: #f1e5bd;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
+/* ------------------------- */
+/* Buttons                   */
+/* ------------------------- */
+
+.button-row {
+    display: flex;
+    gap: 12px;
+}
+
+.river-button {
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 9px;
+    font-size: 1rem;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .river-button:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+    }
+
+    .river-button:active {
+        transform: translateY(0);
+    }
+
+
+/* Primary */
+
+.primary-button {
+    color: #102329;
+    background: linear-gradient( 180deg, #9ed6d2, #62acae );
+    box-shadow: 0 5px 18px rgba(70, 170, 175, 0.2);
+}
+
+
+/* Danger */
+
+.danger-button {
+    color: #e9dada;
+    background: linear-gradient( 180deg, #704348, #47272c );
+    border: 1px solid rgba(220, 130, 130, 0.2);
+}
+
+
+/* ------------------------- */
+/* Mobile                    */
+/* ------------------------- */
+
+@media (max-width: 500px) {
+
+    .river-page {
+        align-items: flex-start;
+        padding-top: 60px;
+    }
+
+    .river-header h1 {
+        font-size: 2rem;
+    }
+
+    .river-panel {
+        padding: 24px 20px;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+}

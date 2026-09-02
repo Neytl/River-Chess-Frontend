@@ -1,0 +1,314 @@
+﻿
+
+:root .river-page {
+    justify-content: space-between;
+}
+
+#shopAndHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+/* =========================
+   SHOP SIGN
+========================= */
+
+.river-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+
+.shop-sign {
+    position: relative;
+    padding: 10px 25px;
+    text-align: center;
+    background: linear-gradient( 180deg, #ead4a4, #cba86c );
+    border: 3px solid #5a3b1e;
+    border-radius: 8px 8px 14px 14px;
+    box-shadow: 0 7px 0 rgba(0, 0, 0, 0.2), inset 0 2px rgba(255, 255, 255, 0.4);
+}
+
+
+    .shop-sign h1 {
+        margin: 0;
+        color: #38220f;
+        font-size: clamp(32px, 8vw, 50px);
+        letter-spacing: 3px;
+        text-shadow: 1px 2px rgba(255, 255, 255, 0.4);
+        font-family: Georgia, "Times New Roman", serif;
+    }
+
+
+.run-info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+.round-display {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+
+.lives-display {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+.lives-container {
+    display: flex;
+    gap: 3px;
+}
+
+
+.heart {
+    color: #e74a54;
+    font-size: 18px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   SHOP LAYOUT
+========================= */
+
+.shop-section {
+    background: rgba(0, 0, 0, 0.13);
+    border-radius: 16px;
+    padding: 18px 50px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 5em;
+}
+
+
+.shop-layout {
+    display: flex;
+    gap: 4em;
+    align-items: center;
+}
+
+.shop-stones {
+    padding-top: 30px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2em 3em;
+}
+
+
+.shop-stone-slot {
+    display: flex;
+    justify-content: center;
+    min-height: 110px;
+}
+
+/* =========================
+   POINTS
+========================= */
+
+.points-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+
+.points-label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.points-dice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+.die {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding: 5px;
+    border-radius: 6px;
+    background: #eee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+    .die.no-points {
+        opacity: 0.1;
+    }
+
+.pip {
+    width: 6px;
+    height: 6px;
+    align-self: center;
+    justify-self: center;
+    border-radius: 50%;
+    background: #151515;
+}
+
+    .pip.empty {
+        visibility: hidden;
+    }
+
+/* =========================
+   NOT ENOUGH POINTS SHAKE
+========================= */
+
+.shake-animation {
+    animation: not-enough-points-shake 0.55s ease-in-out;
+}
+
+
+@keyframes not-enough-points-shake {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    12% {
+        transform: translateX(-4px) rotate(-2deg);
+    }
+
+    25% {
+        transform: translateX(4px) rotate(2deg);
+    }
+
+    38% {
+        transform: translateX(-5px) rotate(-2deg);
+    }
+
+    52% {
+        transform: translateX(5px) rotate(2deg);
+    }
+
+    66% {
+        transform: translateX(-3px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translateX(3px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0);
+    }
+}
+/* =========================
+   BUTTONS
+========================= */
+
+.shop-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 6em;
+}
+
+
+.river-button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 15px;
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+
+    .river-button:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.08);
+    }
+
+
+.next-game-button {
+    background: #39734a;
+}
+
+
+.reroll-button {
+    background: #4a6673;
+}
+
+#rerollButton img {
+    width: 2em;
+    height: 2em;
+}
+
+#rerollButton > div:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+/* =========================
+   PLAYER STONES
+========================= */
+
+.owned-stones-section {
+    margin-top: 35px;
+    padding-top: 20px;
+}
+
+
+    .owned-stones-section h2 {
+        text-align: center;
+        margin: 0 0 20px;
+    }
+
+
+.player-stones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    min-height: 88px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .shop-layout {
+        grid-template-columns: 1fr;
+    }
+
+
+    .shop-actions {
+    }
+
+
+        .shop-actions button {
+            flex: 1;
+        }
+
+
+    .stone-popup {
+        width: min(240px, 80vw);
+    }
+}
