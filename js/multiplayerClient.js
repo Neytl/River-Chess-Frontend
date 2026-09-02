@@ -274,7 +274,7 @@
         await window.guestReady;
 
         connection = new signalR.HubConnectionBuilder()
-            .withUrl(`/hubs/game?guestId=${encodeURIComponent(guestId)}`)
+            .withUrl(apiUrl + `/hubs/game?guestId=${encodeURIComponent(guestId)}`)
             .withAutomaticReconnect()
             .configureLogging(signalR.LogLevel.Warning)
             .build();
