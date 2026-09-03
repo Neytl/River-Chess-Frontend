@@ -18,7 +18,7 @@ function displayStones(stones, container, properties) {
         container.appendChild(stoneElement);
 
         // Adjust the popup
-        let leftness = 50;
+        /*let leftness = 50;
         while (getRightness(stoneElement.lastChild) < 150) {
             leftness -= 5;
             stoneElement.lastChild.style = `left: ${leftness}%;`;
@@ -27,7 +27,7 @@ function displayStones(stones, container, properties) {
         while (getLeftness(stoneElement.lastChild) < 150) {
             leftness += 5;
             stoneElement.lastChild.style = `left: ${leftness}%;`;
-        }
+        }*/
     }
 }
 
