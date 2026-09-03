@@ -337,3 +337,36 @@
     top: calc(100% + 12px);
     bottom: auto;
 }
+
+
+/* =========================================
+   STONE COUNTER
+   ========================================= */
+
+.stone-counter {
+    position: absolute;
+    background-color: #34687778;
+    z-index: 20;
+    right: -4px;
+    bottom: 0;
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================================
+   Burden
+   ========================================= */
+
+.stone-wrapper.burden::before {
+    filter: invert(24%) sepia(168%) saturate(7456%) hue-rotate(350deg) brightness(61%) contrast(100%);
+    background: radial-gradient(circle at 35% 28%, #ffffff 0%, #ddefee 45%, #d4d0c5 75%, #aaa69c 100%);
+    box-shadow: inset -5px -7px 10px rgba(0, 0, 0, 0.5), inset 4px 4px 8px rgba(255, 255, 255, 0.9), 0 5px 8px rgba(0, 0, 0, 0.5);
+}
+
+.stone-wrapper.burden .stone-image {
+    filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
+}

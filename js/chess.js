@@ -557,7 +557,7 @@ function setupChoice(choice, isWhitesChoice) {
                         type: "span",
                         innerHTML: option.title
                     }),
-                    buildKeepsake(option.keepsake),
+                    createStoneElement(option.keepsake),
                 ]
             }));
         } else if (choice.title == "Choose a Party") {
@@ -1139,7 +1139,7 @@ function displayStateCommom(gameState) {
     currentBoard = gameState.board;
     currentState = gameState;
     isYourTurn = (gameState.isWhitesTurn ? gameState.whitePlayerID : gameState.blackPlayerID) == guestId;
-    clockUpdate(gameState);
+    // clockUpdate(gameState);
 
     // TODO - implement rewinds
     //get("whiteRewinds").innerHTML = gameState.whiteRewinds;
@@ -1380,9 +1380,50 @@ function hideLegalMoves() {
     removeAllClass("legalMove");
 }
 
+function showLegalMoves(piece, afterGetMoves) {
+    if (!isYourTurn || currentState.finished) return;
+
+    let square = {
+        row: piece[0],
+        column: piece[1]
+    }
+
+    if (flipped) {
+        flipSquare(square);
+    }
+
+    multiplayerClient.getLegalMoves(square).then(responseJson => {
+        legalMoves = responseJson;
+        moveType = "Move";
+
+        showLegalMovesForType();
+
+        if (afterGetMoves) {
+            afterGetMoves();
+        }
+    });
+// fetch(apiUrl + mainUrl + "getLegalMoves",
+//     {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(Square)
+//     }
+// ).then(response => response.json()).then(responseJson => {
+//     legalMoves = responseJson;
+//     moveType = "Move";
+//     showLegalMovesForType();
+//     if (!!afterGetMoves) afterGetMoves();
+// });
+}
+
 function seeLegalSquares() {
-    fetch(apiUrl + mainUrl + "legalMoveSquares").then(response => response.json()).then(responseJson => {
+    if (!isYourTurn || currentState.finished) return;
+
+    multiplayerClient.getLegalSquares().then(responseJson => {
         unPickPiece();
+
         responseJson.forEach(function (square) {
             if (flipped) {
                 flipSquare(square);
@@ -1391,6 +1432,17 @@ function seeLegalSquares() {
             setLegalMove(square);
         });
     });
+
+    // fetch(apiUrl + mainUrl + "legalMoveSquares").then(response => response.json()).then(responseJson => {
+    //     unPickPiece();
+    //     responseJson.forEach(function (square) {
+    //         if (flipped) {
+    //             flipSquare(square);
+    //         }
+
+    //         setLegalMove(square);
+    //     });
+    // });
 }
 
 //-----------------------------

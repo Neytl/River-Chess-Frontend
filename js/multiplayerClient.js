@@ -352,6 +352,29 @@
         }
     }
 
+    async function getLegalSquares() {
+        if (!connection ||
+            connection.state !== signalR.HubConnectionState.Connected) {
+
+            throw new Error("Not connected to the multiplayer server.");
+        }
+
+        try {
+            const legalSquares = await connection.invoke(
+                "GetLegalSquares"
+            );
+
+            return legalSquares;
+        }
+        catch (error) {
+            log("GetLegalSquares failed", String(error));
+            throw error;
+        }
+    }
+
+
+    
+
     // Public methods
     window.multiplayerClient = {
         connectToSession,
@@ -359,6 +382,7 @@
         leaveQueue,
         sendAction,
         getLegalMoves,
+        getLegalSquares,
 
         getSessionId: () => sessionId,
 

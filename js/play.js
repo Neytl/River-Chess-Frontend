@@ -33,7 +33,7 @@ async function loadSession() {
             error
         );
 
-        goHome();
+        // goHome();
     }
 }
 

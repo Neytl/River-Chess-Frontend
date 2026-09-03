@@ -66,12 +66,12 @@ function createStoneElement(stone, properties) {
 
     image.className = "stone-image";
 
-    // Converts:
-    // "Captain's Hat"
-    //
-    // Into:
-    // imgs/stones/Captains Hat.webp
-    image.src = `/imgs/stones/${encodeURIComponent(stone.name.replace("'", ""))}.webp`;
+    if (stone.isBurden) {
+        wrapper.classList.add("burden");
+        image.src = `/imgs/stones/burdens/${encodeURIComponent(stone.name.replace("'", ""))}.webp`;
+    } else {
+        image.src = `/imgs/stones/${encodeURIComponent(stone.name.replace("'", ""))}.webp`;
+    }
 
     image.alt = stone.name;
 
@@ -197,6 +197,23 @@ function createStoneElement(stone, properties) {
         popup.appendChild(
             actionButton
         );
+    }
+
+    // -------------------------
+    // Counters
+    // -------------------------
+
+    if (stone.counter > 0) {
+        const counterContainer = document.createElement("div");
+
+        counterContainer.className = "stone-counter";
+        counterContainer.innerHTML = stone.counter;
+
+            // const dot = document.createElement("div");
+            //     dot.className = "stone-point-dot";
+            //     pointsContainer.appendChild(dot);
+
+            wrapper.appendChild(counterContainer);
     }
 
 
