@@ -16,8 +16,48 @@ function displayStones(stones, container, properties) {
     for (const stone of stones) {
         const stoneElement = createStoneElement(stone, properties);
         container.appendChild(stoneElement);
+
+        // Adjust the popup
+        let leftness = 50;
+        while (getRightness(stoneElement.lastChild) < 150) {
+            leftness -= 5;
+            stoneElement.lastChild.style = `left: ${leftness}%;`;
+        }
+
+        while (getLeftness(stoneElement.lastChild) < 150) {
+            leftness += 5;
+            stoneElement.lastChild.style = `left: ${leftness}%;`;
+        }
     }
 }
+
+function getLeftness(element) {
+    return getXPosition(element);
+}
+
+function getRightness(element) {
+    return window.outerWidth - getXPosition(element);
+}
+
+function getXPosition(element) {
+    var xPosition = 0;
+
+    while (element) {
+        if (element.tagName == "BODY") {
+            // deal with browser quirks with body/window/document and page scroll
+            var xScrollPos = element.scrollLeft || document.documentElement.scrollLeft;
+
+            xPosition += (element.offsetLeft - xScrollPos + element.clientLeft);
+        } else {
+            xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+        }
+
+        element = element.offsetParent;
+    }
+
+    return xPosition;
+}
+
 
 function createStoneElement(stone, properties) {
     // Main wrapper

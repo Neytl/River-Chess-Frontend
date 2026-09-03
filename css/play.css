@@ -5,3 +5,21 @@
     .river-page::after, .river-page::before {
         z-index: -1;
     }
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+    .river-page {
+        padding: 1.5em 0;
+    }
+
+    #GY {
+        display: none;
+    }
+
+}
+
+

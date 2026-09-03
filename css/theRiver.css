@@ -89,7 +89,6 @@
     border-radius: 16px;
     padding: 18px 50px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    margin-bottom: 5em;
 }
 
 
@@ -269,7 +268,7 @@
 ========================= */
 
 .owned-stones-section {
-    margin-top: 35px;
+    margin-top: 25px;
     padding-top: 20px;
 }
 
@@ -292,23 +291,86 @@
    MOBILE
 ========================= */
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
+    :root .stone-popup .stone-tooltips-popup {
+        display: none;
+    }
+
+    .shop-stones {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5em 1em;
+    }
+
+    .shop-section {
+        padding: 18px;
+        font-size: 4vw;
+    }
 
     .shop-layout {
-        grid-template-columns: 1fr;
-    }
-
-
-    .shop-actions {
-    }
-
-
-        .shop-actions button {
-            flex: 1;
+        gap: 2em;
         }
 
+    .river-header {
+         margin-top: 0px; 
+    }
 
-    .stone-popup {
-        width: min(240px, 80vw);
+    .shop-actions {
+        width: 5em;
+    }
+    .player-stones {
+        gap: 5px;
+    }
+}
+
+@media (min-width: 500px) {
+    .shop-actions {
+        width: 6em;
+    }
+
+    .shop-stones {
+        grid-auto-flow: row;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2em 3em;
+    }
+
+    .shop-section {
+        padding: 18px 30px;
+    }
+
+    .river-header {
+        margin-top: 0px;
+    }
+    .player-stones {
+        gap: 5px;
+    }
+}
+
+@media (min-width: 650px) {
+
+    .shop-stones {
+        grid-auto-flow: column;
+        grid-template-columns: auto;
+        grid-template-rows: repeat(3, 1fr);
+        gap: 2em 3em;
+    }
+
+
+    .shop-section {
+        padding: 18px 50px;
+    }
+    .river-header {
+        margin-top: 25px;
+    }
+    .player-stones {
+        gap: 18px;
+    }
+}
+
+@media (min-width: 800px) {
+
+    .shop-stones {
+        grid-template-rows: repeat(2, 1fr);
+        gap: 2em 3em;
     }
 }
