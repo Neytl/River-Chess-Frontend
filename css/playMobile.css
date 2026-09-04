@@ -1,0 +1,106 @@
+﻿
+/* =========================================================
+   Mobile Play Page
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Prevent horizontal scrolling caused by the game UI */
+    html,
+    body,
+    .river-page {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+
+    :root .river-page {
+        padding: 0;
+    }
+
+    :root #chessContainer {
+         margin-top: 0; 
+    }
+
+    :root #secondaryMessage {
+        min-height: 2em;
+    }
+
+    :root #GY, :root #rank {
+        display: none;
+    }
+
+    :root #chessContainer {
+        width: 100%;
+    }
+
+    :root #chessElement {
+        margin: 0;
+    }
+
+    :root .square, :root .gameObject {
+        width: 12.2vw;
+        height: 12.2vw;
+    }
+
+    :root .pieceImg {
+        max-width: 9.5vw;
+    }
+
+    #message {
+        padding-left: 1em;
+    }
+
+    #chessContainer {
+        margin-top: 1em
+    }
+
+
+    /* ---------------------------------------------------------
+       Stones
+       --------------------------------------------------------- */
+
+    :root .stones-container {
+        gap: 0;
+    }
+
+    /*
+     * Scale the complete stone rather than just the image.
+     * This keeps the Go stone, relic image and point dots together.
+     */
+    .stone-wrapper {
+        transform: scale(0.75);
+        transform-origin: center center;
+    }
+
+        /*
+     * Don't let the hover transform fight with the mobile
+     * scaling. Mobile doesn't have true hover anyway.
+     */
+
+    :root .stone-wrapper:hover, :root .stone-wrapper.stone-popup-open {
+        transform: scale(0.75);
+    }
+
+    /* ---------------------------------------------------------
+       Shop
+       --------------------------------------------------------- */
+
+    .shop {
+        max-width: 100%;
+        overflow: visible;
+    }
+
+    /*
+     * Give shop stones enough room for their popup to be
+     * positioned without clipping.
+     */
+    .shop-items {
+        overflow: visible;
+    }
+
+    .shop-item {
+        overflow: visible;
+    }
+}
