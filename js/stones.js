@@ -46,6 +46,8 @@ function createStoneElement(stone, properties) {
 
         if (!!properties.isBlack) {
             wrapper.classList.add("stone-black");
+        } else {
+            wrapper.classList.add("stone-white");
         }
     }
 
@@ -247,49 +249,6 @@ function createStoneElement(stone, properties) {
     return wrapper;
 }
 
-
-function positionTooltipPopup(
-    wrapper,
-    tooltipsPopup
-) {
-    const wrapperRect =
-        wrapper.getBoundingClientRect();
-
-    const popupWidth =
-        tooltipsPopup.offsetWidth || 242;
-
-    const spaceOnRight =
-        window.outerWidth - wrapperRect.right;
-
-    const spaceOnLeft =
-        wrapperRect.left;
-
-    console.log(wrapper, spaceOnLeft, spaceOnRight);
-    // console.log(tooltipsPopup.getBoundingClientRect())
-
-    // Prefer the right side.
-    if (spaceOnRight >= popupWidth + 160 || spaceOnRight >= spaceOnLeft) {
-
-        tooltipsPopup.classList.remove(
-            "tooltip-left"
-        );
-
-        tooltipsPopup.classList.add(
-            "tooltip-right"
-        );
-    }
-    else {
-
-        tooltipsPopup.classList.remove(
-            "tooltip-right"
-        );
-
-        tooltipsPopup.classList.add(
-            "tooltip-left"
-        );
-    }
-}
-
 function keepPopupOnScreen(popup, stoneWrapper) {
     if (!popup || !stoneWrapper) {
         return;
@@ -303,7 +262,7 @@ function keepPopupOnScreen(popup, stoneWrapper) {
 
 
     // Decide whether the secondary popup appear on the right or left.
-    positionTooltipPopup(popup, popup.lastChild);
+    positionTooltip(popup, popup.lastChild);
 
     // Position the popup as a whole
     const margin = 16;
@@ -339,6 +298,46 @@ function keepPopupOnScreen(popup, stoneWrapper) {
 
         popup.style.left =
             `${popup.offsetLeft + overflow}px`;
+    }
+}
+
+
+function positionTooltip(
+    wrapper,
+    tooltipsPopup
+) {
+    const wrapperRect =
+        wrapper.getBoundingClientRect();
+
+    const popupWidth =
+        tooltipsPopup.offsetWidth || 242;
+
+    const spaceOnRight =
+        window.innerWidth - wrapperRect.right;
+
+    const spaceOnLeft =
+        wrapperRect.left;
+
+    // Prefer the right side.
+    if (spaceOnRight >= popupWidth + 40 || spaceOnRight >= spaceOnLeft) {
+
+        tooltipsPopup.classList.remove(
+            "tooltip-left"
+        );
+
+        tooltipsPopup.classList.add(
+            "tooltip-right"
+        );
+    }
+    else {
+
+        tooltipsPopup.classList.remove(
+            "tooltip-right"
+        );
+
+        tooltipsPopup.classList.add(
+            "tooltip-left"
+        );
     }
 }
 

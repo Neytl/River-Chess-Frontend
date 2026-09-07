@@ -9,6 +9,7 @@
     --paper-dark: #d6c39c;
     --gold: #d9ad54;
     --stone-size: 82px;
+    --test: green;
 }
 
 
@@ -24,6 +25,10 @@
 /* =========================
    PAGE LAYOUT
 ========================= */
+
+html {
+    background-color: var(--river-dark);
+}
 
 html,
 body {

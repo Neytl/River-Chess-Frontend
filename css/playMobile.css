@@ -15,7 +15,6 @@
         overflow-x: hidden;
     }
 
-
     :root .river-page {
         padding: 0;
     }
@@ -28,7 +27,7 @@
         min-height: 2em;
     }
 
-    :root #GY, :root #rank {
+    :root #GY {
         display: none;
     }
 
@@ -41,28 +40,38 @@
     }
 
     :root .square, :root .gameObject {
-        width: 12.2vw;
-        height: 12.2vw;
+        width: 12.5vw;
+        height: 12.5vw;
     }
 
     :root .pieceImg {
         max-width: 9.5vw;
     }
 
-    #message {
-        padding-left: 1em;
-    }
-
     #chessContainer {
         margin-top: 1em
     }
 
+    :root #message, :root #message.spaceBelow {
+        font-size: 1.5em;
+        padding-left: 24px;
+        margin-bottom: 8px;
+    }
 
+    :root #rank {
+        left: 1vw;
+        top: -4.4vw;
+    }
+
+    :root #file {
+        left: 4.8vw;
+    }
+    
     /* ---------------------------------------------------------
        Stones
        --------------------------------------------------------- */
 
-    :root .stones-container {
+    :root .stones-container, :root #stonesContainer {
         gap: 0;
     }
 
@@ -84,24 +93,8 @@
         transform: scale(0.75);
     }
 
-    /* ---------------------------------------------------------
-       Shop
-       --------------------------------------------------------- */
 
-    .shop {
-        max-width: 100%;
-        overflow: visible;
-    }
 
-    /*
-     * Give shop stones enough room for their popup to be
-     * positioned without clipping.
-     */
-    .shop-items {
-        overflow: visible;
-    }
 
-    .shop-item {
-        overflow: visible;
-    }
+
 }

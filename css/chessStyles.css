@@ -26,6 +26,7 @@ html #body .hidden {
 
 #message {
     font-size: 2em;
+    display: none;
 }
 
     #message.spaceBelow {
@@ -75,18 +76,23 @@ html #body .hidden {
     position: absolute;
     display: flex;
     justify-content: space-around;
-    opacity: 0.7;
+    opacity: 0.9;
+    z-index: 16;
+    pointer-events: none;
+    font-size: 0.8em;
 }
 
 #rank {
-    left: -1.2em;
-    height: -webkit-fill-available;
+    left: 0.4em;
+    top: -1.7em;
+    height: 100%;
     flex-direction: column;
 }
 
 #file {
-    bottom: -1.5em;
-    width: -webkit-fill-available;
+    bottom: 0.0em;
+    width: 100%;
+    left: 1.9em;
 }
 
 .flippedBoard #rank {
@@ -96,6 +102,16 @@ html #body .hidden {
 
 .flippedBoard #file {
     flex-direction: row-reverse;
+}
+
+#rank div.lightSquare, #file div.lightSquare {
+    color: #372f2f;
+}
+.flippedBoard #rank div.lightSquare, .flippedBoard #file div.lightSquare {
+    color: inherit;
+}
+.flippedBoard #rank div.darkSquare, .flippedBoard #file div.darkSquare {
+    color: #372f2f;
 }
 
 .shrink {
@@ -115,8 +131,8 @@ html #body .hidden {
     position: relative;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    border-top: solid black 3px;
-    border-left: solid black 3px;
+    border-top: solid black 2px;
+    border-left: solid black 2px;
 }
 
 .square, .gameObject {
@@ -125,8 +141,8 @@ html #body .hidden {
 }
 
 .square {
-    border-bottom: solid black 3px;
-    border-right: solid black 3px;
+    border-bottom: solid black 2px;
+    border-right: solid black 2px;
 }
 
 .dark {

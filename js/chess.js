@@ -1261,10 +1261,12 @@ function createSizedBoard(width, height) {
     rankDiv = get("rank");
     fileDiv.innerHTML = "";
     rankDiv.innerHTML = "";
-
+    
     for (let i = 0; i < width; i++) {
         let a = make("div");
         a.innerHTML = String.fromCharCode(97 + i);
+        if (i % 2 == 0) a.classList.add("lightSquare");
+        else a.classList.add("darkSquare");
         if (!flipped) fileDiv.appendChild(a);
         else fileDiv.prepend(a);
     }
@@ -1272,6 +1274,8 @@ function createSizedBoard(width, height) {
     for (let i = 0; i < height; i++) {
         let a = make("div");
         a.innerHTML = (height - i);
+        if (i % 2 == 1) a.classList.add("lightSquare");
+        else a.classList.add("darkSquare");
         if (!flipped) rankDiv.appendChild(a);
         else rankDiv.prepend(a);
     }
@@ -1516,7 +1520,7 @@ function flipBoard() {
     }
 
     // Flip the clocks
-    flipClocks();
+    // flipClocks();
 }
 
 function flipSquare(square) {
