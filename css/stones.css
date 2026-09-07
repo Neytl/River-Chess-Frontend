@@ -371,3 +371,22 @@
 .stone-wrapper.burden .stone-image {
     filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
 }
+
+
+/* =========================================================
+   Mobile Styles
+   ========================================================= */
+
+@media (max-width: 768px) {
+    :root .stone-tooltips-popup {
+        left: auto;
+        bottom: calc(100% + 8px);
+        top: auto;
+        right: 0px;
+    }
+
+    .stone-wrapper.stone-flipped .stone-tooltips-popup {
+        top: calc(100% + 8px);
+        bottom: auto;
+    }
+}

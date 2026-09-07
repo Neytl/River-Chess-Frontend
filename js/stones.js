@@ -13,51 +13,21 @@ function displayStones(stones, container, properties) {
         return;
     }
 
+        // Build and add the stone to the page
     for (const stone of stones) {
-        const stoneElement = createStoneElement(stone, properties);
-        container.appendChild(stoneElement);
+        container.appendChild(createStoneElement(stone, properties));
 
-        // Adjust the popup
-        /*let leftness = 50;
-        while (getRightness(stoneElement.lastChild) < 150) {
-            leftness -= 5;
-            stoneElement.lastChild.style = `left: ${leftness}%;`;
-        }
-
-        while (getLeftness(stoneElement.lastChild) < 150) {
-            leftness += 5;
-            stoneElement.lastChild.style = `left: ${leftness}%;`;
-        }*/
-    }
-}
-
-function getLeftness(element) {
-    return getXPosition(element);
-}
-
-function getRightness(element) {
-    return window.outerWidth - getXPosition(element);
-}
-
-function getXPosition(element) {
-    var xPosition = 0;
-
-    while (element) {
-        if (element.tagName == "BODY") {
-            // deal with browser quirks with body/window/document and page scroll
-            var xScrollPos = element.scrollLeft || document.documentElement.scrollLeft;
-
-            xPosition += (element.offsetLeft - xScrollPos + element.clientLeft);
-        } else {
-            xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-        }
-
-        element = element.offsetParent;
     }
 
-    return xPosition;
+    // Adjust the popups to fit on screen
+    adjustPopupPositions(container)
 }
 
+function adjustPopupPositions(container) {
+    Array.from(container.children).forEach(stoneElement => {
+        keepPopupOnScreen(stoneElement.lastChild, stoneElement);
+    });
+}
 
 function createStoneElement(stone, properties) {
     // Main wrapper
@@ -143,58 +113,6 @@ function createStoneElement(stone, properties) {
 
 
     // -------------------------
-    // Tooltip popup
-    // -------------------------
-
-    if (stone.toolTips && stone.toolTips.length > 0) {
-
-        const tooltipsPopup =
-            document.createElement("div");
-
-        tooltipsPopup.className =
-            "stone-tooltips-popup";
-
-        for (const tooltip of stone.toolTips) {
-
-            const tooltipElement =
-                document.createElement("div");
-
-            tooltipElement.className =
-                "stone-tooltip";
-
-            /*
-             * Your tooltip data contains HTML such as:
-             *
-             * <div>King Movement</div>
-             * <div>Move one square in any direction</div>
-             *
-             * So innerHTML is intentional here.
-             *
-             * Only do this if tooltip HTML is trusted and generated
-             * by your own game data.
-             */
-            tooltipElement.innerHTML = tooltip;
-
-            tooltipsPopup.appendChild(
-                tooltipElement
-            );
-        }
-
-        popup.appendChild(tooltipsPopup);
-
-
-        /*
-         * Decide whether the secondary popup should
-         * appear on the right or left.
-         */
-        wrapper.addEventListener(
-            "mouseenter",
-            () => positionTooltipPopup(wrapper, tooltipsPopup)
-        );
-    }
-
-
-    // -------------------------
     // Buy/Sell
     // -------------------------
 
@@ -238,6 +156,49 @@ function createStoneElement(stone, properties) {
             actionButton
         );
     }
+
+
+    // -------------------------
+    // Tooltip popup
+    // -------------------------
+
+    if (stone.toolTips && stone.toolTips.length > 0) {
+
+        const tooltipsPopup =
+            document.createElement("div");
+
+        tooltipsPopup.className =
+            "stone-tooltips-popup";
+
+        for (const tooltip of stone.toolTips) {
+
+            const tooltipElement =
+                document.createElement("div");
+
+            tooltipElement.className =
+                "stone-tooltip";
+
+            /*
+             * Your tooltip data contains HTML such as:
+             *
+             * <div>King Movement</div>
+             * <div>Move one square in any direction</div>
+             *
+             * So innerHTML is intentional here.
+             *
+             * Only do this if tooltip HTML is trusted and generated
+             * by your own game data.
+             */
+            tooltipElement.innerHTML = tooltip;
+
+            tooltipsPopup.appendChild(
+                tooltipElement
+            );
+        }
+
+        popup.appendChild(tooltipsPopup);
+    }
+
 
     // -------------------------
     // Counters
@@ -295,16 +256,19 @@ function positionTooltipPopup(
         wrapper.getBoundingClientRect();
 
     const popupWidth =
-        tooltipsPopup.offsetWidth || 220;
+        tooltipsPopup.offsetWidth || 242;
 
     const spaceOnRight =
-        window.innerWidth - wrapperRect.right;
+        window.outerWidth - wrapperRect.right;
 
     const spaceOnLeft =
         wrapperRect.left;
 
+    console.log(wrapper, spaceOnLeft, spaceOnRight);
+    // console.log(tooltipsPopup.getBoundingClientRect())
+
     // Prefer the right side.
-    if (spaceOnRight >= popupWidth + 20) {
+    if (spaceOnRight >= popupWidth + 160 || spaceOnRight >= spaceOnLeft) {
 
         tooltipsPopup.classList.remove(
             "tooltip-left"
@@ -312,29 +276,69 @@ function positionTooltipPopup(
 
         tooltipsPopup.classList.add(
             "tooltip-right"
-        );
-    }
-    else if (spaceOnLeft >= popupWidth + 20) {
-
-        tooltipsPopup.classList.remove(
-            "tooltip-right"
-        );
-
-        tooltipsPopup.classList.add(
-            "tooltip-left"
         );
     }
     else {
 
-        // Not enough room on either side.
-        // Default to the right.
         tooltipsPopup.classList.remove(
-            "tooltip-left"
+            "tooltip-right"
         );
 
         tooltipsPopup.classList.add(
-            "tooltip-right"
+            "tooltip-left"
         );
+    }
+}
+
+function keepPopupOnScreen(popup, stoneWrapper) {
+    if (!popup || !stoneWrapper) {
+        return;
+    }
+
+    // Reset any previous positioning adjustments.
+    popup.style.left = "";
+    popup.style.right = "";
+
+
+
+
+    // Decide whether the secondary popup appear on the right or left.
+    positionTooltipPopup(popup, popup.lastChild);
+
+    // Position the popup as a whole
+    const margin = 16;
+
+    const popupRect = popup.getBoundingClientRect();
+    const stoneRect = stoneWrapper.getBoundingClientRect();
+
+    const viewportWidth = window.innerWidth;
+
+    /*
+     * First, use the normal CSS position.
+     *
+     * If the popup extends past the right edge, move it
+     * far enough to the left to fit.
+     */
+    if (popupRect.right > viewportWidth - margin) {
+        const overflow = popupRect.right - (viewportWidth - margin);
+
+        popup.style.left =
+            `${popup.offsetLeft - overflow}px`;
+    }
+
+    /*
+     * Recalculate after the right-side correction.
+     */
+    const correctedRect = popup.getBoundingClientRect();
+
+    /*
+     * If it now extends past the left edge, move it right.
+     */
+    if (correctedRect.left < margin) {
+        const overflow = margin - correctedRect.left;
+
+        popup.style.left =
+            `${popup.offsetLeft + overflow}px`;
     }
 }
 

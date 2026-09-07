@@ -7,7 +7,7 @@ function displayRunState() {
     if (!runState) goHome();
 
     const roundDisplay = get("roundDisplay");
-    const livesContainer = get("livesContainer");
+    // const livesContainer = get("livesContainer");
 
     const shopStonesContainer = get("shopStones");
     const playerStonesContainer = get("stonesContainer");
@@ -76,7 +76,7 @@ function displayRunState() {
         roundDisplay.textContent =
             `Round ${runState.round}`;
 
-        livesContainer.innerHTML = "";
+      /*  livesContainer.innerHTML = "";
 
         for (let i = 0; i < runState.lives; i++) {
 
@@ -87,7 +87,7 @@ function displayRunState() {
             heart.textContent = "♥";
 
             livesContainer.appendChild(heart);
-        }
+        }*/
 
         rewindsDisplay.innerHTML = runState.rewinds;
     }
@@ -293,7 +293,7 @@ async function buyStone(stone, stoneElement) {
         valid = false;
     }
 
-    if (runState.stones.length == 5) {
+    if (runState.stones.length == 4) {
         shakePlayerStones();
         valid = false;
     }
@@ -302,10 +302,12 @@ async function buyStone(stone, stoneElement) {
 
     // Update the UI
     stoneElement.classList.add("stone-purchased");
-    get("stonesContainer").appendChild(createStoneElement(stone, { sellable: true }));    
+    let container = get("stonesContainer")
+    container.appendChild(createStoneElement(stone, { sellable: true }));    
     runState.points -= stone.points;
     renderPoints();
     runState.stones.push({});
+    adjustPopupPositions(container);
 
     // Send request to the server
     const response =
@@ -382,10 +384,12 @@ function shakeElements(elements) {
 
 async function sellStone(stone, stoneElement) {
     // Update the UI
-    stoneElement.parentElement.removeChild(stoneElement);
+    let container = stoneElement.parentElement;
+    container.removeChild(stoneElement);
     runState.points += stone.points;
     renderPoints();
     runState.stones.pop();
+    adjustPopupPositions(container);
 
     // Send request to the server
     const response =

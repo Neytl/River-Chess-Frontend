@@ -292,10 +292,6 @@
 ========================= */
 
 @media (max-width: 500px) {
-    :root .stone-popup .stone-tooltips-popup {
-        display: none;
-    }
-
     .shop-stones {
         grid-auto-flow: row;
         grid-template-columns: repeat(2, 1fr);

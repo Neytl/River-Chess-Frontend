@@ -3,7 +3,8 @@
    Mobile Play Page
    ========================================================= */
 
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {*/
+@media (max-width: 700px) {
 
     /* Prevent horizontal scrolling caused by the game UI */
     html,
@@ -20,7 +21,7 @@
     }
 
     :root #chessContainer {
-         margin-top: 0; 
+        margin-top: 0;
     }
 
     :root #secondaryMessage {
@@ -74,7 +75,7 @@
         transform-origin: center center;
     }
 
-        /*
+    /*
      * Don't let the hover transform fight with the mobile
      * scaling. Mobile doesn't have true hover anyway.
      */
