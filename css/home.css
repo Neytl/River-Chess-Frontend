@@ -1,54 +1,26 @@
 ﻿
+
+/* ------------------------- */
+/* Mobile                    */
+/* ------------------------- */
+
+@media (max-width: 700px) {
+
+    /*.river-page {
+        justify-content: flex-start;
+    }*/
+}
+
+
 /* ------------------------- */
 /* Main Container            */
 /* ------------------------- */
 
 .river-container {
     width: 100%;
-    max-width: 750px;
+    max-width: 500px;
     position: relative;
     z-index: 1;
-}
-
-
-/* ------------------------- */
-/* Header                    */
-/* ------------------------- */
-
-.river-header {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 24px;
-    padding: 10px 20px;
-}
-
-    .river-header h1 {
-        margin: 0;
-        font-size: 2.4rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-        color: #f1e5bd;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-    }
-
-    .river-header p {
-        margin: 4px 0 0;
-        color: #8db6bd;
-        font-size: 1rem;
-    }
-
-.river-icon {
-    width: 58px;
-    height: 58px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    border-radius: 14px;
-    background: linear-gradient( 145deg, #2c5c68, #173943 );
-    border: 1px solid rgba(150, 220, 220, 0.25);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
 }
 
 
@@ -57,7 +29,7 @@
 /* ------------------------- */
 
 .river-panel {
-    padding: 32px;
+    padding: 24px 20px;
     border-radius: 18px;
     background: linear-gradient( 145deg, rgba(25, 55, 65, 0.94), rgba(12, 30, 38, 0.96) );
     border: 1px solid rgba(120, 190, 195, 0.2);
@@ -205,27 +177,129 @@
     border: 1px solid rgba(220, 130, 130, 0.2);
 }
 
-
-/* ------------------------- */
-/* Mobile                    */
-/* ------------------------- */
-
-@media (max-width: 500px) {
-
-    .river-page {
-        align-items: flex-start;
-        padding-top: 60px;
-    }
-
-    .river-header h1 {
-        font-size: 2rem;
-    }
-
-    .river-panel {
-        padding: 24px 20px;
-    }
-
-    .button-row {
-        flex-direction: column;
-    }
+.help-button {
+    padding: 5px;
+    cursor: pointer;
 }
+    .help-button img {
+        width: 20px;
+        height: 20px;
+    }
+
+/* ------------------------- */
+/* Panels/Game Modes         */
+/* ------------------------- */
+.game-mode-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-mode-panel-header > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.game-mode-panel-header > div:first-child img {
+    width: 30px;
+    height: 30px;
+}
+
+.game-mode-button {
+    display: flex;
+    border-radius: 10px;
+    padding: 5px 15px;
+    color: #f1e5bd;
+    background: linear-gradient(270deg, #063e51, #3b7f99);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+}
+    .game-mode-button:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+    }
+
+
+/* ------------------------- */
+/* Duels                     */
+/* ------------------------- */
+
+#duelsGameModes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+    #duelsGameModes .game-mode-button {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        #duelsGameModes .game-mode-button > div:first-child {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    #duelsGameModes h3 {
+        padding-left: 10px;
+    }
+
+    #duelsGameModes .stone-wrapper, #duelsGameModes .stone-wrapper::before {
+        width: 40px;
+        height: 40px;
+    }
+
+
+/* ------------------------- */
+/* ELO                       */
+/* ------------------------- */
+
+.elo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 75px;
+}
+    .elo-container > div:first-child{
+        font-weight: bold;
+    }
+    .elo-container > div:last-child {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+    .elo-container img {
+        width: 25px;
+        height: 25px;
+    }
+
+/* ------------------------- */
+/* Time Control              */
+/* ------------------------- */
+#timeControlButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: #c6d7e7;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+}
+
+    #timeControlButton:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+    }
+
+    #timeControlButton img {
+        width: 45px;
+        height: 45px;
+    }

@@ -55,7 +55,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.5em 3em;
+    padding: 2em 1em;
     position: relative;
     flex-direction: column;
     flex-grow: 1;
@@ -141,6 +141,24 @@ body {
     .home-button:hover {
         background: rgba(255, 255, 255, 0.15);
         transform: scale(1.05);
+    }
+
+#logoContainer {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+    #logoContainer img {
+        width: 35px;
+        height: 35px;
+        margin-top: 7px;
+    }
+
+    #logoContainer span {
+        letter-spacing: 1px;
+        color: #f1e5bd;
+        font-size: 1.7rem;
     }
 
 

@@ -26,11 +26,11 @@ html #body .hidden {
 
 #message {
     font-size: 2em;
-    display: none;
+    padding-left: 1em;
 }
 
     #message.spaceBelow {
-        margin-bottom: .5em;
+        margin-bottom: .2em;
     }
 
 #secondaryMessage {

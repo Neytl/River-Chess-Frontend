@@ -11,7 +11,8 @@ const runInfo =
     get("runInfo");
 
 function displayRunState() {
-    if (runState) {
+
+/*    if (runState) {
         get("newGamePanel")
             .classList.add("hidden");
 
@@ -36,6 +37,7 @@ function displayRunState() {
         get("continueGamePanel")
             .classList.add("hidden");
     }
+*/
 }
 
 
@@ -109,8 +111,8 @@ async function abandonRun() {
 //  New Run
 // ******************************************
 
-const newGameButton = get("newGameButton");
-newGameButton.addEventListener("click", createNewRun);
+// const newGameButton = get("newGameButton");
+// newGameButton.addEventListener("click", createNewRun);
 
 async function createNewRun() {
     const startingPoints =

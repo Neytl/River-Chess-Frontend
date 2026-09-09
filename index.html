@@ -7,6 +7,7 @@
     <link href='css/siteStyles.css' rel='stylesheet' type='text/css'>
     <link href='css/home.css' rel='stylesheet' type='text/css'>
     <link href='css/stones.css' rel='stylesheet' type='text/css'>
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon.png">
 </head>
 <body>
 
@@ -49,6 +50,11 @@
 
         </button>
 
+        <div id="logoContainer">
+            <img src="imgs/logo.png" />
+            <span>River Chess</span>
+        </div>
+
         <a href="/index.html"
            class="home-button"
            aria-label="Home">
@@ -65,22 +71,66 @@
 
     <main class="river-page">
 
-        <!--<div id="shopAndHeader">-->
-
         <div class="river-container">
+            <div class="river-panel">
+                <div class="game-mode-panel-header">
+                    <div>
+                        <img src="imgs/icons/duels.png" />
+                        <h2>Duels</h2>
+                    </div>
+                    <div class="help-button">
+                        <img src="imgs/icons/info.png" />
+                    </div>
+                </div>
 
-            <div class="river-header">
-                <div class="river-icon">♜</div>
-
-                <div>
-                    <h1>River Chess</h1>
-                    <!--<p>Choose your path.</p>-->
+                <div id="duelsGameModes">
+                    <div class="game-mode-button">
+                        <div>
+                            <div class="stone-wrapper stone-white"></div>
+                            <h3>1 Stone</h3>
+                        </div>
+                        <div class="elo-container">
+                            <div>ELO</div>
+                            <div>
+                                <img src="imgs/pieces/white_queen.png" />
+                                <span>1,200</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-mode-button">
+                        <div>
+                            <div class="stone-wrapper stone-white"></div>
+                            <div class="stone-wrapper stone-white"></div>
+                            <h3>2 Stone</h3>
+                        </div>
+                        <div class="elo-container">
+                            <div>ELO</div>
+                            <div>
+                                <img src="imgs/pieces/white_rook.png" />
+                                <span>900</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-mode-button">
+                        <div>
+                            <div class="stone-wrapper stone-white"></div>
+                            <div class="stone-wrapper stone-white"></div>
+                            <div class="stone-wrapper stone-white"></div>
+                            <h3>3 Stone</h3>
+                        </div>
+                        <div class="elo-container">
+                            <div>ELO</div>
+                            <div>
+                                <img src="imgs/pieces/white_knight.png" />
+                                <span>600</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-
             <!-- Show this section when there is NO active run -->
-            <section id="newGamePanel" class="river-panel">
+            <!-- <section id="newGamePanel" class="river-panel">
 
                 <h2>Begin a New Run</h2>
 
@@ -114,53 +164,55 @@
                 <div id="newGameButton" class="river-button primary-button">
                     New Game
                 </div>
-            </section>
-
-
+            </section>-->
             <!-- Show this section when a run IS in progress -->
-            <div id="continueGamePanel" class="river-panel hidden">
+            <!--<div id="continueGamePanel" class="river-panel hidden">
 
-                <h2>A Journey Is Already Underway</h2>
+            <h2>A Journey Is Already Underway</h2>
 
-                <p class="panel-description">
-                    Continue where you left off, or abandon this run and begin again.
-                </p>
+            <p class="panel-description">
+                Continue where you left off, or abandon this run and begin again.
+            </p>
 
-                <div class="run-info">
-                    <div class="run-stat">
-                        <span class="stat-label">Round</span>
-                        <span id="currentRound" class="stat-value">1</span>
-                    </div>
-
-                    <div class="run-stat">
-                        <span class="stat-label">Lives</span>
-                        <span id="currentLives" class="stat-value">1</span>
-                    </div>
-
-                    <div class="run-stat">
-                        <span class="stat-label">Points</span>
-                        <span id="currentPoints" class="stat-value">4</span>
-                    </div>
+            <div class="run-info">
+                <div class="run-stat">
+                    <span class="stat-label">Round</span>
+                    <span id="currentRound" class="stat-value">1</span>
                 </div>
 
-                <div class="stones-section">
-                    <div class="stones-header">Stones</div>
-
-                    <div id="stonesContainer" class="stones-container"></div>
+                <div class="run-stat">
+                    <span class="stat-label">Lives</span>
+                    <span id="currentLives" class="stat-value">1</span>
                 </div>
 
-                <div class="button-row">
-                    <a href="/theRiver" class="river-button primary-button">
-                        Continue
-                    </a>
-
-                    <button id="abandonRunButton"
-                            class="river-button danger-button">
-                        Abandon Run
-                    </button>
+                <div class="run-stat">
+                    <span class="stat-label">Points</span>
+                    <span id="currentPoints" class="stat-value">4</span>
                 </div>
-
             </div>
+
+            <div class="stones-section">
+                <div class="stones-header">Stones</div>
+
+                <div id="stonesContainer" class="stones-container"></div>
+            </div>
+
+            <div class="button-row">
+                <a href="/theRiver" class="river-button primary-button">
+                    Continue
+                </a>
+
+                <button id="abandonRunButton"
+                        class="river-button danger-button">
+                    Abandon Run
+                </button>
+            </div>-->
+
+        </div>
+
+        <div id="timeControlButton">
+            <img src="imgs/icons/NoTimeControl.png" />
+        </div>
     </main>
 
     <script src="js/utility.js"></script>
