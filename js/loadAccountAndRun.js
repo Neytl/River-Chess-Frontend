@@ -35,14 +35,13 @@ const guestReady = new Promise((resolve, reject) => {
             }
 
             resolve(guestId);
+            displayRunState();
 
             // Run state is independent of multiplayer, so a failure here must
             // not stop the multiplayer client from connecting.
-            try {
+/*            try {
                 // Try to load an existing run.
                 await loadRunState();
-
-                // Either display the run or the New Run button.
                 displayRunState();
             }
             catch (error) {
@@ -51,6 +50,8 @@ const guestReady = new Promise((resolve, reject) => {
                     error
                 );
             }
+            finally {
+            }*/
         }
     );
 });

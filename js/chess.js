@@ -410,16 +410,6 @@ function destroyToolTips() {
     toolTipElements = [];
 }
 
-// Returns an array of all elements matching the selector
-function getAll(selector) {
-    return Array.from(document.querySelectorAll(selector));
-}
-
-// Returns the first element matching the selector
-function getFirst(selector) {
-    return document.querySelector(selector);
-}
-
 // Returns an array of all elements of the specified class
 function getAllClass(className) {
     return Array.from(document.getElementsByClassName(className));
@@ -1162,7 +1152,7 @@ function displayStateCommom(gameState) {
     } else {
         setTimeout(() => {
             if (confirm("Game finished! Continue?")) {
-                goToTheRiver();
+                goHome();
             }
         }, 1500);
     }

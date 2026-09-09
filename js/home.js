@@ -1,3 +1,32 @@
+
+// ******************************************
+//  Duels
+// ******************************************
+
+getAll(".duels-game-button").forEach(button => {
+    button.addEventListener("click", () => { startDuelsGame(button) });
+});
+
+async function startDuelsGame(button) {
+    let activeSearch = getFirst(".searching");
+    if (activeSearch) {
+        window.multiplayerClient.leaveQueue();
+        activeSearch.classList.remove("searching");
+        if (activeSearch == button) return;
+    }
+
+    button.classList.add("searching");
+
+    try {
+        console.log("Joining the queue.");
+        await window.multiplayerClient.joinQueue(button.dataset.gameMode, "Untimed");
+    }
+    catch (error) {
+        console.error("Failed to join queue:", error);
+    }
+}
+
+
 // ******************************************
 //  Load Run
 // ******************************************
@@ -12,32 +41,32 @@ const runInfo =
 
 function displayRunState() {
 
-/*    if (runState) {
-        get("newGamePanel")
-            .classList.add("hidden");
-
-        get("continueGamePanel")
-            .classList.remove("hidden");
-
-        get("currentRound")
-            .textContent = runState.round;
-
-        get("currentLives")
-            .textContent = runState.lives;
-
-        get("currentPoints")
-            .textContent = runState.points;
-
-        displayStones(runState.stones, get("stonesContainer"));
-    }
-    else {
-        get("newGamePanel")
-            .classList.remove("hidden");
-
-        get("continueGamePanel")
-            .classList.add("hidden");
-    }
-*/
+    /*    if (runState) {
+            get("newGamePanel")
+                .classList.add("hidden");
+    
+            get("continueGamePanel")
+                .classList.remove("hidden");
+    
+            get("currentRound")
+                .textContent = runState.round;
+    
+            get("currentLives")
+                .textContent = runState.lives;
+    
+            get("currentPoints")
+                .textContent = runState.points;
+    
+            displayStones(runState.stones, get("stonesContainer"));
+        }
+        else {
+            get("newGamePanel")
+                .classList.remove("hidden");
+    
+            get("continueGamePanel")
+                .classList.add("hidden");
+        }
+    */
 }
 
 
@@ -69,7 +98,7 @@ async function abandonRun() {
         button.style.pointerEvents = "none";
         button.textContent = "Abandoning...";
 
-        const response = await fetch(apiUrl + 
+        const response = await fetch(apiUrl +
             `/api/run-state/${encodeURIComponent(guestId)}`,
             {
                 method: "DELETE"
@@ -122,7 +151,7 @@ async function createNewRun() {
         newGameButton.textContent = "Starting...";
         newGameButton.style.pointerEvents = "none";
 
-        const response = await fetch(apiUrl + 
+        const response = await fetch(apiUrl +
             `/api/run-state/${encodeURIComponent(guestId)}`,
             {
                 method: "POST",

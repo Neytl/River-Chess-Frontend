@@ -207,6 +207,7 @@
 }
 
 .game-mode-button {
+    position:relative;
     display: flex;
     border-radius: 10px;
     padding: 5px 15px;
@@ -220,11 +221,35 @@
         filter: brightness(1.1);
     }
 
+    .game-mode-button.searching:before {
+        box-sizing: border-box;
+        content: "Searching for game...";
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+        background-color: #810c22;
+        position: absolute;
+        left: 0;
+        border-radius: 10px;
+        padding-left: 10px;
+    }
+
+    .game-mode-button.searching:after {
+        content: "×";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 30;
+        position: absolute;
+        right: 20px;
+        font-size: 1.5rem
+    }
 
 /* ------------------------- */
 /* Duels                     */
 /* ------------------------- */
-
 #duelsGameModes {
     display: flex;
     flex-direction: column;

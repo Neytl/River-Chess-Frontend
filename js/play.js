@@ -3,12 +3,12 @@
 // ******************************************
 
 function displayRunState() {
-    if (!runState) goHome();
+    // if (!runState) goHome();
     loadSession();
 }
 
 async function loadSession() {
-    multiplayerClient.onGameStateUpdated(broadcast => {
+    window.multiplayerClient.onGameStateUpdated(broadcast => {
         console.log(broadcast.snapshot.gameState);
         displayStateAnimations(broadcast.snapshot.gameState);
     });

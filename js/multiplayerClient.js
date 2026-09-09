@@ -300,9 +300,9 @@
         }
     }
 
-    async function joinQueue() {
+    async function joinQueue(gameMode, timeControl) {
         await start();
-        await connection.invoke("JoinQueue");
+        await connection.invoke("JoinQueue", gameMode, timeControl);
     }
 
     async function leaveQueue() {
