@@ -8,10 +8,12 @@ getAll(".duels-game-button").forEach(button => {
 });
 
 async function startDuelsGame(button) {
+    button.style.pointerEvents = "none";
     let activeSearch = getFirst(".searching");
     if (activeSearch) {
-        window.multiplayerClient.leaveQueue();
+        await window.multiplayerClient.leaveQueue();
         activeSearch.classList.remove("searching");
+        button.style.pointerEvents = "";
         if (activeSearch == button) return;
     }
 
@@ -23,6 +25,9 @@ async function startDuelsGame(button) {
     }
     catch (error) {
         console.error("Failed to join queue:", error);
+    }
+    finally {
+        button.style.pointerEvents = "";
     }
 }
 
