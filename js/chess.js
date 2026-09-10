@@ -482,6 +482,12 @@ function buildOverlaySquare(row, col, type) {
     return buildOverlay(row, col, type, null);
 }
 
+function buildSquareHighlight(row, col, type) {
+    let result = buildOverlaySquare(row, col, type);
+    result.classList.add("squareHighlight");
+    return result;
+}
+
 function buildDragableOverlay(row, col, type, body) {
     let gameObjWrapper = buildOverlayElement(row, col, type, body);
 
@@ -967,7 +973,7 @@ function executeAnimationsFromPoint(gameState, point) {
                 buildPiece(animation.pieceChoice);
                 break;
             case "Explosion":
-                let explosion = buildOverlaySquare(animation.from.row, animation.from.column, "explode");
+                let explosion = buildSquareHighlight(animation.from.row, animation.from.column, "explode");
                 setTimeout(() => { remove(explosion); }, 500);
                 break;
             case "PutPiece":
@@ -1129,6 +1135,7 @@ function displayStateCommom(gameState) {
     currentBoard = gameState.board;
     currentState = gameState;
     isYourTurn = (gameState.isWhitesTurn ? gameState.whitePlayerID : gameState.blackPlayerID) == guestId;
+    highlightPreviousMove(gameState.previousMove);
     // clockUpdate(gameState);
 
     // TODO - implement rewinds
@@ -1150,11 +1157,7 @@ function displayStateCommom(gameState) {
             boardElement.classList.remove("choosingSquare");
         }
     } else {
-        setTimeout(() => {
-            if (confirm("Game finished! Continue?")) {
-                goHome();
-            }
-        }, 1500);
+        onGameEnd();
     }
 }
 
@@ -1179,6 +1182,7 @@ function drawBoardItems(gameBoard) {
 
 function drawStateBoard(gameState) {
     drawBoard(gameState.board);
+    highlightPreviousMove(gameState.previousMove);
 }
 
 function numCols() {
@@ -1251,7 +1255,7 @@ function createSizedBoard(width, height) {
     rankDiv = get("rank");
     fileDiv.innerHTML = "";
     rankDiv.innerHTML = "";
-    
+
     for (let i = 0; i < width; i++) {
         let a = make("div");
         a.innerHTML = String.fromCharCode(97 + i);
@@ -1366,12 +1370,27 @@ function setLegalMove(square, special) {
         if (!!alreadyLegalElement) return;
     }
 
-    let element = buildOverlaySquare(square.row, square.column, "legalMove");
+    let element = buildSquareHighlight(square.row, square.column, "legalMove");
     if (!!special) element.classList.add("special");
 }
 
 function hideLegalMoves() {
     removeAllClass("legalMove");
+}
+
+function highlightPreviousMove(move) {
+    removeAll("#boardDiv .previousMove");
+
+    let hasFromSquare = false;
+    if (!!move.from && move.from.row >= 0 && move.from.column >= 0) {
+        hasFromSquare = true;
+        buildSquareHighlight(move.from.row, move.from.column, "previousMove");
+    }
+
+    if (!!move.to && move.to.row >= 0 && move.to.column >= 0) {
+        if (hasFromSquare && move.from.column == move.to.column && move.from.row == move.to.row) return;
+        buildSquareHighlight(move.to.row, move.to.column, "previousMove");
+    }
 }
 
 function showLegalMoves(piece, afterGetMoves) {
@@ -1396,20 +1415,20 @@ function showLegalMoves(piece, afterGetMoves) {
             afterGetMoves();
         }
     });
-// fetch(apiUrl + mainUrl + "getLegalMoves",
-//     {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(Square)
-//     }
-// ).then(response => response.json()).then(responseJson => {
-//     legalMoves = responseJson;
-//     moveType = "Move";
-//     showLegalMovesForType();
-//     if (!!afterGetMoves) afterGetMoves();
-// });
+    // fetch(apiUrl + mainUrl + "getLegalMoves",
+    //     {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify(Square)
+    //     }
+    // ).then(response => response.json()).then(responseJson => {
+    //     legalMoves = responseJson;
+    //     moveType = "Move";
+    //     showLegalMovesForType();
+    //     if (!!afterGetMoves) afterGetMoves();
+    // });
 }
 
 function seeLegalSquares() {
@@ -1537,6 +1556,12 @@ function flipGameState(state) {
         flipSquare(state.onlyMove.from);
         flipSquare(state.onlyMove.to);
     }
+
+    // Flip Previous Move
+    if (!!state.previousMove) {
+        flipSquare(state.previousMove.from);
+        flipSquare(state.previousMove.to);
+    }
 }
 
 function flipStateBoard(gameBoard) {
@@ -1562,7 +1587,7 @@ function setEmpty(piece) {
 function pickPiece(row, col) {
     if (!isYourTurn) return;
     pickedPiece = [row, col];
-    buildOverlaySquare(row, col, "picked");
+    buildSquareHighlight(row, col, "picked");
 }
 
 function unPickPiece() {

@@ -1,3 +1,14 @@
+function onGameEnd() {
+    get("resignButton").classList.add("hidden");
+    get("homeButton").classList.remove("hidden");
+
+    setTimeout(() => {
+        if (confirm("Game finished! Continue?")) {
+            goHome();
+        }
+    }, 1500);
+}
+
 // ******************************************
 //  Load Run
 // ******************************************
