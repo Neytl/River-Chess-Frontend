@@ -53,7 +53,8 @@ html #body .hidden {
 .chessClock {
     background-color: #282828;
     border: solid 2px black;
-    width: 3em;
+    min-width: 3em;
+    padding: 0 .5em;
     text-align: center;
     z-index: 11;
 }

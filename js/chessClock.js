@@ -5,6 +5,7 @@ var tickTimeout;
 var lastTickTime;
 var whiteTimeRemaining = -100 - clockLeniency;
 var blackTimeRemaining = -100 - clockLeniency;
+var prepTimeRemaining = -100 - clockLeniency;
 
 function clockUpdate(gameState) {
     // Stop the timeout and update the times
@@ -14,8 +15,14 @@ function clockUpdate(gameState) {
     // Sync up the clocks
     if (gameState.whiteTimeRemaining < whiteTimeRemaining || gameState.whiteTimeRemaining - whiteTimeRemaining > clockLeniency) {
         whiteTimeRemaining = gameState.whiteTimeRemaining;
-        setClock("white", whiteTimeRemaining);
+        prepTimeRemaining = gameState.prepTimeRemaining;
+        setClock("white", whiteTimeRemaining, prepTimeRemaining);
     }
+    else if (gameState.prepTimeRemaining < prepTimeRemaining || gameState.prepTimeRemaining - prepTimeRemaining > clockLeniency) {
+        prepTimeRemaining = gameState.prepTimeRemaining;
+        setClock("white", whiteTimeRemaining, prepTimeRemaining);
+    }
+
     if (gameState.blackTimeRemaining < blackTimeRemaining || gameState.blackTimeRemaining - blackTimeRemaining > clockLeniency) {
         blackTimeRemaining = gameState.blackTimeRemaining;
         setClock("black", blackTimeRemaining);
@@ -43,14 +50,26 @@ function tick() {
     let elapsedTime = now - lastTickTime;
     lastTickTime = now;
 
+    // Calculate prep time
+    if (prepTimeRemaining > 0) {
+        if (elapsedTime > prepTimeRemaining) {
+            elapsedTime -= prepTimeRemaining;
+            prepTimeRemaining = 0;
+        } else {
+            prepTimeRemaining -= elapsedTime;
+            elapsedTime = 0;
+        }
+    }
+
+    // Update the time based on the active clock color
     if (activeClockColor == "white") {
-        setClock(activeClockColor, whiteTimeRemaining - elapsedTime);
+        setClock(activeClockColor, whiteTimeRemaining - elapsedTime, prepTimeRemaining);
     } else {
-        setClock(activeClockColor, blackTimeRemaining - elapsedTime);
+        setClock(activeClockColor, blackTimeRemaining - elapsedTime, prepTimeRemaining);
     }
 }
 
-function setClock(color, timeLeft) {
+function setClock(color, timeLeft, prepTimeLeft) {
     if (timeLeft <= 0) {
         timeLeft = 0;
     }
@@ -61,13 +80,23 @@ function setClock(color, timeLeft) {
         blackTimeRemaining = timeLeft;
     }
 
+    // Calculate the player time
     let totalSeconds = Math.floor(timeLeft / 1000);
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
 
     if (seconds < 10) seconds = "0" + seconds;
 
-    get(color + "Clock").innerHTML = minutes + ":" + seconds;
+    // Calculate the prep time if provided
+    let prepTimeDisplay = "";
+    if (prepTimeLeft !== undefined && prepTimeLeft > 0) {
+        prepTimeRemaining = prepTimeLeft;
+        let totalPrepSeconds = Math.floor(prepTimeLeft / 1000);
+        prepTimeDisplay = " + " + totalPrepSeconds;
+    }
+
+    // Update the clock display
+    get(color + "Clock").innerHTML = minutes + ":" + seconds + prepTimeDisplay;
 }
 
 function startClock(color) {

@@ -1128,15 +1128,17 @@ function displayStateCommom(gameState) {
     printMessage(gameState.stateDescription);
     unPickPiece();
 
-    if (flipped && !gameState.tavern) {
-        flipGameState(gameState);
-    }
-
+    if (flipped) flipGameState(gameState);
     currentBoard = gameState.board;
     currentState = gameState;
     isYourTurn = (gameState.isWhitesTurn ? gameState.whitePlayerID : gameState.blackPlayerID) == guestId;
     highlightPreviousMove(gameState.previousMove);
-    // clockUpdate(gameState);
+
+    if (gameState.ticking) {
+        get("whiteClock").parentElement.classList.remove("hidden");
+        get("blackClock").parentElement.classList.remove("hidden");
+        clockUpdate(gameState);
+    }
 
     // TODO - implement rewinds
     //get("whiteRewinds").innerHTML = gameState.whiteRewinds;
@@ -1529,7 +1531,9 @@ function flipBoard() {
     }
 
     // Flip the clocks
-    // flipClocks();
+    if (currentState.ticking) {
+        flipClocks();
+    }
 }
 
 function flipSquare(square) {

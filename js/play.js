@@ -20,7 +20,7 @@ function displayRunState() {
 
 async function loadSession() {
     window.multiplayerClient.onGameStateUpdated(broadcast => {
-        console.log(broadcast.snapshot.gameState);
+        // console.log(broadcast.snapshot.gameState);
         displayStateAnimations(broadcast.snapshot.gameState);
     });
 
