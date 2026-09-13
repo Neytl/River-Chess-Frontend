@@ -273,6 +273,11 @@ html #body .hidden {
     background-color: #fff0;
 }
 
+.token > img {
+    width: inherit;
+    height: inherit;
+}
+
 /*****************
  * Pieces
  * ***************/
