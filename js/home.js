@@ -21,7 +21,7 @@ async function startDuelsGame(button) {
 
     try {
         console.log("Joining the queue.");
-        await window.multiplayerClient.joinQueue(button.dataset.gameMode, "Untimed");
+        await window.multiplayerClient.joinQueue(button.dataset.gameMode, localStorage.getItem("timeControl"));
     }
     catch (error) {
         console.error("Failed to join queue:", error);

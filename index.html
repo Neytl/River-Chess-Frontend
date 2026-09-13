@@ -7,6 +7,7 @@
     <link href='css/siteStyles.css' rel='stylesheet' type='text/css'>
     <link href='css/home.css' rel='stylesheet' type='text/css'>
     <link href='css/stones.css' rel='stylesheet' type='text/css'>
+   <link href='css/timeControlButtons.css' rel='stylesheet' type='text/css'>
     <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon.png">
 </head>
 <body>
@@ -132,87 +133,110 @@
             <!-- Show this section when there is NO active run -->
             <!-- <section id="newGamePanel" class="river-panel">
 
-                <h2>Begin a New Run</h2>
+            <h2>Begin a New Run</h2>
 
-                <p class="panel-description">
-                    Select your starting material
-                </p>
+            <p class="panel-description">
+                Select your starting material
+            </p>
 
-                <div class="game-option">
-                    <label for="startingPoints">Points</label>
+            <div class="game-option">
+                <label for="startingPoints">Points</label>
 
-                    <select id="startingPoints">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option selected value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                    </select>
-                </div>
+                <select id="startingPoints">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option selected value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                </select>
+            </div>
 
-                <div id="newGameButton" class="river-button primary-button">
-                    New Game
-                </div>
-            </section>-->
+            <div id="newGameButton" class="river-button primary-button">
+                New Game
+            </div>
+        </section>-->
             <!-- Show this section when a run IS in progress -->
             <!--<div id="continueGamePanel" class="river-panel hidden">
 
-            <h2>A Journey Is Already Underway</h2>
+        <h2>A Journey Is Already Underway</h2>
 
-            <p class="panel-description">
-                Continue where you left off, or abandon this run and begin again.
-            </p>
+        <p class="panel-description">
+            Continue where you left off, or abandon this run and begin again.
+        </p>
 
-            <div class="run-info">
-                <div class="run-stat">
-                    <span class="stat-label">Round</span>
-                    <span id="currentRound" class="stat-value">1</span>
-                </div>
-
-                <div class="run-stat">
-                    <span class="stat-label">Lives</span>
-                    <span id="currentLives" class="stat-value">1</span>
-                </div>
-
-                <div class="run-stat">
-                    <span class="stat-label">Points</span>
-                    <span id="currentPoints" class="stat-value">4</span>
-                </div>
+        <div class="run-info">
+            <div class="run-stat">
+                <span class="stat-label">Round</span>
+                <span id="currentRound" class="stat-value">1</span>
             </div>
 
-            <div class="stones-section">
-                <div class="stones-header">Stones</div>
-
-                <div id="stonesContainer" class="stones-container"></div>
+            <div class="run-stat">
+                <span class="stat-label">Lives</span>
+                <span id="currentLives" class="stat-value">1</span>
             </div>
 
-            <div class="button-row">
-                <a href="/theRiver" class="river-button primary-button">
-                    Continue
-                </a>
+            <div class="run-stat">
+                <span class="stat-label">Points</span>
+                <span id="currentPoints" class="stat-value">4</span>
+            </div>
+        </div>
 
-                <button id="abandonRunButton"
-                        class="river-button danger-button">
-                    Abandon Run
+        <div class="stones-section">
+            <div class="stones-header">Stones</div>
+
+            <div id="stonesContainer" class="stones-container"></div>
+        </div>
+
+        <div class="button-row">
+            <a href="/theRiver" class="river-button primary-button">
+                Continue
+            </a>
+
+            <button id="abandonRunButton"
+                    class="river-button danger-button">
+                Abandon Run
+            </button>
+        </div>-->
+
+        </div>
+
+
+        <!--Time Control-->
+        <div class="option-menu" id="optionMenu">
+
+            <div class="option-list">
+
+                <button class="option-button" data-option="option1">
+                    <img src="imgs/icons/rapid.png" />
                 </button>
-            </div>-->
+
+                <button class="option-button" data-option="option2">
+                    <img src="imgs/icons/blitz.png" />
+                </button>
+
+                <button class="option-button" data-option="option3">
+                    <img src="imgs/icons/bullet.png" />
+                </button>
+
+            </div>
+
+            <button class="main-option" id="mainOption">
+                <img src="imgs/icons/NoTimeControl.png" />
+            </button>
 
         </div>
 
-        <div id="timeControlButton">
-            <img src="imgs/icons/NoTimeControl.png" />
-        </div>
     </main>
 
     <script src="js/utility.js"></script>
@@ -222,5 +246,6 @@
     <script src="js/sideMenu.js"></script>
     <script src="lib/signalr/signalr.min.js"></script>
     <script src="js/multiplayerClient.js"></script>
+    <script src="js/timeControlButtons.js"></script>
 </body>
 </html>
