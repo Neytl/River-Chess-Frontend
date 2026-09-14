@@ -250,6 +250,7 @@
 /* ------------------------- */
 /* Duels                     */
 /* ------------------------- */
+
 #duelsGameModes {
     display: flex;
     flex-direction: column;
@@ -275,6 +276,11 @@
         width: 40px;
         height: 40px;
     }
+
+        #duelsGameModes .stone-wrapper img {
+            width: 20px;
+            height: 20px;
+        }
 
 
 /* ------------------------- */
