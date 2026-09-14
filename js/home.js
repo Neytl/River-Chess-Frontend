@@ -44,7 +44,9 @@ const startNewRunButton =
 const runInfo =
     get("runInfo");
 
-function displayRunState() {
+function afterLoadGuest() {
+    loadInElo();
+
 
     /*    if (runState) {
             get("newGamePanel")
@@ -72,6 +74,42 @@ function displayRunState() {
                 .classList.add("hidden");
         }
     */
+} 
+
+function loadInElo() {
+    let timeControl = localStorage.getItem("timeControl");
+    loadInEloForGameMode("OneStoneDuel", timeControl);
+    loadInEloForGameMode("TwoStoneDuel", timeControl);
+    loadInEloForGameMode("ThreeStoneDuel", timeControl);
+}
+
+function loadInEloForGameMode(gameMode, timeControl) {
+    let ELO = 1000;
+
+    for (let i = 0; i < guestInfo.ratings.length; i++) {
+        let rating = guestInfo.ratings[i];
+        if (rating.gameMode == gameMode && rating.timeControl == timeControl) {
+            ELO = rating.elo;
+        }
+    }
+
+    document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container span').innerHTML = ELO.toLocaleString();
+
+    let imageContainer = document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container img');
+
+    if (ELO < 800) {
+        imageContainer.src = "/imgs/pieces/white_pawn.png";
+    } else if (ELO < 1100) {
+        imageContainer.src = "/imgs/pieces/white_knight.png";
+    } else if (ELO < 1400) {
+        imageContainer.src = "/imgs/pieces/white_bishop.png";
+    } else if (ELO < 1700) {
+        imageContainer.src = "/imgs/pieces/white_rook.png";
+    } else if (ELO < 2100) {
+        imageContainer.src = "/imgs/pieces/white_queen.png";
+    } else {
+        imageContainer.src = "/imgs/pieces/white_king.png";
+    }
 }
 
 

@@ -13,7 +13,7 @@ function onGameEnd() {
 //  Load Run
 // ******************************************
 
-function displayRunState() {
+function afterLoadGuest() {
     // if (!runState) goHome();
     loadSession();
 }

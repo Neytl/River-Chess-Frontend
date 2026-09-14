@@ -2,7 +2,7 @@
 //  Load Run
 // ******************************************
 
-function displayRunState() {
+function afterLoadGuest() {
     "use strict";
     if (!runState) goHome();
 

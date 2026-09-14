@@ -4,6 +4,7 @@
 //  Load Account
 // ******************************************
 let guestId = null;
+let guestInfo = null;
 
 // Which localStorage key holds this tab's guest id.
 // Stays "guestId" for the normal flow; only the development-only override
@@ -35,7 +36,7 @@ const guestReady = new Promise((resolve, reject) => {
             }
 
             resolve(guestId);
-            displayRunState();
+            afterLoadGuest();
 
             // Run state is independent of multiplayer, so a failure here must
             // not stop the multiplayer client from connecting.
@@ -137,6 +138,7 @@ async function initializeGuest() {
     }
 
     const guest = await response.json();
+    guestInfo = guest; // Store the guest information
     console.log("Restored guest:", guest);
 }
 
@@ -152,6 +154,7 @@ async function createGuest() {
     const guest = await response.json();
     guestId = guest.guestId;
     localStorage.setItem(guestStorageKey, guestId);
+    guestInfo = guest; // Store the guest information
     console.log("Created new guest:", guest);
 }
 
