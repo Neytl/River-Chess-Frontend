@@ -275,6 +275,7 @@
     #duelsGameModes .stone-wrapper, #duelsGameModes .stone-wrapper::before {
         width: 40px;
         height: 40px;
+        pointer-events: none;
     }
 
         #duelsGameModes .stone-wrapper img {
