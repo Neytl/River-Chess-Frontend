@@ -33,6 +33,7 @@ function createStoneElement(stone, properties) {
     // Main wrapper
     const wrapper = document.createElement("div");
     wrapper.className = "stone-wrapper";
+    stone.cleanName = encodeURIComponent(stone.name.replace("'", ""));
 
     if (stone.isPurchased) {
         wrapper.classList.add("stone-purchased");
@@ -80,9 +81,9 @@ function createStoneElement(stone, properties) {
 
     if (stone.isBurden) {
         wrapper.classList.add("burden");
-        image.src = `/imgs/stones/burdens/${encodeURIComponent(stone.name.replace("'", ""))}.webp`;
+        image.src = `/imgs/stones/burdens/${stone.cleanName}.webp`;
     } else {
-        image.src = `/imgs/stones/${encodeURIComponent(stone.name.replace("'", ""))}.webp`;
+        image.src = `/imgs/stones/${stone.cleanName}.webp`;
     }
 
     image.alt = stone.name;
@@ -221,6 +222,20 @@ function createStoneElement(stone, properties) {
 
 
     // -------------------------
+    // Launch button
+    // -------------------------
+
+    const launchButton = createElement(`
+        <div class="stone-launch-button" id="${(!!properties && !!properties.isBlack ? "Black" : "White") + stone.name}LaunchButton">
+            <svg class="checkmark-icon" viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+    `);
+
+    wrapper.appendChild(launchButton);
+
+    // -------------------------
     // Popup click events
     // -------------------------
 
@@ -228,6 +243,14 @@ function createStoneElement(stone, properties) {
 
     wrapper.addEventListener("click", event => {
         event.stopPropagation();
+
+        // Check for launch
+        console.log(wrapper);
+        if (wrapper.classList.contains("launchable")) {
+            wrapper.classList.remove("launchable");
+            invoke(pickedPiece);
+            return;
+        }
 
         // If this stone is already open, close it.
         if (activeStone === wrapper) {

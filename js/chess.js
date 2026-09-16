@@ -37,7 +37,7 @@ function initializeChessBoard() {
 
     // Setup Events
     document.onmousedown = function (event) {
-        if (!clickedOn(event, "boardDiv")) { // Clicked off the board
+        if (!clickedOn(event, "boardDiv") && !clickedOnClass(event, "launchable")) { // Clicked off the board
             unPickPiece();
             hideLegalMoves();
         }
@@ -441,6 +441,10 @@ function clickedOn(event, id) {
     return event.target.closest("#" + id) === get(id);
 }
 
+function clickedOnClass(event, className) {
+    return !!event.target.closest("." + className);
+}
+
 
 // ******************************************
 //  Chess functionality
@@ -450,6 +454,7 @@ var tokenChoice = {};
 var seeLegalMoves = true;
 var moveType;
 var legalMoves = [];
+var launchableStones = [];
 var choosingSquare = false;
 var muted = false;
 
@@ -1295,7 +1300,8 @@ function showLegalMoves(piece, afterGetMoves) {
     }
 
     multiplayerClient.getLegalMoves(square).then(responseJson => {
-        legalMoves = responseJson;
+        legalMoves = responseJson.moves;
+        launchableStones = responseJson.launchableStones;
         moveType = "Move";
 
         showLegalMovesForType();
@@ -1304,22 +1310,6 @@ function showLegalMoves(piece, afterGetMoves) {
             afterGetMoves();
         }
     });
-
-
-    // fetch(apiUrl + mainUrl + "getLegalMoves",
-    //     {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(Square)
-    //     }
-    // ).then(response => response.json()).then(responseJson => {
-    //     legalMoves = responseJson;
-    //     moveType = "Move";
-    //     showLegalMovesForType();
-    //     if (!!afterGetMoves) afterGetMoves();
-    // });
 }
 
 
@@ -1363,6 +1353,11 @@ function showLegalMovesForType() {
             setLegalMove(move.to, true);
         }
     });
+
+    // Show launchable stones
+    launchableStones.forEach(launchButtonID => {
+        get(launchButtonID).parentElement.classList.add("launchable");
+    });
 }
 
 function setLegalMove(square, special) {
@@ -1395,44 +1390,6 @@ function highlightPreviousMove(move) {
     }
 }
 
-function showLegalMoves(piece, afterGetMoves) {
-    if (!isYourTurn || currentState.finished) return;
-
-    let square = {
-        row: piece[0],
-        column: piece[1]
-    }
-
-    if (flipped) {
-        flipSquare(square);
-    }
-
-    multiplayerClient.getLegalMoves(square).then(responseJson => {
-        legalMoves = responseJson;
-        moveType = "Move";
-
-        showLegalMovesForType();
-
-        if (afterGetMoves) {
-            afterGetMoves();
-        }
-    });
-    // fetch(apiUrl + mainUrl + "getLegalMoves",
-    //     {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(Square)
-    //     }
-    // ).then(response => response.json()).then(responseJson => {
-    //     legalMoves = responseJson;
-    //     moveType = "Move";
-    //     showLegalMovesForType();
-    //     if (!!afterGetMoves) afterGetMoves();
-    // });
-}
-
 function seeLegalSquares() {
     if (!isYourTurn || currentState.finished) return;
 
@@ -1447,17 +1404,6 @@ function seeLegalSquares() {
             setLegalMove(square);
         });
     });
-
-    // fetch(apiUrl + mainUrl + "legalMoveSquares").then(response => response.json()).then(responseJson => {
-    //     unPickPiece();
-    //     responseJson.forEach(function (square) {
-    //         if (flipped) {
-    //             flipSquare(square);
-    //         }
-
-    //         setLegalMove(square);
-    //     });
-    // });
 }
 
 //-----------------------------
@@ -1600,6 +1546,9 @@ function unPickPiece() {
         setEmpty(pickedPiece);
         if (seeLegalMoves) {
             hideLegalMoves();
+            getAll(".stone-wrapper.launchable").forEach(launchableStone => {
+                launchableStone.classList.remove("launchable");
+            });
         }
     }
 
@@ -1846,18 +1795,6 @@ function move(row1, col1, row2, col2) {
     catch (error) {
         console.error("Failed to make move:", error);
     }
-
-    // fetch(apiUrl + mainUrl + "makeMove",
-    //    {
-    //        method: "POST",
-    //        headers: {
-    //            "Content-Type": "application/json"
-    //        },
-    //        body: JSON.stringify(Move)
-    //    }
-    // ).then(response => response.json()).then(responseJson => {
-    //    displayStateAnimations(responseJson);
-    // });
 }
 
 function invoke(piece) {

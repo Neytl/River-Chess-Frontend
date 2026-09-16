@@ -18,3 +18,16 @@ function getFirst(selector) {
 function goToTheRiver() {
     window.location.href = "/theRiver";
 }
+
+function createElement(elementString) {
+    var frag = document.createDocumentFragment();
+
+    var elem = document.createElement('div');
+    elem.innerHTML = elementString;
+
+    while (elem.childNodes[0]) {
+        frag.appendChild(elem.childNodes[0]);
+    }
+    return frag;
+}
+ 

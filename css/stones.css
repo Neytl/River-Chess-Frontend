@@ -380,21 +380,94 @@
 }
 
 
+/* =========================================
+   Launch Button
+   ========================================= */
+
+.stone-launch-button {
+    visibility: hidden;
+    position: absolute;
+    z-index: 15;
+    top: -45px;
+    /* Shape & Size */
+    width: 32px;
+    height: 32px;
+    border-radius: 6px; /* Slightly rounded edges */
+    /* Colors & Borders */
+    background-color: #22c55e; /* Vibrant green */
+    border: solid white 2px;
+    /* Centering the checkmark icon */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Presentation & Animation */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.stone-wrapper.launchable .stone-launch-button {
+    visibility: initial;
+}
+
+.stone-flipped .stone-launch-button {
+    top: auto;
+    bottom: -45px;
+}
+
+    /* Hover and active states for a polished feel */
+.stone-wrapper.launchable:hover .stone-launch-button {
+    background-color: #16a34a; /* Darker green on hover */
+}
+
+.stone-wrapper.launchable:active .stone-launch-button {
+    transform: scale(0.95); /* Subtle press effect */
+}
+
+    /* The SVG checkmark symbol */
+    .checkmark-icon {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: white;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+.stone-wrapper.launchable {
+    transform: none;
+}
+    .stone-wrapper.launchable::before {
+        outline: solid white;
+    }
+
+    .stone-wrapper.launchable:hover .stone-popup, .stone-wrapper.launchable.stone-popup-open .stone-popup {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+
 /* =========================================================
    Mobile Styles
    ========================================================= */
 
-@media (max-width: 768px) {
-    :root .stone-tooltips-popup {
-        left: auto;
-        bottom: calc(100% + 8px);
-        top: auto;
-        right: 0px;
+    @media (max-width: 768px) {
+        :root .stone-tooltips-popup {
+            left: auto;
+            bottom: calc(100% + 8px);
+            top: auto;
+            right: 0px;
+        }
+
+        .stone-wrapper.stone-flipped .stone-tooltips-popup {
+            top: calc(100% + 8px);
+            bottom: auto;
+        }
+
+        .stone-wrapper.launchable {
+            transform: scale(0.75);
+        }
     }
 
-    .stone-wrapper.stone-flipped .stone-tooltips-popup {
-        top: calc(100% + 8px);
-        bottom: auto;
-    }
 
-}
+
