@@ -12,11 +12,10 @@
     .river-page {
         width: 100%;
         max-width: 100%;
-        overflow-x: hidden;
     }
 
     :root .river-page {
-        padding: 0;
+        padding: 10px 0;
     }
 
     :root #chessContainer {
@@ -78,30 +77,25 @@
        Stones
        --------------------------------------------------------- */
 
-    :root .stones-container, :root #stonesContainer {
-        gap: 0;
+    :root .stone-wrapper, :root .stone-wrapper::before {
+        width: 60px;
+        height: 60px;
+    }
+        :root .stone-wrapper img {
+            width: 40px;
+            height: 40px;
+        }
+
+    :root .stone-points {
+        top: -12px;
     }
 
-    /*
-     * Scale the complete stone rather than just the image.
-     * This keeps the Go stone, relic image and point dots together.
-     */
-    .stone-wrapper {
-        transform: scale(0.75);
-        transform-origin: center center;
+    :root .stone-wrapper.stone-flipped .stone-points {
+        bottom: -12px;
     }
 
-    /*
-     * Don't let the hover transform fight with the mobile
-     * scaling. Mobile doesn't have true hover anyway.
-     */
-
-    :root .stone-wrapper:hover, :root .stone-wrapper.stone-popup-open {
-        transform: scale(0.75);
+    :root .stone-counter {
+        transform: scale(.75);
     }
-
-
-
-
 
 }

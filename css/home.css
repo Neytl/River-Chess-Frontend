@@ -269,7 +269,7 @@
             gap: 5px;
         }
     #duelsGameModes h3 {
-        padding-left: 10px;
+        padding-left: 5px;
     }
 
     #duelsGameModes .stone-wrapper, #duelsGameModes .stone-wrapper::before {
