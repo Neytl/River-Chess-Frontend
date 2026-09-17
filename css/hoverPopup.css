@@ -1,0 +1,20 @@
+﻿.hover-popup-parent {
+    position: relative;
+}
+
+.hover-popup {
+    z-index: 10;
+    background-color: #09141e;
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    width: 15em;
+    padding: 1em;
+    border-radius: 8px;
+    visibility: hidden;
+    border: solid #ffffff 1px;
+}
+
+.hover-popup-parent.open .hover-popup {
+    visibility: visible;
+}

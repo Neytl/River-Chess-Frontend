@@ -436,15 +436,6 @@ function forEachElement(selector, callback) {
     });
 }
 
-// Checks if an event clicked on the specified element
-function clickedOn(event, id) {
-    return event.target.closest("#" + id) === get(id);
-}
-
-function clickedOnClass(event, className) {
-    return !!event.target.closest("." + className);
-}
-
 
 // ******************************************
 //  Chess functionality

@@ -15,6 +15,15 @@ function getFirst(selector) {
     return document.querySelector(selector);
 }
 
+function clickedOnClass(event, className) {
+    return !!event.target.closest("." + className);
+}
+
+// Checks if an event clicked on the specified element
+function clickedOn(event, id) {
+    return event.target.closest("#" + id) === get(id);
+}
+
 function goToTheRiver() {
     window.location.href = "/theRiver";
 }
