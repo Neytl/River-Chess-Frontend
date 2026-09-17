@@ -224,6 +224,7 @@
     .game-mode-button.searching:before {
         box-sizing: border-box;
         content: "Searching for game...";
+        animation: dots 1.3s steps(1) infinite;
         display: flex;
         align-items: center;
         width: 100%;
@@ -246,6 +247,24 @@
         right: 20px;
         font-size: 1.5rem
     }
+
+@keyframes dots {
+    0% {
+        content: 'Searching for game';
+    }
+
+    25% {
+        content: 'Searching for game .';
+    }
+
+    50% {
+        content: 'Searching for game ..';
+    }
+
+    75% {
+        content: 'Searching for game ...';
+    }
+}
 
 /* ------------------------- */
 /* Duels                     */

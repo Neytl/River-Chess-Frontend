@@ -19,7 +19,6 @@ const guestReady = new Promise((resolve, reject) => {
     document.addEventListener(
         "DOMContentLoaded",
         async () => {
-
             try {
                 await configureGuestStorage();
                 await initializeGuest();

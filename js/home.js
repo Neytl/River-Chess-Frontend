@@ -1,3 +1,9 @@
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        let activeSearch = getFirst(".searching");
+        if (activeSearch) activeSearch.classList.remove("searching");
+    }
+});
 
 // ******************************************
 //  Duels
@@ -7,18 +13,37 @@ getAll(".duels-game-button").forEach(button => {
     button.addEventListener("click", () => { startDuelsGame(button) });
 });
 
+let afterLogin = null;
 async function startDuelsGame(button) {
     button.style.pointerEvents = "none";
     let activeSearch = getFirst(".searching");
+
     if (activeSearch) {
-        await window.multiplayerClient.leaveQueue();
+        afterLogin = null;
+        if (!!guestId) {
+            await window.multiplayerClient.leaveQueue();
+        }
+
         activeSearch.classList.remove("searching");
-        button.style.pointerEvents = "";
-        if (activeSearch == button) return;
+
+        if (activeSearch == button) {
+           button.style.pointerEvents = "";
+           return;
+        }
     }
 
     button.classList.add("searching");
 
+    if (!guestId) {
+        afterLogin = () => { joinQueue(button) };
+    } else {
+        await joinQueue(button);
+    }
+
+    button.style.pointerEvents = "";
+}
+
+async function joinQueue(button) {
     try {
         console.log("Joining the queue.");
         await window.multiplayerClient.joinQueue(button.dataset.gameMode, localStorage.getItem("timeControl"));
@@ -26,11 +51,7 @@ async function startDuelsGame(button) {
     catch (error) {
         console.error("Failed to join queue:", error);
     }
-    finally {
-        button.style.pointerEvents = "";
-    }
 }
-
 
 // ******************************************
 //  Load Run
@@ -46,6 +67,11 @@ const runInfo =
 
 function afterLoadGuest() {
     loadInElo();
+
+    if (!!afterLogin) {
+        afterLogin();
+        afterLogin = null;
+    }
 
 
     /*    if (runState) {
