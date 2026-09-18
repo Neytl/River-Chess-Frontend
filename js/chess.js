@@ -132,6 +132,7 @@ function generateChessElements() {
     } else {
         chessClock2.appendChild(blackClock);
         chessClock1.appendChild(whiteClock);
+        boardContainer.classList.add("flippedBoard");
     }
 
     chessClock1.classList.add("hidden");
@@ -1257,19 +1258,17 @@ function createSizedBoard(width, height) {
     for (let i = 0; i < width; i++) {
         let a = make("div");
         a.innerHTML = String.fromCharCode(97 + i);
-        if (i % 2 == 0) a.classList.add("lightSquare");
+        if (i % 2 == 1) a.classList.add("lightSquare");
         else a.classList.add("darkSquare");
-        if (!flipped) fileDiv.appendChild(a);
-        else fileDiv.prepend(a);
+        fileDiv.appendChild(a);
     }
 
     for (let i = 0; i < height; i++) {
         let a = make("div");
         a.innerHTML = (height - i);
-        if (i % 2 == 1) a.classList.add("lightSquare");
+        if (i % 2 == 0) a.classList.add("lightSquare");
         else a.classList.add("darkSquare");
-        if (!flipped) rankDiv.appendChild(a);
-        else rankDiv.prepend(a);
+        rankDiv.appendChild(a);
     }
 }
 
@@ -1308,7 +1307,65 @@ function checkAndShowLegalMoves() {
     if (seeLegalMoves) { showLegalMovesForType(); }
 }
 
+function showLegalMovesFromResponse() {
+    let ambiguousMoves = [];
+    let regularMoves = [];
+    let toSquareCounts = new Map();
+
+    legalMoves.forEach(move => {
+        if (!move.to) return;
+        let key = `${move.to.row},${move.to.column}`;
+        toSquareCounts.set(key, (toSquareCounts.get(key) || 0) + 1);
+    });
+
+    legalMoves.forEach(move => {
+        if (!move.to) return;
+        let key = `${move.to.row},${move.to.column}`;
+
+        if (toSquareCounts.get(key) > 1) {
+            ambiguousMoves.push(move);
+        } else {
+            regularMoves.push(move);
+        }
+    });
+
+    regularMoves.forEach(move => {
+        if (flipped) {
+            let square = {
+                row: move.to.row,
+                column: move.to.column
+            };
+
+            flipSquare(square);
+            setLegalMove(square);
+        } else {
+            setLegalMove(move.to);
+        }
+    });
+
+    ambiguousMoves.forEach(move => {
+        if (flipped) {
+            let square = {
+                row: move.to.row,
+                column: move.to.column
+            };
+
+            flipSquare(square);
+            setLegalMove(square, true);
+        } else {
+            setLegalMove(move.to, true);
+        }
+    });
+
+    // Show launchable stones
+    launchableStones.forEach(launchButtonID => {
+        get(launchButtonID).parentElement.classList.add("launchable");
+    });
+}
+
 function showLegalMovesForType() {
+    showLegalMovesFromResponse();
+/*
     let movesToShow = [];
     let specialMoves = [];
 
@@ -1348,7 +1405,7 @@ function showLegalMovesForType() {
     // Show launchable stones
     launchableStones.forEach(launchButtonID => {
         get(launchButtonID).parentElement.classList.add("launchable");
-    });
+    });*/
 }
 
 function setLegalMove(square, special) {
@@ -1645,11 +1702,42 @@ function pieceDropEvent(event, row, col) {
 //---------------------------------
 
 function buildMovesDropdown(event, row, col) {
-    if (!seeLegalMoves) {
-        buildAllMovesDropdown(event, row, col);
+    let moveTypes = [];
+
+    legalMoves.forEach(legalMove => {
+        if (!moveTypes.includes(legalMove.type)) {
+            moveTypes.push(legalMove.type);
+        }
+    });
+
+    if (moveTypes.length == 0) {
+        buildPopup(event, makeDiv("No Moves"));
         return;
     }
 
+    let dropdownOptions = moveTypes.map(moveTypeName => {
+        let displayName = moveTypeName;
+        if (displayName === "EnPassant") displayName = "En Passant";
+
+        return buildDropdownOption(null, displayName, function () {
+            pickPiece(row, col);
+
+            if (moveTypeName === "Invoke") {
+                invoke(pickedPiece);
+                return;
+            } else if (moveTypeName === "Promote") {
+                buildPromoteDropdown(event, row, col);
+                return;
+            }
+
+            moveType = moveTypeName;
+            checkAndShowLegalMoves();
+        });
+    });
+
+    buildDropdown(event, dropdownOptions);
+}
+function buildMovesDropdown(event, row, col) {
     let moveTypes = [];
 
     legalMoves.forEach(legalMove => {
@@ -1686,34 +1774,31 @@ function buildMovesDropdown(event, row, col) {
     buildDropdown(event, dropdownOptions);
 }
 
-function buildAllMovesDropdown(event, row, col) {
-    let primaryMoveTypes = ["Move", "Invoke"];
-    let secondaryMoveTypes = ["Promote", "Castle", "En Passant", "Strike", "Push", "Swap"];
+function buildMovesDropdownNew(event, row, col) {
+    let moveTypes = [];
 
-    // Build the dropdowns
-    let primaryDropdownOptions = primaryMoveTypes.map(moveTypeName => {
-        return buildDropdownOption(null, moveTypeName, function () {
-            pickPiece(row, col);
-
-            if (moveTypeName === "Invoke") {
-                invoke(pickedPiece);
-                return;
-            }
-
-            moveType = moveTypeName;
-            checkAndShowLegalMoves();
-        });
+    legalMoves.forEach(legalMove => {
+        if (!moveTypes.includes(legalMove.type)) {
+            moveTypes.push(legalMove.type);
+        }
     });
 
+    if (moveTypes.length == 0) {
+        buildPopup(event, makeDiv("No Moves"));
+        return;
+    }
 
-    let secondaryDropdownOptions = secondaryMoveTypes.map(moveTypeName => {
+    let dropdownOptions = moveTypes.map(moveTypeName => {
         let displayName = moveTypeName;
         if (displayName === "EnPassant") displayName = "En Passant";
 
         return buildDropdownOption(null, displayName, function () {
             pickPiece(row, col);
 
-            if (moveTypeName === "Promote") {
+            if (moveTypeName === "Invoke") {
+                invoke(pickedPiece);
+                return;
+            } else if (moveTypeName === "Promote") {
                 buildPromoteDropdown(event, row, col);
                 return;
             }
@@ -1723,11 +1808,7 @@ function buildAllMovesDropdown(event, row, col) {
         });
     });
 
-    primaryDropdownOptions.push(buildDropdownOption(null, "More...", function () {
-        buildDropdown(event, secondaryDropdownOptions);
-    }));
-
-    buildDropdown(event, primaryDropdownOptions);
+    buildDropdown(event, dropdownOptions);
 }
 
 function buildPromoteDropdown(event, row, col) {
@@ -1776,6 +1857,9 @@ function move(row1, col1, row2, col2) {
         flipSquare(Move.From);
         flipSquare(Move.To);
     }
+
+    // Check for an ambiguous move
+
 
     try {
         multiplayerClient.sendAction(
