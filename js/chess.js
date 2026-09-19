@@ -438,17 +438,6 @@ function forEachElement(selector, callback) {
 }
 
 
-// ******************************************
-//  Chess functionality
-// ******************************************
-var pieceChoice = {};
-var tokenChoice = {};
-var seeLegalMoves = true;
-var moveType;
-var legalMoves = [];
-var launchableStones = [];
-var choosingSquare = false;
-var muted = false;
 
 
 
@@ -1060,11 +1049,6 @@ function playSound(type) {
     new Audio(directory).play();
 }
 
-function getSquare(square) {
-    let id = square.row * currentBoard.range.columns + square.column;
-    return get(id);
-}
-
 function buildIndication(imageFile, square, id) {
     let img = document.createElement("img");
     img.src = "imgs/icons/" + imageFile
@@ -1272,6 +1256,19 @@ function createSizedBoard(width, height) {
     }
 }
 
+// ******************************************
+//  Chess functionality
+// ******************************************
+var pieceChoice = {};
+var tokenChoice = {};
+var seeLegalMoves = true;
+var moveType;
+var legalMoves = [];
+var ambiguousMoves = [];
+var regularMoves = [];
+var launchableStones = [];
+var choosingSquare = false;
+var muted = false;
 
 //-----------------------------
 // Legal Mvoes
@@ -1290,11 +1287,10 @@ function showLegalMoves(piece, afterGetMoves) {
     }
 
     multiplayerClient.getLegalMoves(square).then(responseJson => {
-        legalMoves = responseJson.moves;
         launchableStones = responseJson.launchableStones;
-        moveType = "Move";
-
-        showLegalMovesForType();
+        loadInLegalMoves(responseJson.moves);
+        moveType = "Unspecified";
+        showLegalMoveSquares();
 
         if (afterGetMoves) {
             afterGetMoves();
@@ -1304,12 +1300,13 @@ function showLegalMoves(piece, afterGetMoves) {
 
 
 function checkAndShowLegalMoves() {
-    if (seeLegalMoves) { showLegalMovesForType(); }
+    if (seeLegalMoves) { showLegalMoveSquares(); }
 }
 
-function showLegalMovesFromResponse() {
-    let ambiguousMoves = [];
-    let regularMoves = [];
+function loadInLegalMoves(moves) {
+    legalMoves = moves;
+    ambiguousMoves = [];
+    regularMoves = [];
     let toSquareCounts = new Map();
 
     legalMoves.forEach(move => {
@@ -1329,6 +1326,9 @@ function showLegalMovesFromResponse() {
         }
     });
 
+}
+
+function showLegalMoveSquares() {
     regularMoves.forEach(move => {
         if (flipped) {
             let square = {
@@ -1361,51 +1361,6 @@ function showLegalMovesFromResponse() {
     launchableStones.forEach(launchButtonID => {
         get(launchButtonID).parentElement.classList.add("launchable");
     });
-}
-
-function showLegalMovesForType() {
-    showLegalMovesFromResponse();
-/*
-    let movesToShow = [];
-    let specialMoves = [];
-
-    legalMoves.forEach(move => {
-        if (move.type == moveType) movesToShow.push(move);
-        else if (moveType == "Move" && !!move.to) specialMoves.push(move);
-    });
-
-    movesToShow.forEach(move => {
-        if (flipped) {
-            let square = {
-                row: move.to.row,
-                column: move.to.column
-            };
-
-            flipSquare(square);
-            setLegalMove(square);
-        } else {
-            setLegalMove(move.to);
-        }
-    });
-
-    specialMoves.forEach(move => {
-        if (flipped) {
-            let square = {
-                row: move.to.row,
-                column: move.to.column
-            };
-
-            flipSquare(square);
-            setLegalMove(square, true);
-        } else {
-            setLegalMove(move.to, true);
-        }
-    });
-
-    // Show launchable stones
-    launchableStones.forEach(launchButtonID => {
-        get(launchButtonID).parentElement.classList.add("launchable");
-    });*/
 }
 
 function setLegalMove(square, special) {
@@ -1602,7 +1557,7 @@ function unPickPiece() {
 
     pieceChoice = {};
     tokenChoice = {};
-    moveType = "Move";
+    moveType = "Unspecified";
 }
 
 //-----------------------------
@@ -1610,7 +1565,7 @@ function unPickPiece() {
 //-----------------------------
 
 // Right Click
-document.addEventListener('contextmenu', function (event) {
+/*document.addEventListener('contextmenu', function (event) {
     if (clickedOn(event, "boardContainer")) {
         let pieceImg = event.target.closest(".piece");
 
@@ -1626,7 +1581,7 @@ document.addEventListener('contextmenu', function (event) {
 
         event.preventDefault();
     }
-}, false);
+}, false);*/
 
 function clickedSquare(row, col, event) {
     // Special Moves
@@ -1647,7 +1602,7 @@ function clickedSquare(row, col, event) {
     if (isEmpty(pickedPiece)) {
         if (!!getPieceAt(row, col)) {
             pickPiece(row, col);
-            moveType = "Move";
+            moveType = "Unspecified";
 
             if (!dragging) {
                 showLegalMoves(pickedPiece);
@@ -1683,6 +1638,7 @@ function startDrag(pieceImg) {
     pickedPiece[0] = row;
     pickedPiece[1] = col;
     showLegalMoves(pickedPiece);
+    closeMovePopup();
 }
 
 function pieceDropEvent(event, row, col) {
@@ -1700,135 +1656,85 @@ function pieceDropEvent(event, row, col) {
 //---------------------------------
 // Show available moves dropdowns
 //---------------------------------
+let movePopup = null;
+function buildMovePopup(row, column, options, remakeMove) {
+    let popup = build({
+        type: "div",
+        classes: ["popup", "movePopup"],
+    });
 
-function buildMovesDropdown(event, row, col) {
-    let moveTypes = [];
+    // Build the options
+    options.forEach(option => {
+        let optionName = option.type;
+        if (optionName === "EnPassant") optionName = "En Passant";
+        // else if (option === "Promote") option = "Under-Promote";
 
-    legalMoves.forEach(legalMove => {
-        if (!moveTypes.includes(legalMove.type)) {
-            moveTypes.push(legalMove.type);
+        if (optionName === "Promote") {
+            let optionElement = createElement(`<div class="promoteMove"><span>${optionName}</span></div>`);
+            popup.appendChild(optionElement);
+            optionElement = popup.lastChild;
+            console.log(option.pieceChoice);
+            optionElement.prepend(buildPieceImageForDisplay(option.pieceChoice));
+            optionElement.addEventListener("click", () => {
+                popup.parentElement.removeChild(popup);
+                moveType = option.type;
+                pieceChoice = option.pieceChoice;
+                remakeMove();
+            });
+        } else {
+            let optionElement = createElement(`<div>${optionName}</div>`);
+            popup.appendChild(optionElement);
+            optionElement = popup.lastChild;
+            optionElement.addEventListener("click", () => {
+                popup.parentElement.removeChild(popup);
+                moveType = option.type;
+                remakeMove();
+            });
         }
     });
 
-    if (moveTypes.length == 0) {
-        buildPopup(event, makeDiv("No Moves"));
+    // Position the popup
+    let square = {
+        row: row,
+        column: column
+    };
+
+    if (flipped) flipSquare(square);
+
+    let squareElement = getSquareElement(square.row, square.column).getBoundingClientRect();;
+
+    const pageHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight
+    );
+
+    popup.style.left = (squareElement.left - 5) + "px";
+    popup.style.bottom = (pageHeight - squareElement.top + 5) + "px";
+
+    closeMovePopup();
+    movePopup = popup;
+    document.body.appendChild(popup);
+}
+
+document.addEventListener("click", event => {
+    closeMovePopup(true);
+});
+function closeMovePopup(fromDocumentClick) {
+    if (!movePopup) return;
+
+    if (!!fromDocumentClick && !movePopup.classList.contains("initialized")) {
+        movePopup.classList.add("initialized")
         return;
     }
 
-    let dropdownOptions = moveTypes.map(moveTypeName => {
-        let displayName = moveTypeName;
-        if (displayName === "EnPassant") displayName = "En Passant";
-
-        return buildDropdownOption(null, displayName, function () {
-            pickPiece(row, col);
-
-            if (moveTypeName === "Invoke") {
-                invoke(pickedPiece);
-                return;
-            } else if (moveTypeName === "Promote") {
-                buildPromoteDropdown(event, row, col);
-                return;
-            }
-
-            moveType = moveTypeName;
-            checkAndShowLegalMoves();
-        });
-    });
-
-    buildDropdown(event, dropdownOptions);
-}
-function buildMovesDropdown(event, row, col) {
-    let moveTypes = [];
-
-    legalMoves.forEach(legalMove => {
-        if (!moveTypes.includes(legalMove.type)) {
-            moveTypes.push(legalMove.type);
-        }
-    });
-
-    if (moveTypes.length == 0) {
-        buildPopup(event, makeDiv("No Moves"));
-        return;
-    }
-
-    let dropdownOptions = moveTypes.map(moveTypeName => {
-        let displayName = moveTypeName;
-        if (displayName === "EnPassant") displayName = "En Passant";
-
-        return buildDropdownOption(null, displayName, function () {
-            pickPiece(row, col);
-
-            if (moveTypeName === "Invoke") {
-                invoke(pickedPiece);
-                return;
-            } else if (moveTypeName === "Promote") {
-                buildPromoteDropdown(event, row, col);
-                return;
-            }
-
-            moveType = moveTypeName;
-            checkAndShowLegalMoves();
-        });
-    });
-
-    buildDropdown(event, dropdownOptions);
+    movePopup.parentElement.removeChild(movePopup);
+    movePopup = null;
 }
 
-function buildMovesDropdownNew(event, row, col) {
-    let moveTypes = [];
-
-    legalMoves.forEach(legalMove => {
-        if (!moveTypes.includes(legalMove.type)) {
-            moveTypes.push(legalMove.type);
-        }
-    });
-
-    if (moveTypes.length == 0) {
-        buildPopup(event, makeDiv("No Moves"));
-        return;
-    }
-
-    let dropdownOptions = moveTypes.map(moveTypeName => {
-        let displayName = moveTypeName;
-        if (displayName === "EnPassant") displayName = "En Passant";
-
-        return buildDropdownOption(null, displayName, function () {
-            pickPiece(row, col);
-
-            if (moveTypeName === "Invoke") {
-                invoke(pickedPiece);
-                return;
-            } else if (moveTypeName === "Promote") {
-                buildPromoteDropdown(event, row, col);
-                return;
-            }
-
-            moveType = moveTypeName;
-            checkAndShowLegalMoves();
-        });
-    });
-
-    buildDropdown(event, dropdownOptions);
-}
-
-function buildPromoteDropdown(event, row, col) {
-    let promoteTypes = ["Knight", "Bishop", "Rook", "Queen"];
-    let color = getPieceAt(pickedPiece[0], pickedPiece[1]).color;
-
-    let dropdownOptions = promoteTypes.map(promoteType => {
-        return buildDropdownOption(getPieceSrcByData(color, promoteType), promoteType, function () {
-            pieceChoice = {
-                "Type": promoteType
-            }
-
-            moveType = "Move";
-            pickPiece(row, col);
-            checkAndShowLegalMoves();
-        });
-    });
-
-    buildDropdown(event, dropdownOptions);
-}
 
 //-----------------------------
 // Moving
@@ -1837,34 +1743,67 @@ function buildPromoteDropdown(event, row, col) {
 function move(row1, col1, row2, col2) {
     if (!isYourTurn) return;
 
-    let Move = {
+    let from = {
+        row: row1,
+        column: col1
+    };
+    let to = {
+        row: row2,
+        column: col2
+    };
+
+    if (flipped) {
+        flipSquare(from);
+        flipSquare(to);
+    }
+
+    let requestedMove = {
         From: {
-            row: row1,
-            column: col1
+            Row: from.row,
+            Column: from.column
         },
         To: {
-            row: row2,
-            column: col2
+            Row: to.row,
+            Column: to.column
         },
-        Type: (!!moveType ? moveType : "Move"),
+        Type: (!!moveType ? moveType : "Unspecified"),
         PieceChoice: pieceChoice,
         TokenChoice: tokenChoice
     };
 
     unPickPiece();
 
-    if (flipped) {
-        flipSquare(Move.From);
-        flipSquare(Move.To);
+    // Check for an ambiguous move
+    if (!isEmpty(requestedMove.To) && requestedMove.Type == "Unspecified") {
+        let matchingMoves = [];
+
+        for (let i = 0; i < legalMoves.length; i++) {
+            let legalMove = legalMoves[i];
+            if (legalMove.to.row == requestedMove.To.Row && legalMove.to.column == requestedMove.To.Column) {
+                matchingMoves.push(legalMove);
+            }
+        }
+
+        if (matchingMoves.length == 0) return; // Illegal Move
+
+        if (matchingMoves.length > 1) {
+            // Ambiguous Move
+            console.log(matchingMoves);
+            buildMovePopup(requestedMove.To.Row, requestedMove.To.Column, matchingMoves, () => {
+                move(row1, col1, row2, col2);
+            });
+            return;
+        }
+    
+        requestedMove.Type = matchingMoves[0].type;
     }
 
-    // Check for an ambiguous move
-
+    console.log("Making move: ", requestedMove);
 
     try {
         multiplayerClient.sendAction(
             "Move",
-            Move
+            requestedMove 
         );
     }
     catch (error) {

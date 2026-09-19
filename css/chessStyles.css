@@ -436,11 +436,33 @@ img.pieceImg.White {
 }
 
 
+.popup.movePopup {
+    padding: 0;
+    border-radius: 5px;
+}
+    .popup.movePopup > div {
+        padding: 10px 10px;
+        cursor: pointer;
+    }
+        .popup.movePopup > div:first-child {
+            border-radius: 5px 5px 0 0;
+        }
+        .popup.movePopup > div:last-child {
+            border-radius: 0 0 5px 5px;
+        }
+        .popup.movePopup > div:hover {
+            background-color: #c8cfd5;
+        }
+
+    .popup.movePopup .promoteMove {
+        flex-direction: row;
+        align-items: center;
+        padding-left: 7px;
+    }
 
 /*****************
  * Choices
  * ***************/
-
 #choicesContainer {
     border-radius: 2em;
     background-color: white;
