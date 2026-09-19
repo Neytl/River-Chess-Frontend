@@ -1287,6 +1287,7 @@ function showLegalMoves(piece, afterGetMoves) {
     }
 
     multiplayerClient.getLegalMoves(square).then(responseJson => {
+        console.log(responseJson);
         launchableStones = responseJson.launchableStones;
         loadInLegalMoves(responseJson.moves);
         moveType = "Unspecified";
