@@ -17,6 +17,7 @@ function onGameEnd() {
     }
 
     get("gameOverSubtitle").innerHTML = currentState.gameEndReason;
+    get("timeControlDisplay").innerHTML = currentState.timeControl;
 
     let ratingIsNegative = false;
 
