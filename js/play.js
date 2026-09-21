@@ -1,11 +1,41 @@
 function onGameEnd() {
+    console.log(currentState);
     get("resignButton").classList.add("hidden");
     get("homeButton").classList.remove("hidden");
 
+    let playerIsWhite = currentState.whitePlayerID == guestId;
+
+    if (currentState.winner == "None") {
+        // Draw
+        get("gameOverTitle").innerHTML = "Draw";
+    } else if ((currentState.winner == "White") == playerIsWhite || currentState.winner == "Both") {
+        // Win
+        get("gameOverTitle").innerHTML = "You Won!";
+    } else {
+        // Loss
+        get("gameOverTitle").innerHTML = currentState.winner + " Wins";
+    }
+
+    get("gameOverSubtitle").innerHTML = currentState.gameEndReason;
+
+    let ratingIsNegative = false;
+
+    if (playerIsWhite) {
+        get("eloContainer").innerHTML = currentState.whitePlayerElo;
+        ratingIsNegative = currentState.whitePlayerRatingChange < 0;
+        get("eloChange").innerHTML = (ratingIsNegative ? "" : "+") + currentState.whitePlayerRatingChange;
+    } else {
+        get("eloContainer").innerHTML = currentState.blackPlayerElo;
+        ratingIsNegative = currentState.blackPlayerRatingChange < 0;
+        get("eloChange").innerHTML = (ratingIsNegative ? "" : "+") + currentState.blackPlayerRatingChange;
+    }
+
+    if (ratingIsNegative) {
+        get("eloChange").classList.add("negative");
+    }
+
     setTimeout(() => {
-        if (confirm("Game finished! Continue?")) {
-            goHome();
-        }
+        get("gameOverPopupContainer").classList.remove("hidden");
     }, 1500);
 }
 
@@ -64,4 +94,23 @@ resignButton.addEventListener("click", () => {
     }
 
     window.multiplayerClient.sendAction("Resign", {});
+});
+
+get("closeGameOverPopupButton").addEventListener("click", () => {
+    get("gameOverPopupContainer").classList.add("hidden");
+});
+
+get("gameOverPopupContainer").addEventListener("click", event => {
+    if (!clickedOn(event, "gameOverPopup")) {
+        get("gameOverPopupContainer").classList.add("hidden");
+        window.multiplayerClient.leaveQueue();
+    }
+});
+
+get("newGameButton").addEventListener("click", () => {
+    if (get("newGameButton").classList.toggle("searching")) {
+        window.multiplayerClient.joinQueue(currentState.gameMode, currentState.timeControl);
+    } else {
+        window.multiplayerClient.leaveQueue();
+    }
 });

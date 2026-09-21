@@ -302,27 +302,3 @@
             height: 20px;
         }
 
-
-/* ------------------------- */
-/* ELO                       */
-/* ------------------------- */
-
-.elo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    width: 75px;
-}
-    .elo-container > div:first-child{
-        font-weight: bold;
-    }
-    .elo-container > div:last-child {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-    }
-    .elo-container img {
-        width: 25px;
-        height: 25px;
-    }

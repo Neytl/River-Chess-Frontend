@@ -14,4 +14,156 @@
 /* Game Over Popup
 /* ------------------------- */
 
+#gameOverPopupContainer {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000078;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+#gameOverPopup {
+    background-color: #1f2021;
+    padding: 10px;
+    border-radius: 10px;
+    width: 20em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#closeGameOverPopupButton {
+    font-size: 1.5em;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+#closeGameOverPopupButton:hover {
+    transform: scale(1.2);
+}
+
+#gameOverPopupGameModeIcon {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 4em;
+    height: 4em;
+}
+
+#gameOverMessageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#gameOverTitle {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+#gameOverSubtitle {
+    color: gray;
+}
+
+#gameOverPopupInfoSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #141414;
+}
+
+.elo-container {
+    width: 100px;
+}
+
+#eloChange {
+    color: #2e9b6f;
+    font-weight: bold;
+}
+#eloChange.negative {
+    color: red;
+}
+
+#gameOverPopupButtons {
+    display: grid;
+    gap: 1em;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+
+    #gameOverPopupButtons > * {
+        padding: 8px;
+        text-align: center;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+#gameOverHomeButton {
+    color: inherit;
+    text-decoration: none;
+    background-color: #3f425f;
+}
+    #gameOverHomeButton:hover {
+        background-color: #555b93;
+    }
+
+#newGameButton {
+    position: relative;
+    background-color: #4785a1;
+}
+
+    #newGameButton:hover {
+        background-color: #5d9ebb;
+    }
+
+
+    #newGameButton.searching:before {
+        box-sizing: border-box;
+        content: "Searching ...";
+        animation: dots 1.3s steps(1) infinite;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+        background-color: #810c22;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 5px;
+        padding-left: 32px;
+    }
+@keyframes dots {
+    0% {
+        content: 'Searching';
+    }
+
+    25% {
+        content: 'Searching .';
+    }
+
+    50% {
+        content: 'Searching ..';
+    }
+
+    75% {
+        content: 'Searching ...';
+    }
+}

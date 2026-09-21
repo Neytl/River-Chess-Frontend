@@ -244,6 +244,7 @@ function selectOption(optionId) {
         isAnimating = false;
 
         localStorage.setItem("timeControl", selectedOption.timeControl);
+        loadInElo();
     }, 350);
 }
 

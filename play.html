@@ -85,6 +85,33 @@
 
         <!--Player Stones-->
         <div id="playerStonesContainer" class="stones-container"></div>
+
+        <!--Game Over Popup-->
+        <div id="gameOverPopupContainer" class="hidden">
+            <div id="gameOverPopup"> 
+                <div id="closeGameOverPopupButton">&times;</div>
+                <img id="gameOverPopupGameModeIcon" src="imgs/icons/duels.png" />
+                <div id="gameOverMessageContainer">
+                    <div id="gameOverTitle">You Won!</div>
+                    <div id="gameOverSubtitle">by Checkmate</div>
+                </div>
+
+                <div id="gameOverPopupInfoSection">
+                    <div class="elo-container">
+                        <div><span>Blitz</span><span> Elo</span></div>
+                        <div>
+                            <img src="imgs/pieces/white_knight.png" />
+                            <span id="eloContainer">????</span>
+                            <span id="eloChange">+26</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="gameOverPopupButtons">
+                    <a href="/" id="gameOverHomeButton">Home</a>
+                    <div id="newGameButton">New Game</div>
+                </div>
+            </div>
+        </div>
     </main>
 
 
