@@ -107,6 +107,7 @@ function loadInElo() {
     loadInEloForGameMode("OneStoneDuel", timeControl);
     loadInEloForGameMode("TwoStoneDuel", timeControl);
     loadInEloForGameMode("ThreeStoneDuel", timeControl);
+    loadInEloForGameMode("Downstream", timeControl);
 }
 
 function loadInEloForGameMode(gameMode, timeControl) {
@@ -123,15 +124,15 @@ function loadInEloForGameMode(gameMode, timeControl) {
 
     let imageContainer = document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container img');
 
-    if (ELO < 900) {
+    if (ELO < 700) {
         imageContainer.src = "/imgs/pieces/white_pawn.png";
+    } else if (ELO < 900) {
+        imageContainer.src = "/imgs/pieces/white_bishop.png";
     } else if (ELO < 1100) {
         imageContainer.src = "/imgs/pieces/white_knight.png";
     } else if (ELO < 1300) {
-        imageContainer.src = "/imgs/pieces/white_bishop.png";
-    } else if (ELO < 1500) {
         imageContainer.src = "/imgs/pieces/white_rook.png";
-    } else if (ELO < 1700) {
+    } else if (ELO < 1500) {
         imageContainer.src = "/imgs/pieces/white_queen.png";
     } else {
         imageContainer.src = "/imgs/pieces/white_king.png";

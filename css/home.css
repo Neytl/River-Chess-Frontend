@@ -21,6 +21,9 @@
     max-width: 500px;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 
@@ -38,7 +41,7 @@
 
     .river-panel h2 {
         margin-top: 0;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         color: #f1e5bd;
         font-size: 1.6rem;
     }
@@ -189,10 +192,12 @@
 /* ------------------------- */
 /* Panels/Game Modes         */
 /* ------------------------- */
+
 .game-mode-panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 4px;
 }
 
 .game-mode-panel-header > div:first-child {
@@ -207,7 +212,7 @@
 }
 
 .game-mode-button {
-    position:relative;
+    position: relative;
     display: flex;
     border-radius: 10px;
     padding: 5px 15px;
@@ -215,6 +220,8 @@
     background: linear-gradient(270deg, #063e51, #3b7f99);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
     cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
 }
     .game-mode-button:hover {
         transform: translateY(-2px);
@@ -248,6 +255,28 @@
         font-size: 1.5rem
     }
 
+    .game-mode-button > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .game-mode-button h3 {
+        padding-left: 5px;
+    }
+    .game-mode-button .stone-wrapper, .game-mode-button .stone-wrapper::before {
+        width: 40px;
+        height: 40px;
+        pointer-events: none;
+    }
+
+        .game-mode-button .stone-wrapper img {
+            width: 20px;
+            height: 20px;
+        }
+
+
+
 @keyframes dots {
     0% {
         content: 'Searching for game';
@@ -277,28 +306,4 @@
     margin-top: 8px;
 }
 
-    #duelsGameModes .game-mode-button {
-        justify-content: space-between;
-        align-items: center;
-    }
-
-        #duelsGameModes .game-mode-button > div:first-child {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-    #duelsGameModes h3 {
-        padding-left: 5px;
-    }
-
-    #duelsGameModes .stone-wrapper, #duelsGameModes .stone-wrapper::before {
-        width: 40px;
-        height: 40px;
-        pointer-events: none;
-    }
-
-        #duelsGameModes .stone-wrapper img {
-            width: 20px;
-            height: 20px;
-        }
 
