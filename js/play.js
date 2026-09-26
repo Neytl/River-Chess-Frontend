@@ -16,6 +16,10 @@ function onGameEnd() {
         get("gameOverTitle").innerHTML = currentState.winner + " Wins";
     }
 
+    if (!!currentState.gameMode) {
+        get("gameOverPopupGameModeIcon").src = `imgs/icons/${currentState.gameMode}.png`;
+    }
+
     get("gameOverSubtitle").innerHTML = currentState.gameEndReason;
     get("timeControlDisplay").innerHTML = currentState.timeControl;
 

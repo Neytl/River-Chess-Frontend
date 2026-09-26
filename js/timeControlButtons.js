@@ -7,22 +7,22 @@ let options = [
     {
         id: "option0",
         timeControl: "Untimed",
-        image: "imgs/icons/NoTimeControl.png"
+        image: "imgs/icons/Untimed.png"
     },
     {
         id: "option1",
         timeControl: "Rapid",
-        image: "imgs/icons/rapid.png"
+        image: "imgs/icons/Rapid.png"
     },
     {
         id: "option2",
         timeControl: "Blitz",
-        image: "imgs/icons/blitz.png"
+        image: "imgs/icons/Blitz.png"
     },
     {
         id: "option3",
         timeControl: "Bullet",
-        image: "imgs/icons/bullet.png"
+        image: "imgs/icons/Bullet.png"
     }
 ];
 
@@ -39,7 +39,7 @@ function renderOptions() {
     mainOption.dataset.option = options[0].id;
 
     mainOption.querySelector("img").src = options[0].image;
-
+    mainOption.querySelector("div").innerHTML = options[0].timeControl;
 
     // Other options
     const buttons =
@@ -52,6 +52,7 @@ function renderOptions() {
         button.dataset.option = option.id;
 
         button.querySelector("img").src = option.image;
+        button.querySelector("div").innerHTML = option.timeControl;
     });
 }
 
@@ -248,5 +249,26 @@ function selectOption(optionId) {
     }, 350);
 }
 
-// TODO - load in saved time control on page load instead of resetting it
-localStorage.setItem("timeControl", "Untimed");
+
+
+
+// Load in the time control
+(() => {
+    let loadedTimeControl = localStorage.getItem("timeControl", "Untimed");
+    console.log(loadedTimeControl);
+
+    const selectedIndex =
+        options.findIndex(option => option.timeControl === loadedTimeControl);
+
+    if (selectedIndex <= 0) {
+        localStorage.setItem("timeControl", "Untimed");
+        return;
+    }
+
+    const selectedOption =
+        options.splice(selectedIndex, 1)[0];
+
+    options.unshift(selectedOption);
+
+    renderOptions();
+})();
