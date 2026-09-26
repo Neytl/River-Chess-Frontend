@@ -13,14 +13,12 @@ var currentBoard = [];
 var currentState = null;
 var whitesTurn = true;
 var pickedPiece = [-99, -99];
-var dragStart = [-99, -99];
 var isYourTurn = false;
 
 // State Variables
 var flipped = false;
 var autoFlipBoard = false;
 var done = false;
-var dragging = false;
 
 // Elements
 var mainUrl = "/api/Chess/";
@@ -41,11 +39,6 @@ function initializeChessBoard() {
             unPickPiece();
             hideLegalMoves();
         }
-    }
-
-    // TODO - check if this is needed
-    getFirst(".river-page").ondragover = function (event) {
-        event.preventDefault();
     }
 
     // Key events
@@ -474,40 +467,6 @@ function buildSquareHighlight(row, col, type) {
     return result;
 }
 
-function buildDragableOverlay(row, col, type, body) {
-    let gameObjWrapper = buildOverlayElement(row, col, type, body);
-
-    // Square events
-    gameObjWrapper.onclick = function (event) {
-        clickedSquare(parseInt(this.id.split("-")[0]), parseInt(this.id.split("-")[1]), event);
-    }
-
-    gameObjWrapper.ondragover = function (event) {
-        event.preventDefault();
-    }
-
-    gameObjWrapper.ondrop = function (event) {
-        pieceDropEvent(event, parseInt(this.id.split("-")[0]), parseInt(this.id.split("-")[1]));
-    }
-
-    // Dragable
-    gameObjWrapper.draggable = "true";
-    gameObjWrapper.ondragstart = function (event) {
-        event.dataTransfer.effectAllowed = "move";
-        startDrag(this);
-    }
-
-    gameObjWrapper.ondragend = function (event) {
-        event.preventDefault();
-        this.classList.remove("dragging");
-        unPickPiece();
-        dragging = false;
-    }
-
-    boardElement.appendChild(gameObjWrapper);
-    return gameObjWrapper;
-}
-
 function buildOverlay(row, col, type, body) {
     let overlay = buildOverlayElement(row, col, type, body);
     boardElement.appendChild(overlay);
@@ -719,18 +678,18 @@ function swapPieces(row1, col1, row2, col2) {
     swappedPiece = getPieceImg(row2, col2);
 
     // Hard move
-    if (!isEmpty(dragStart) && row1 == dragStart[0] && col1 == dragStart[1]) {
-        movingPiece.style.transition = "none";
+    // if (!isEmpty(dragStart) && row1 == dragStart[0] && col1 == dragStart[1]) {
+    //     movingPiece.style.transition = "none";
+    //     movingPiece.id = row2 + "-" + col2 + "-piece";
+    //     movingPiece.style.left = (col2 * 100 / numCols()) + "%";
+    //     movingPiece.style.top = (row2 * 100 / numRows()) + "%";
+    //     movingPiece.offsetHeight;
+    //     movingPiece.style.transition = ".5s";
+    // } else {
         movingPiece.id = row2 + "-" + col2 + "-piece";
         movingPiece.style.left = (col2 * 100 / numCols()) + "%";
         movingPiece.style.top = (row2 * 100 / numRows()) + "%";
-        movingPiece.offsetHeight;
-        movingPiece.style.transition = ".5s";
-    } else {
-        movingPiece.id = row2 + "-" + col2 + "-piece";
-        movingPiece.style.left = (col2 * 100 / numCols()) + "%";
-        movingPiece.style.top = (row2 * 100 / numRows()) + "%";
-    }
+    // }
 
 
     swappedPiece.id = row1 + "-" + col1 + "-piece";
@@ -904,11 +863,11 @@ function executeAnimationsFromPoint(gameState, point) {
                 remove(get("thinking"));
                 break;
             case "Move":
-                // Hard move
+                /*// Hard move
                 if (!isEmpty(dragStart) && animation.from.row == dragStart[0] && animation.from.column == dragStart[1]) {
                     hardMoveImg(animation.from.row, animation.from.column, animation.to.row, animation.to.column);
                     break;
-                }
+                }*/
 
                 // Click move
                 moveImg(animation.from.row, animation.from.column, animation.to.row, animation.to.column);
@@ -990,7 +949,6 @@ function executeAnimationsFromPoint(gameState, point) {
                 keepsakesUpdated = true;
                 break;
             case "HardLoad":
-                setEmpty(dragStart);
                 drawStateBoard(gameState);
                 displayRules(gameState);
                 i = animations.length; // Skip to the end of the animations
@@ -1000,8 +958,6 @@ function executeAnimationsFromPoint(gameState, point) {
     }
 
     // After animations
-    setEmpty(dragStart);
-
     // Flip the board and CPU turn    
     if (!gameState.finished) {
         if (autoFlipBoard && gameState.isWhitesTurn === flipped) {
@@ -1215,14 +1171,6 @@ function createSizedBoard(width, height) {
                 }
             })(i, j));
 
-            square.ondragover = function (event) {
-                event.preventDefault();
-            }
-
-            square.ondrop = function (event) {
-                pieceDropEvent(event, (this.id - this.id % width) / width, this.id % width);
-            }
-
             if ((!flipped && ((i + j) % 2 == 0)) || (flipped && ((height - i + width - j - 2) % 2 == 0))) {
                 square.classList.add("light");
             } else {
@@ -1287,7 +1235,7 @@ function showLegalMoves(piece, afterGetMoves) {
     }
 
     multiplayerClient.getLegalMoves(square).then(responseJson => {
-        console.log(responseJson);
+        // console.log(responseJson);
         launchableStones = responseJson.launchableStones;
         loadInLegalMoves(responseJson.moves);
         moveType = "Unspecified";
@@ -1584,7 +1532,7 @@ function unPickPiece() {
     }
 }, false);*/
 
-function clickedSquare(row, col, event) {
+function clickedSquare(row, col) {
     // Special Moves
     if (makingAChoice) { // Cancel any clicked square
         return;
@@ -1604,18 +1552,11 @@ function clickedSquare(row, col, event) {
         if (!!getPieceAt(row, col)) {
             pickPiece(row, col);
             moveType = "Unspecified";
-
-            if (!dragging) {
-                showLegalMoves(pickedPiece);
-            }
+            showLegalMoves(pickedPiece);
         }
     }
     else { // Moving a piece (A piece is already selected)
         if (row == pickedPiece[0] && col == pickedPiece[1]) { // Clicked on the selected piece
-            if (dragging) {
-                return;
-            }
-
             // Un-pick the piece 
             unPickPiece();
         } else {
@@ -1625,34 +1566,6 @@ function clickedSquare(row, col, event) {
     }
 }
 
-function startDrag(pieceImg) {
-    unPickPiece();
-
-    dragging = true;
-    pieceImg.classList.add("dragging");
-
-    let id = pieceImg.id;
-    row = parseInt(id.split("-")[0]);
-    col = parseInt(id.split("-")[1]);
-    dragStart[0] = row;
-    dragStart[1] = col;
-    pickedPiece[0] = row;
-    pickedPiece[1] = col;
-    showLegalMoves(pickedPiece);
-    closeMovePopup();
-}
-
-function pieceDropEvent(event, row, col) {
-    event.preventDefault();
-
-    hideLegalMoves();
-
-    if (row == dragStart[0] && col == dragStart[1]) {
-        return;
-    }
-
-    move(dragStart[0], dragStart[1], row, col);
-}
 
 //---------------------------------
 // Show available moves dropdowns
@@ -1674,7 +1587,7 @@ function buildMovePopup(row, column, options, remakeMove) {
             let optionElement = createElement(`<div class="promoteMove"><span>${optionName}</span></div>`);
             popup.appendChild(optionElement);
             optionElement = popup.lastChild;
-            console.log(option.pieceChoice);
+            // console.log(option.pieceChoice);
             optionElement.prepend(buildPieceImageForDisplay(option.pieceChoice));
             optionElement.addEventListener("click", () => {
                 popup.parentElement.removeChild(popup);
@@ -1732,7 +1645,7 @@ function closeMovePopup(fromDocumentClick) {
         return;
     }
 
-    movePopup.parentElement.removeChild(movePopup);
+    if (!!movePopup.parentElement) movePopup.parentElement.removeChild(movePopup);
     movePopup = null;
 }
 
@@ -1789,13 +1702,14 @@ function move(row1, col1, row2, col2) {
 
         if (matchingMoves.length > 1) {
             // Ambiguous Move
-            console.log(matchingMoves);
+            // console.log(matchingMoves);
             buildMovePopup(requestedMove.To.Row, requestedMove.To.Column, matchingMoves, () => {
                 move(row1, col1, row2, col2);
             });
             return;
         }
-    
+
+        if (matchingMoves[0].type == "Invoke") return;
         requestedMove.Type = matchingMoves[0].type;
     }
 
@@ -1804,7 +1718,7 @@ function move(row1, col1, row2, col2) {
     try {
         multiplayerClient.sendAction(
             "Move",
-            requestedMove 
+            requestedMove
         );
     }
     catch (error) {
@@ -1854,6 +1768,223 @@ function executePremove() {
     ).then(response => response.json()).then(responseJson => {
         displayStateAnimations(responseJson);
     });
+}
 
-    premove = null;
+premove = null;
+
+
+//-----------------------------
+// Dragging
+//-----------------------------
+
+function buildDragableOverlay(row, col, type, body) {
+    let gameObjWrapper = buildOverlayElement(row, col, type, body);
+
+    setupPieceDragging(gameObjWrapper);
+
+    boardElement.appendChild(gameObjWrapper);
+    return gameObjWrapper;
+}
+
+function setupPieceDragging(piece) {
+
+    let dragging = false;
+
+    let pointerId = null;
+
+    let startX = 0;
+    let startY = 0;
+
+    let currentX = 0;
+    let currentY = 0;
+
+    piece.addEventListener("pointerdown", onPointerDown);
+    piece.addEventListener("pointermove", onPointerMove);
+    piece.addEventListener("pointerup", onPointerUp);
+    piece.addEventListener("pointercancel", onPointerCancel);
+
+    function onPointerDown(e) {
+        if (makingAChoice) {
+            return;
+        }
+
+        // Only respond to primary pointer.
+        if (!e.isPrimary) {
+            return;
+        }
+
+        // Mouse: only left click.
+        if (e.pointerType === "mouse" && e.button !== 0) {
+            return;
+        }
+
+        e.preventDefault();
+
+        let currentRow = parseInt(piece.id.split("-")[0]);
+        let currentColumn = parseInt(piece.id.split("-")[1]);
+
+        if (choosingSquare) {
+            hideLegalMoves();
+            chooseSquare(currentRow, currentColumn);
+            return;
+        }
+
+        // Already picked piece - make a move
+        if (!isEmpty(pickedPiece)) {
+            // Clicked on different square
+            if (pickedPiece[0] != currentRow && pickedPiece[1] != currentColumn) {
+                move(pickedPiece[0],
+                    pickedPiece[1],
+                    currentRow,
+                    currentColumn
+                );
+
+                return;
+            }
+
+            // Clicked on same square
+            // unPickPiece();
+        }
+
+        pickedPiece = [
+            currentRow,
+            currentColumn
+        ];
+
+        moveType = "Unspecified";
+        hideLegalMoves();
+        closeMovePopup();
+        showLegalMoves(pickedPiece);
+
+        dragging = true;
+        pointerId = e.pointerId;
+
+        startX = e.clientX;
+        startY = e.clientY;
+
+        currentX = 0;
+        currentY = 0;
+
+        piece.classList.add("dragging");
+
+        // Make sure we continue receiving pointer events even when
+        // the pointer leaves the piece.
+        piece.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerMove(e) {
+
+        if (!dragging || e.pointerId !== pointerId) {
+            return;
+        }
+
+        e.preventDefault();
+
+        currentX = e.clientX - startX;
+        currentY = e.clientY - startY;
+
+        piece.style.transform =
+            `translate(${currentX}px, ${currentY}px)`;
+    }
+
+    function onPointerUp(e) {
+
+        if (!dragging || e.pointerId !== pointerId) {
+            return;
+        }
+
+        e.preventDefault();
+
+        finishDrag(e);
+    }
+
+    function onPointerCancel(e) {
+
+        if (!dragging || e.pointerId !== pointerId) {
+            return;
+        }
+
+        cancelDrag();
+    }
+
+    function finishDrag(e) {
+
+        dragging = false;
+
+        piece.classList.remove("dragging");
+
+        if (piece.hasPointerCapture(e.pointerId)) {
+            piece.releasePointerCapture(e.pointerId);
+        }
+
+        // Determine which board square the pointer is over
+        // and attempt the move.
+        const dropSquare = getSquareFromPointer(
+            e.clientX,
+            e.clientY
+        );
+
+        const startSquare = {
+            row: pickedPiece[0],
+            column: pickedPiece[1]
+        }
+
+        resetPiece();
+
+        if (!dropSquare) return;
+
+        if (startSquare.row == dropSquare.row && startSquare.column == dropSquare.column) {
+            clickedSquare(startSquare.row, startSquare.column);
+            return;
+        }
+
+        move(startSquare.row, startSquare.column, dropSquare.row, dropSquare.column);
+    }
+
+    function cancelDrag() {
+
+        dragging = false;
+
+        piece.classList.remove("dragging");
+
+        resetPiece();
+    }
+
+    function resetPiece() {
+        unPickPiece();
+        piece.style.transform = "";
+
+        pointerId = null;
+        currentX = 0;
+        currentY = 0;
+    }
+}
+
+function getSquareFromPointer(clientX, clientY) {
+    let board = get("boardDiv");
+    const rect = board.getBoundingClientRect();
+
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    // Outside board
+    if (
+        x < 0 ||
+        y < 0 ||
+        x >= rect.width ||
+        y >= rect.height
+    ) {
+        return null;
+    }
+
+    const squareWidth = rect.width / currentBoard.range.columns;
+    const squareHeight = rect.height / currentBoard.range.rows;
+
+    const column = Math.floor(x / squareWidth);
+    const row = Math.floor(y / squareHeight);
+
+    return {
+        row: row,
+        column: column
+    };
 }
