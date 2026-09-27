@@ -248,7 +248,7 @@ function createStoneElement(stone, properties) {
         console.log(wrapper);
         if (wrapper.classList.contains("launchable")) {
             wrapper.classList.remove("launchable");
-            invoke(pickedPiece);
+            invokePiece(pickedPiece);
             return;
         }
 

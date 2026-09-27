@@ -55,7 +55,6 @@ function afterLoadGuest() {
 
 async function loadSession() {
     window.multiplayerClient.onGameStateUpdated(broadcast => {
-        // console.log(broadcast.snapshot.gameState);
         displayStateAnimations(broadcast.snapshot.gameState);
     });
 

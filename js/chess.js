@@ -670,7 +670,7 @@ function hardMoveImg(row1, col1, row2, col2) {
     movingPiece.style.left = (col2 * 100 / numCols()) + "%";
     movingPiece.style.top = (row2 * 100 / numRows()) + "%";
     movingPiece.offsetHeight;
-    movingPiece.style.transition = ".5s";
+    movingPiece.style.transition = "";
 }
 
 function swapPieces(row1, col1, row2, col2) {
@@ -863,11 +863,11 @@ function executeAnimationsFromPoint(gameState, point) {
                 remove(get("thinking"));
                 break;
             case "Move":
-                /*// Hard move
-                if (!isEmpty(dragStart) && animation.from.row == dragStart[0] && animation.from.column == dragStart[1]) {
+                // Hard move
+                if (!!dragRequest && dragRequest.row == animation.from.row && dragRequest.column == animation.from.column) {
                     hardMoveImg(animation.from.row, animation.from.column, animation.to.row, animation.to.column);
                     break;
-                }*/
+                }
 
                 // Click move
                 moveImg(animation.from.row, animation.from.column, animation.to.row, animation.to.column);
@@ -964,6 +964,8 @@ function executeAnimationsFromPoint(gameState, point) {
             setTimeout(flipBoard, 700);
         }
     }
+
+    dragRequest = false;
 }
 
 function playSound(type) {
@@ -1328,6 +1330,7 @@ function hideLegalMoves() {
 }
 
 function highlightPreviousMove(move) {
+    console.log(move);
     removeAll("#boardDiv .previousMove");
 
     let hasFromSquare = false;
@@ -1726,15 +1729,15 @@ function move(row1, col1, row2, col2) {
     }
 }
 
-function invoke(piece) {
+function invokePiece(piece) {
     moveType = "Invoke";
-    move(piece[0], piece[1], -99, -99);
+    move(piece[0], piece[1], piece[0], piece[1]);
 }
 
 function chooseSquare(row, col) {
     choosingSquare = false;
     moveType = "MakeChoice";
-    move(row, col, -99, -99);
+    move(row, col, row, col);
 }
 
 var premove;
@@ -1776,6 +1779,7 @@ premove = null;
 //-----------------------------
 // Dragging
 //-----------------------------
+var dragRequest = null;
 
 function buildDragableOverlay(row, col, type, body) {
     let gameObjWrapper = buildOverlayElement(row, col, type, body);
@@ -1787,7 +1791,7 @@ function buildDragableOverlay(row, col, type, body) {
 }
 
 function setupPieceDragging(piece) {
-
+    const DRAG_THRESHOLD = 5;
     let dragging = false;
 
     let pointerId = null;
@@ -1938,6 +1942,7 @@ function setupPieceDragging(piece) {
             return;
         }
 
+        dragRequest = startSquare;
         move(startSquare.row, startSquare.column, dropSquare.row, dropSquare.column);
     }
 
