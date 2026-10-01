@@ -1224,7 +1224,7 @@ var muted = false;
 // Legal Mvoes
 //-----------------------------
 
-function showLegalMoves(piece, afterGetMoves) {
+function showLegalMoves(piece) {
     if (!isYourTurn || currentState.finished) return;
 
     let square = {
@@ -1237,15 +1237,10 @@ function showLegalMoves(piece, afterGetMoves) {
     }
 
     multiplayerClient.getLegalMoves(square).then(responseJson => {
-        // console.log(responseJson);
         launchableStones = responseJson.launchableStones;
         loadInLegalMoves(responseJson.moves);
         moveType = "Unspecified";
         showLegalMoveSquares();
-
-        if (afterGetMoves) {
-            afterGetMoves();
-        }
     });
 }
 
@@ -1280,6 +1275,9 @@ function loadInLegalMoves(moves) {
 }
 
 function showLegalMoveSquares() {
+    console.log("here");
+    hideLegalMoves();
+
     regularMoves.forEach(move => {
         if (flipped) {
             let square = {
@@ -1515,25 +1513,6 @@ function unPickPiece() {
 //-----------------------------
 // Events
 //-----------------------------
-
-// Right Click
-/*document.addEventListener('contextmenu', function (event) {
-    if (clickedOn(event, "boardContainer")) {
-        let pieceImg = event.target.closest(".piece");
-
-        if (!!pieceImg) {
-            let row = parseInt(pieceImg.id.split("-")[0]);
-            let col = parseInt(pieceImg.id.split("-")[1]);
-            unPickPiece();
-            pickPiece(row, col);
-            showLegalMoves(pickedPiece, () => {
-                buildMovesDropdown(event, row, col);
-            });
-        }
-
-        event.preventDefault();
-    }
-}, false);*/
 
 function clickedSquare(row, col) {
     // Special Moves
@@ -1972,6 +1951,19 @@ function getSquareFromPointer(clientX, clientY) {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
+
+
+    const squareWidth = rect.width / currentBoard.range.columns;
+    const squareHeight = rect.height / currentBoard.range.rows;
+
+    const column = Math.floor(x / squareWidth);
+    const row = Math.floor(y / squareHeight);
+
+    get("secondaryMessage").innerHTML = `
+        row: ${row}
+        column: ${column}
+    `;
+
     // Outside board
     if (
         x < 0 ||
@@ -1982,11 +1974,11 @@ function getSquareFromPointer(clientX, clientY) {
         return null;
     }
 
-    const squareWidth = rect.width / currentBoard.range.columns;
-    const squareHeight = rect.height / currentBoard.range.rows;
+    // const squareWidth = rect.width / currentBoard.range.columns;
+    // const squareHeight = rect.height / currentBoard.range.rows;
 
-    const column = Math.floor(x / squareWidth);
-    const row = Math.floor(y / squareHeight);
+    // const column = Math.floor(x / squareWidth);
+    // const row = Math.floor(y / squareHeight);
 
     return {
         row: row,
