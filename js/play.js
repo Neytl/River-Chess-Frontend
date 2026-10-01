@@ -62,11 +62,11 @@ async function loadSession() {
         const gameState =
             await window.multiplayerClient.connectToSession();
 
-        console.log(
-            "Current GameStateEntity:"
-        );
+        // console.log(
+        //     "Current GameStateEntity:"
+        // );
 
-        console.log(gameState);
+        // console.log(gameState);
 
         flipped = (guestId != gameState.whitePlayerID);
         initializeChessBoard();

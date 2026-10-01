@@ -1296,9 +1296,6 @@ function squareToKey(square) {
 }
 
 function showLegalMoveSquares(piece) {
-    console.log("here");
-    // hideLegalMoves();
-
     let pieceKey = squareToKey(piece);
     if (!legalMoves.get(pieceKey)) return;
 
@@ -1349,7 +1346,6 @@ function hideLegalMoves() {
 }
 
 function highlightPreviousMove(move) {
-    console.log(move);
     removeAll("#boardDiv .previousMove");
 
     let hasFromSquare = false;
@@ -1514,10 +1510,11 @@ function pickPiece(row, col) {
     buildSquareHighlight(row, col, "picked");
 }
 
-function unPickPiece() {
+function unPickPiece(dontResetMoveData) {
     if (!isEmpty(pickedPiece)) {
         remove(get(pickedPiece[0] + "-" + pickedPiece[1] + "-picked"));
         setEmpty(pickedPiece);
+
         if (seeLegalMoves) {
             hideLegalMoves();
             getAll(".stone-wrapper.launchable").forEach(launchableStone => {
@@ -1526,9 +1523,11 @@ function unPickPiece() {
         }
     }
 
-    pieceChoice = {};
-    tokenChoice = {};
-    moveType = "Unspecified";
+    if (!dontResetMoveData) {
+        pieceChoice = {};
+        tokenChoice = {};
+        moveType = "Unspecified";
+    }
 }
 
 //-----------------------------
@@ -1658,7 +1657,8 @@ function closeMovePopup(fromDocumentClick) {
 //-----------------------------
 let tryingMove = false;
 function move(row1, col1, row2, col2) {
-    if (!isYourTurn || tryingMove) return;
+    if (!isYourTurn || tryingMove) return false;
+    unPickPiece(true);
 
     let from = {
         row: row1,
@@ -1676,7 +1676,7 @@ function move(row1, col1, row2, col2) {
 
     let pieceKey = squareToKey(from);
     let legalMovesList = legalMoves.get(pieceKey);
-    if (!legalMovesList) return;
+    if (!legalMovesList) return false;
 
     let requestedMove = {
         From: {
@@ -1692,8 +1692,6 @@ function move(row1, col1, row2, col2) {
         TokenChoice: tokenChoice
     };
 
-    unPickPiece();
-
     // Check for an ambiguous move
     if (!isEmpty(requestedMove.To) && requestedMove.Type == "Unspecified") {
         let matchingMoves = [];
@@ -1705,7 +1703,7 @@ function move(row1, col1, row2, col2) {
             }
         }
 
-        if (matchingMoves.length == 0) return; // Illegal Move
+        if (matchingMoves.length == 0) return false; // Illegal Move
 
         if (matchingMoves.length > 1) {
             // Ambiguous Move
@@ -1713,19 +1711,21 @@ function move(row1, col1, row2, col2) {
             buildMovePopup(requestedMove.To.Row, requestedMove.To.Column, matchingMoves, () => {
                 move(row1, col1, row2, col2);
             });
-            return;
+            return true;
         }
 
-        if (matchingMoves[0].type == "Invoke") return;
+        if (matchingMoves[0].type == "Invoke") return false;
         requestedMove.Type = matchingMoves[0].type;
     }
 
     // Animate the move instantly
-    if (!!dragRequest && dragRequest.row == row1 && dragRequest.column == col1) {
-        hardMoveImg(row1, col1, row2, col2, true);
-    }
-    else {
-        moveImg(row1, col1, row2, col2, true);
+    if (requestedMove.Type != "Strike") {
+        if (!!dragRequest && dragRequest.row == row1 && dragRequest.column == col1) {
+            hardMoveImg(row1, col1, row2, col2, true);
+        }
+        else {
+            moveImg(row1, col1, row2, col2, true);
+        }
     }
 
     // Execute the move
@@ -1733,7 +1733,6 @@ function move(row1, col1, row2, col2) {
     tryingMove = true;
 
     try {
-
         multiplayerClient.sendAction(
             "Move",
             requestedMove
@@ -1745,6 +1744,8 @@ function move(row1, col1, row2, col2) {
     finally {
         tryingMove = false;
     }
+
+    return true;
 }
 
 function invokePiece(piece) {
@@ -1853,15 +1854,17 @@ function setupPieceDragging(piece) {
 
         // Already picked piece - make a move
         if (!isEmpty(pickedPiece)) {
+            remove(get(pickedPiece[0] + "-" + pickedPiece[1] + "-picked"));
+
             // Clicked on different square
-            if (pickedPiece[0] != currentRow && pickedPiece[1] != currentColumn) {
-                move(pickedPiece[0],
+            if (pickedPiece[0] != currentRow || pickedPiece[1] != currentColumn) {
+                let hasLegalMoves = move(pickedPiece[0],
                     pickedPiece[1],
                     currentRow,
                     currentColumn
                 );
 
-                return;
+                if (hasLegalMoves) return;
             }
 
             // Clicked on same square
@@ -1953,10 +1956,13 @@ function setupPieceDragging(piece) {
 
         resetPiece();
 
-        if (!dropSquare) return;
+        if (!dropSquare) {
+            unPickPiece();
+            return;
+        }
 
         if (startSquare.row == dropSquare.row && startSquare.column == dropSquare.column) {
-            clickedSquare(startSquare.row, startSquare.column);
+            pickPiece(startSquare.row, startSquare.column);
             return;
         }
 
@@ -1974,7 +1980,6 @@ function setupPieceDragging(piece) {
     }
 
     function resetPiece() {
-        unPickPiece();
         piece.style.transform = "";
 
         pointerId = null;

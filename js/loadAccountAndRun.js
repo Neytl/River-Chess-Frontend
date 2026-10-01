@@ -130,7 +130,7 @@ async function initializeGuest() {
 
     if (!response.ok) {
         if (!isOnHomePage) goHome();
-        console.log("Saved guest no longer exists. Creating new guest.");
+        // console.log("Saved guest no longer exists. Creating new guest.");
         localStorage.removeItem(guestStorageKey);
         await createGuest();
         return;
@@ -138,7 +138,7 @@ async function initializeGuest() {
 
     const guest = await response.json();
     guestInfo = guest; // Store the guest information
-    console.log("Restored guest:", guest);
+    // console.log("Restored guest:", guest);
 }
 
 async function createGuest() {

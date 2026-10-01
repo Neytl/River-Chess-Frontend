@@ -244,11 +244,21 @@ function createStoneElement(stone, properties) {
     wrapper.addEventListener("click", event => {
         event.stopPropagation();
 
+        console.log("event: ", wrapper.classList.contains("launchable"));
+
         // Check for launch
-        console.log(wrapper);
         if (wrapper.classList.contains("launchable")) {
             wrapper.classList.remove("launchable");
+            wrapper.style.pointerEvents = "none";
+
             invokePiece(pickedPiece);
+
+            // Temporarily disable the button
+            setTimeout(() => {
+                wrapper.style.pointerEvents = "";
+                wrapper.blur();
+            }, 1000);
+
             return;
         }
 

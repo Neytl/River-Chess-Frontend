@@ -29,11 +29,11 @@
             ? `[${time}] ${message}`
             : `[${time}] ${message} ${JSON.stringify(data)}`;
 
-        console.log("[mp]", message, data ?? "");
+        // console.log("[mp]", message, data ?? "");
     }
 
     function setStatus(text) {
-        console.log("[status]", text);
+        // console.log("[status]", text);
     }
 
     function applySnapshot(snapshot) {
@@ -77,10 +77,10 @@
             );
         }
 
-        console.log(
-            "[mp] Connecting to existing session:",
-            storedSessionId
-        );
+        // console.log(
+        //     "[mp] Connecting to existing session:",
+        //     storedSessionId
+        // );
 
         /*
          * If this client instance has already received the correct
@@ -90,9 +90,9 @@
             currentSnapshot &&
             currentSnapshot.sessionId === storedSessionId
         ) {
-            console.log(
-                "[mp] Session is already loaded."
-            );
+            // console.log(
+            //     "[mp] Session is already loaded."
+            // );
 
             return currentSnapshot.gameState;
         }
@@ -118,16 +118,16 @@
         try {
             await connection.invoke("RejoinSession");
 
-            console.log(
-                "[mp] RejoinSession requested."
-            );
+            // console.log(
+            //     "[mp] RejoinSession requested."
+            // );
 
             const snapshot = await sessionLoadPromise;
 
-            console.log(
-                "[mp] Session successfully loaded:",
-                snapshot
-            );
+            // console.log(
+            //     "[mp] Session successfully loaded:",
+            //     snapshot
+            // );
 
             return snapshot.gameState;
         }
@@ -283,7 +283,7 @@
 
         await connection.start();
 
-        console.log("[mp] Multiplayer connection started.");
+        // console.log("[mp] Multiplayer connection started.");
     }
 
     async function invoke(method, ...args) {

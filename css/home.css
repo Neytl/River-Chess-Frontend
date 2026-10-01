@@ -41,7 +41,7 @@
 
     .river-panel h2 {
         margin-top: 0;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
         color: #f1e5bd;
         font-size: 1.6rem;
     }
@@ -197,13 +197,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 
 .game-mode-panel-header > div:first-child {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 }
 
 .game-mode-panel-header > div:first-child img {
