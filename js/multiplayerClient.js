@@ -352,6 +352,27 @@
         }
     }
 
+    async function getLaunchableStones(square) {
+        if (!connection ||
+            connection.state !== signalR.HubConnectionState.Connected) {
+
+            throw new Error("Not connected to the multiplayer server.");
+        }
+
+        try {
+            const launchableStones = await connection.invoke(
+                "GetLaunchableStones",
+                square
+            );
+
+            return launchableStones;
+        }
+        catch (error) {
+            log("GetLaunchableStones failed", String(error));
+            throw error;
+        }
+    }
+
     async function getLegalSquares() {
         if (!connection ||
             connection.state !== signalR.HubConnectionState.Connected) {
@@ -382,6 +403,7 @@
         leaveQueue,
         sendAction,
         getLegalMoves,
+        getLaunchableStones,
         getLegalSquares,
 
         getSessionId: () => sessionId,

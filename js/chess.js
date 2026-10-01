@@ -654,19 +654,19 @@ function getPieceImg(row, col) {
 }
 
 /// Move with animation
-function moveImg(row1, col1, row2, col2) {
+function moveImg(row1, col1, row2, col2, dontUpdateID) {
     let movingPiece = getPieceImg(row1, col1);
-    movingPiece.id = row2 + "-" + col2 + "-piece";
+    if (!dontUpdateID) movingPiece.id = row2 + "-" + col2 + "-piece";
     movingPiece.style.left = (col2 * 100 / numCols()) + "%";
     movingPiece.style.top = (row2 * 100 / numRows()) + "%";
 }
 
 /// Move without animation
-function hardMoveImg(row1, col1, row2, col2) {
+function hardMoveImg(row1, col1, row2, col2, dontUpdateID) {
     let movingPiece = getPieceImg(row1, col1);
 
     movingPiece.style.transition = "none";
-    movingPiece.id = row2 + "-" + col2 + "-piece";
+    if (!dontUpdateID) movingPiece.id = row2 + "-" + col2 + "-piece";
     movingPiece.style.left = (col2 * 100 / numCols()) + "%";
     movingPiece.style.top = (row2 * 100 / numRows()) + "%";
     movingPiece.offsetHeight;
@@ -1070,6 +1070,7 @@ function displayStateCommom(gameState) {
     if (flipped) flipGameState(gameState);
     currentBoard = gameState.board;
     currentState = gameState;
+    loadInLegalMoves(gameState.legalMoves);
     isYourTurn = (gameState.isWhitesTurn ? gameState.whitePlayerID : gameState.blackPlayerID) == guestId;
     highlightPreviousMove(gameState.previousMove);
 
@@ -1236,49 +1237,74 @@ function showLegalMoves(piece) {
         flipSquare(square);
     }
 
-    multiplayerClient.getLegalMoves(square).then(responseJson => {
-        launchableStones = responseJson.launchableStones;
-        loadInLegalMoves(responseJson.moves);
-        moveType = "Unspecified";
-        showLegalMoveSquares();
-    });
+    moveType = "Unspecified";
+    showLegalMoveSquares(square); 
+    showLaunchableStones(square);
 }
 
+function showLaunchableStones(square) {
+    multiplayerClient.getLaunchableStones(square).then(responseJson => {
+        launchableStones = responseJson;
 
-function checkAndShowLegalMoves() {
-    if (seeLegalMoves) { showLegalMoveSquares(); }
+        // Show launchable stones
+        launchableStones.forEach(launchButtonID => {
+            get(launchButtonID).parentElement.classList.add("launchable");
+        });
+    });
 }
 
 function loadInLegalMoves(moves) {
-    legalMoves = moves;
-    ambiguousMoves = [];
-    regularMoves = [];
+    legalMoves = new Map();
+    ambiguousMoves = new Map();
+    regularMoves = new Map();
+
     let toSquareCounts = new Map();
 
-    legalMoves.forEach(move => {
-        if (!move.to) return;
-        let key = `${move.to.row},${move.to.column}`;
-        toSquareCounts.set(key, (toSquareCounts.get(key) || 0) + 1);
+    moves.forEach(move => {
+        if (!move.from || !move.to) return;
+        let pieceKey = squareToKey(move.from);
+        let movekey = squareToKey(move.to);
+
+        if (!legalMoves.has(pieceKey)) {
+            legalMoves.set(pieceKey, []);
+            ambiguousMoves.set(pieceKey, []);
+            regularMoves.set(pieceKey, []);
+            toSquareCounts.set(pieceKey, new Map());
+        }
+
+        let pieceMoveCounts = toSquareCounts.get(pieceKey);
+        pieceMoveCounts.set(movekey, (pieceMoveCounts.get(movekey) || 0) + 1);
+        legalMoves.get(pieceKey).push(move);
     });
 
-    legalMoves.forEach(move => {
-        if (!move.to) return;
-        let key = `${move.to.row},${move.to.column}`;
+    moves.forEach(move => {
+        if (!move.from || !move.to) return;
+        let pieceKey = squareToKey(move.from);
+        let movekey = squareToKey(move.to);
+        let pieceMoveCounts = toSquareCounts.get(pieceKey);
 
-        if (toSquareCounts.get(key) > 1) {
-            ambiguousMoves.push(move);
+        if (pieceMoveCounts.get(movekey) > 1) {
+            ambiguousMoves.get(pieceKey).push(move);
         } else {
-            regularMoves.push(move);
+            regularMoves.get(pieceKey).push(move);
         }
     });
-
 }
 
-function showLegalMoveSquares() {
-    console.log("here");
-    hideLegalMoves();
+function squareToKey(square) {
+    return `${square.row},${square.column}`;
+}
 
-    regularMoves.forEach(move => {
+function showLegalMoveSquares(piece) {
+    console.log("here");
+    // hideLegalMoves();
+
+    let pieceKey = squareToKey(piece);
+    if (!legalMoves.get(pieceKey)) return;
+
+    regularMoves.get(pieceKey).forEach(move => {
+                
+
         if (flipped) {
             let square = {
                 row: move.to.row,
@@ -1292,7 +1318,7 @@ function showLegalMoveSquares() {
         }
     });
 
-    ambiguousMoves.forEach(move => {
+    ambiguousMoves.get(pieceKey).forEach(move => {
         if (flipped) {
             let square = {
                 row: move.to.row,
@@ -1304,11 +1330,6 @@ function showLegalMoveSquares() {
         } else {
             setLegalMove(move.to, true);
         }
-    });
-
-    // Show launchable stones
-    launchableStones.forEach(launchButtonID => {
-        get(launchButtonID).parentElement.classList.add("launchable");
     });
 }
 
@@ -1635,9 +1656,9 @@ function closeMovePopup(fromDocumentClick) {
 //-----------------------------
 // Moving
 //-----------------------------
-
+let tryingMove = false;
 function move(row1, col1, row2, col2) {
-    if (!isYourTurn) return;
+    if (!isYourTurn || tryingMove) return;
 
     let from = {
         row: row1,
@@ -1652,6 +1673,10 @@ function move(row1, col1, row2, col2) {
         flipSquare(from);
         flipSquare(to);
     }
+
+    let pieceKey = squareToKey(from);
+    let legalMovesList = legalMoves.get(pieceKey);
+    if (!legalMovesList) return;
 
     let requestedMove = {
         From: {
@@ -1673,8 +1698,8 @@ function move(row1, col1, row2, col2) {
     if (!isEmpty(requestedMove.To) && requestedMove.Type == "Unspecified") {
         let matchingMoves = [];
 
-        for (let i = 0; i < legalMoves.length; i++) {
-            let legalMove = legalMoves[i];
+        for (let i = 0; i < legalMovesList.length; i++) {
+            let legalMove = legalMovesList[i];
             if (legalMove.to.row == requestedMove.To.Row && legalMove.to.column == requestedMove.To.Column) {
                 matchingMoves.push(legalMove);
             }
@@ -1695,9 +1720,20 @@ function move(row1, col1, row2, col2) {
         requestedMove.Type = matchingMoves[0].type;
     }
 
+    // Animate the move instantly
+    if (!!dragRequest && dragRequest.row == row1 && dragRequest.column == col1) {
+        hardMoveImg(row1, col1, row2, col2, true);
+    }
+    else {
+        moveImg(row1, col1, row2, col2, true);
+    }
+
+    // Execute the move
     console.log("Making move: ", requestedMove);
+    tryingMove = true;
 
     try {
+
         multiplayerClient.sendAction(
             "Move",
             requestedMove
@@ -1705,6 +1741,9 @@ function move(row1, col1, row2, col2) {
     }
     catch (error) {
         console.error("Failed to make move:", error);
+    }
+    finally {
+        tryingMove = false;
     }
 }
 
@@ -1951,19 +1990,6 @@ function getSquareFromPointer(clientX, clientY) {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
-
-
-    const squareWidth = rect.width / currentBoard.range.columns;
-    const squareHeight = rect.height / currentBoard.range.rows;
-
-    const column = Math.floor(x / squareWidth);
-    const row = Math.floor(y / squareHeight);
-
-    get("secondaryMessage").innerHTML = `
-        row: ${row}
-        column: ${column}
-    `;
-
     // Outside board
     if (
         x < 0 ||
@@ -1974,11 +2000,11 @@ function getSquareFromPointer(clientX, clientY) {
         return null;
     }
 
-    // const squareWidth = rect.width / currentBoard.range.columns;
-    // const squareHeight = rect.height / currentBoard.range.rows;
+    const squareWidth = rect.width / currentBoard.range.columns;
+    const squareHeight = rect.height / currentBoard.range.rows;
 
-    // const column = Math.floor(x / squareWidth);
-    // const row = Math.floor(y / squareHeight);
+    const column = Math.floor(x / squareWidth);
+    const row = Math.floor(y / squareHeight);
 
     return {
         row: row,
