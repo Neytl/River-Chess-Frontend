@@ -244,8 +244,6 @@ function createStoneElement(stone, properties) {
     wrapper.addEventListener("click", event => {
         event.stopPropagation();
 
-        console.log("event: ", wrapper.classList.contains("launchable"));
-
         // Check for launch
         if (wrapper.classList.contains("launchable")) {
             wrapper.classList.remove("launchable");

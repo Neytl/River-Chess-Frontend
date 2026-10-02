@@ -255,7 +255,6 @@ function selectOption(optionId) {
 // Load in the time control
 (() => {
     let loadedTimeControl = localStorage.getItem("timeControl", "Untimed");
-    console.log(loadedTimeControl);
 
     const selectedIndex =
         options.findIndex(option => option.timeControl === loadedTimeControl);

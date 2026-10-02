@@ -656,6 +656,7 @@ function getPieceImg(row, col) {
 /// Move with animation
 function moveImg(row1, col1, row2, col2, dontUpdateID) {
     let movingPiece = getPieceImg(row1, col1);
+    if (!movingPiece) return;
     if (!dontUpdateID) movingPiece.id = row2 + "-" + col2 + "-piece";
     movingPiece.style.left = (col2 * 100 / numCols()) + "%";
     movingPiece.style.top = (row2 * 100 / numRows()) + "%";
@@ -664,6 +665,7 @@ function moveImg(row1, col1, row2, col2, dontUpdateID) {
 /// Move without animation
 function hardMoveImg(row1, col1, row2, col2, dontUpdateID) {
     let movingPiece = getPieceImg(row1, col1);
+    if (!movingPiece) return;
 
     movingPiece.style.transition = "none";
     if (!dontUpdateID) movingPiece.id = row2 + "-" + col2 + "-piece";
@@ -1124,7 +1126,19 @@ function drawBoardItems(gameBoard) {
 
 function drawStateBoard(gameState) {
     drawBoard(gameState.board);
+
+    // TODO... figure out how to combine this code with displayStateCommon() to not have to run it twice
     highlightPreviousMove(gameState.previousMove);
+
+    if (!gameState.finished) {
+        choosingSquare = gameState.choosingSquare;
+        if (choosingSquare) {
+            boardElement.classList.add("choosingSquare");
+            seeLegalSquares();
+        } else {
+            boardElement.classList.remove("choosingSquare");
+        }
+    }
 }
 
 function numCols() {
@@ -1363,17 +1377,22 @@ function highlightPreviousMove(move) {
 function seeLegalSquares() {
     if (!isYourTurn || currentState.finished) return;
 
-    multiplayerClient.getLegalSquares().then(responseJson => {
+    //setTimeout(() => {
         unPickPiece();
 
-        responseJson.forEach(function (square) {
+        legalMoves.forEach((value, key) => {
+            let square = {
+                row: value[0].from.row,
+                column: value[0].from.column
+            };
+
             if (flipped) {
                 flipSquare(square);
             }
 
             setLegalMove(square);
         });
-    });
+    //}, 1000);
 }
 
 //-----------------------------
@@ -1729,7 +1748,7 @@ function move(row1, col1, row2, col2) {
     }
 
     // Execute the move
-    console.log("Making move: ", requestedMove);
+    // console.log("Making move: ", requestedMove);
     tryingMove = true;
 
     try {
