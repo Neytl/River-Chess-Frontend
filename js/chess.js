@@ -1100,6 +1100,23 @@ function displayStateCommom(gameState) {
         } else {
             boardElement.classList.remove("choosingSquare");
         }
+
+        // Draw offer code
+        console.log(gameState);
+        console.log(gameState.drawOfferFrom);
+
+        if (gameState.drawOfferFrom == "None") {
+            drawOfferButton.classList.remove("offeringDraw");
+            drawOfferButton.classList.remove("offeredDraw");
+        }
+        else {
+            if (gameState.drawOfferFrom == "White" && guestId == gameState.whitePlayerID
+                || gameState.drawOfferFrom == "Black" && guestId == gameState.blackPlayerID) {
+                drawOfferButton.classList.add("offeringDraw");                    
+            } else {
+                drawOfferButton.classList.add("offeredDraw");
+            }
+        }    
     } else {
         onGameEnd();
     }

@@ -173,3 +173,29 @@ body .top-nav {
         content: 'Searching ...';
     }
 }
+
+/* ------------------------- */
+/* Draw offer button
+/* ------------------------- */
+
+#drawOfferButton {
+    position: relative;
+}
+
+#drawOfferButton.offeringDraw {
+    pointer-events: none;
+    opacity: .3;
+    cursor: pointer;
+}
+
+#drawNotication {
+    position: absolute;
+    width: 2em;
+    height: 2em;
+    right: -8px;
+    top: -5px;
+    visibility: hidden;
+}
+#drawOfferButton.offeredDraw #drawNotication {
+    visibility: visible;
+}

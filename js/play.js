@@ -1,13 +1,14 @@
 function onGameEnd() {
     console.log(currentState);
-    get("resignButton").classList.add("hidden");
+    resignButton.classList.add("hidden");
+    drawOfferButton.style.opacity = "0";
     get("homeButton").classList.remove("hidden");
 
     let playerIsWhite = currentState.whitePlayerID == guestId;
 
     if (currentState.winner == "None") {
         // Draw
-        get("gameOverTitle").innerHTML = "Draw";
+        get("gameOverTitle").innerHTML = "Game Drawn";
     } else if ((currentState.winner == "White") == playerIsWhite || currentState.winner == "Both") {
         // Win
         get("gameOverTitle").innerHTML = "You Won!";
@@ -90,15 +91,25 @@ async function loadSession() {
 
 const resignButton = document.getElementById("resignButton");
 resignButton.addEventListener("click", () => {
-    const confirmed = confirm(
+    if (!confirm(
         "Are you sure you want to resign?"
-    );
-
-    if (!confirmed) {
-        return;
-    }
-
+    )) return;
+    
     window.multiplayerClient.sendAction("Resign", {});
+});
+
+
+const drawOfferButton = document.getElementById("drawOfferButton");
+drawOfferButton.addEventListener("click", () => {
+    let offeredDraw = drawOfferButton.classList.contains("offeredDraw");
+
+    if (!confirm(
+        offeredDraw ?
+        "Are you sure you want to accept the draw offer?"
+        : "Are you sure you want to offer a draw?"
+    )) return;
+
+    window.multiplayerClient.sendAction("DrawOffer", {});
 });
 
 get("closeGameOverPopupButton").addEventListener("click", () => {
