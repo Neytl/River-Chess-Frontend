@@ -3,8 +3,7 @@
    Mobile Play Page
    ========================================================= */
 
-/*@media (max-width: 768px) {*/
-@media (max-width: 700px) {
+@media (max-width: 650px) {
 
     /* Prevent horizontal scrolling caused by the game UI */
     html,

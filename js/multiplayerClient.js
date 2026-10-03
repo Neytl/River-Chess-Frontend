@@ -29,7 +29,7 @@
             ? `[${time}] ${message}`
             : `[${time}] ${message} ${JSON.stringify(data)}`;
 
-        // console.log("[mp]", message, data ?? "");
+        console.log("[mp]", message, data ?? "");
     }
 
     function setStatus(text) {

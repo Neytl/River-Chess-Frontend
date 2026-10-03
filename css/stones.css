@@ -461,7 +461,7 @@
    Mobile Styles
    ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 650px) {
     :root .stone-tooltips-popup {
         left: auto;
         bottom: calc(100% + 8px);
