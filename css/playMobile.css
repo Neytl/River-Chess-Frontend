@@ -71,7 +71,7 @@
     }
 
 
-    
+
     /* ---------------------------------------------------------
        Stones
        --------------------------------------------------------- */
@@ -80,9 +80,15 @@
         width: 60px;
         height: 60px;
     }
+
         :root .stone-wrapper img {
             width: 40px;
             height: 40px;
+        }
+
+        :root .stone-wrapper.burden .stone-image {
+            width: 32px;
+            height: 32px;
         }
 
     :root .stone-points {
@@ -96,5 +102,4 @@
     :root .stone-counter {
         transform: scale(.75);
     }
-
 }

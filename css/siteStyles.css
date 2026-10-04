@@ -41,7 +41,6 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     user-select: none;
     color: #eaf4f5;
-/*    background: radial-gradient( circle at 20% 20%, rgba(60, 130, 145, 0.35), transparent 30% ), radial-gradient( circle at 80% 70%, rgba(25, 90, 110, 0.45), transparent 35% ), linear-gradient( 135deg, #0b1820, #102b36 45%, #081216 );*/
     background: radial-gradient(circle at 20% 20%, rgba(60, 130, 145, 0.35), transparent 30%), radial-gradient(circle at 80% 70%, rgba(25, 90, 110, 0.45), transparent 35%), linear-gradient(135deg, #0b182091, #102b3691 45%, #0812167a);
     overflow-x: hidden;
     display: flex;
@@ -63,36 +62,6 @@ body {
     flex-grow: 1;
     overflow-x: hidden;
 }
-
-
-    /* Subtle river-like flowing bands */
-
-/*    .river-page::before,
-    .river-page::after {
-        content: "";
-        position: fixed;
-        width: 140%;
-        height: 180px;
-        left: -20%;
-        border-radius: 50%;
-        pointer-events: none;
-        transform: rotate(-8deg);
-    }*/
-
-/*    .river-page::before {
-        top: 18%;
-        background: linear-gradient( 90deg, transparent, rgba(45, 120, 145, 0.12), rgba(90, 180, 190, 0.18), transparent );
-    }
-
-    .river-page::after {
-        bottom: 12%;
-        background: linear-gradient( 90deg, transparent, rgba(20, 80, 110, 0.1), rgba(70, 150, 170, 0.15), transparent );
-    }*/
-
-
-    body {
-/*        max-width: 45em;*/
-    }
 
 html {
     background: #020912;
@@ -125,6 +94,7 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 5px;
     padding: 10px;
 }
@@ -137,19 +107,23 @@ html {
         border-radius: 5px;
     }
 
+    .nav-button img {
+        width: 22px;
+        height: 22px;
+    }
 
-.home-button {
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 22px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.08);
-    transition: transform 0.15s ease, background 0.15s ease;
-}
+    .home-button {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 22px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        transition: transform 0.15s ease, background 0.15s ease;
+    }
 
     .home-button:hover {
         background: rgba(255, 255, 255, 0.15);

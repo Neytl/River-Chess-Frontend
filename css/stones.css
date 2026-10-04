@@ -260,8 +260,9 @@
         height: 78px;
         border-radius: 50%;
         background: radial-gradient( circle at 35% 28%, #ffffff 0%, #ddefee 45%, #d4d0c5 75%, #aaa69c 100% );
+
         /* Black outline */
-        border: 2px solid #111;
+        border: 2px solid black;
         box-sizing: border-box;
         box-shadow: inset -5px -7px 10px rgba(0, 0, 0, 0.5), inset 4px 4px 8px rgba(255, 255, 255, 0.9), 0 5px 8px rgba(0, 0, 0, 0.5);
         z-index: 0;
@@ -322,7 +323,6 @@
 
 .stone-wrapper.stone-black::before {
     background: #111;
-    border: 2px solid #000;
     box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2), inset 0 -4px 8px rgba(0, 0, 0, 0.9), 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -379,15 +379,15 @@
    ========================================= */
 
 .stone-wrapper.burden::before {
-    filter: invert(24%) sepia(168%) saturate(7456%) hue-rotate(350deg) brightness(61%) contrast(100%);
-    background: radial-gradient(circle at 35% 28%, #ffffff 0%, #ddefee 45%, #d4d0c5 75%, #aaa69c 100%);
-    box-shadow: inset -5px -7px 10px rgba(0, 0, 0, 0.5), inset 4px 4px 8px rgba(255, 255, 255, 0.9), 0 5px 8px rgba(0, 0, 0, 0.5);
+    background: radial-gradient(circle at 35% 28%, #9f362b 0%, #49151c 45%, #451629 75%, #000000 100%);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2), inset 0 -4px 8px rgba(0, 0, 0, 0.9), 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .stone-wrapper.burden .stone-image {
-    filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
+    filter: drop-shadow(0px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 0px 0 white) drop-shadow(0 -1px 0 white);
+    width: 40px;
+    height: 40px;
 }
-
 
 /* =========================================
    Launch Button
