@@ -295,10 +295,21 @@
     }
 }
 
+.mini-stones-display {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 16px;
+}
+
+    .mini-stones-display .stone-wrapper {
+        margin-right: -16px;
+        position: relative;
+    }
+
+
 /* ------------------------- */
 /* Duels                     */
 /* ------------------------- */
-
 #duelsGameModes {
     display: flex;
     flex-direction: column;
