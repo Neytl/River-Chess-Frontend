@@ -1,0 +1,45 @@
+﻿
+:root .top-nav {
+    justify-content: space-between;
+}
+
+:root #menuButton {
+    visibility: hidden;
+}
+
+:root .river-page {
+    justify-content: flex-start;
+}
+
+/* ------------------------- */
+/* Main Container            */
+/* ------------------------- */
+
+.river-container {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* ------------------------- */
+/* Stones Container          */
+/* ------------------------- */
+
+#stonesContainer {
+    padding-bottom: 70px;
+    text-align: center;
+}
+
+.stone-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}

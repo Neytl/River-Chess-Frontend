@@ -122,7 +122,7 @@ function loadInEloForGameMode(gameMode, timeControl) {
 
     document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container span').innerHTML = ELO.toLocaleString();
 
-    let imageContainer = document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container img');
+    /*let imageContainer = document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container img');
 
     if (ELO < 700) {
         imageContainer.src = "/imgs/pieces/white_pawn.png";
@@ -136,7 +136,7 @@ function loadInEloForGameMode(gameMode, timeControl) {
         imageContainer.src = "/imgs/pieces/white_queen.png";
     } else {
         imageContainer.src = "/imgs/pieces/white_king.png";
-    }
+    }*/
 }
 
 

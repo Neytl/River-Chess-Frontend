@@ -41,7 +41,7 @@
 
     .river-panel h2 {
         margin-top: 0;
-        margin-bottom: 3px;
+        margin-bottom: 4px;
         color: #f1e5bd;
         font-size: 1.6rem;
     }
@@ -95,7 +95,6 @@
 /* ------------------------- */
 /* Run Information           */
 /* ------------------------- */
-
 .run-info {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -184,6 +183,7 @@
     padding: 5px;
     cursor: pointer;
 }
+
     .help-button img {
         width: 20px;
         height: 20px;
@@ -200,13 +200,18 @@
     margin-bottom: 8px;
 }
 
-.game-mode-panel-header > div:first-child {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+    .game-mode-panel-header > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
 
-.game-mode-panel-header > div:first-child img {
+        .game-mode-panel-header > div:first-child img {
+            width: 30px;
+            height: 30px;
+        }
+
+.game-mode-button > div:first-child img {
     width: 30px;
     height: 30px;
 }
@@ -215,7 +220,7 @@
     position: relative;
     display: flex;
     border-radius: 10px;
-    padding: 5px 15px;
+    padding: 10px 15px;
     color: #f1e5bd;
     background: linear-gradient(270deg, #063e51, #3b7f99);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
@@ -223,6 +228,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
     .game-mode-button:hover {
         transform: translateY(-2px);
         filter: brightness(1.1);
@@ -261,20 +267,11 @@
         gap: 5px;
     }
 
-    .game-mode-button h3 {
-        padding-left: 5px;
-    }
-    .game-mode-button .stone-wrapper, .game-mode-button .stone-wrapper::before {
-        width: 40px;
-        height: 40px;
-        pointer-events: none;
-    }
-
-        .game-mode-button .stone-wrapper img {
-            width: 20px;
-            height: 20px;
-        }
-
+.game-mode-title {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #efefdb;
+}
 
 
 @keyframes dots {
@@ -306,6 +303,18 @@
         position: relative;
     }
 
+        .mini-stones-display .stone-wrapper, .mini-stones-display .stone-wrapper::before {
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+        }
+
+            .mini-stones-display .stone-wrapper img {
+                width: 20px;
+                height: 20px;
+            }
+
+
 
 /* ------------------------- */
 /* Duels                     */
@@ -318,3 +327,14 @@
 }
 
 
+#encyclopediaLink {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    gap: 1em;
+}
+
+    #encyclopediaLink:hover h2 {
+        text-decoration: underline;
+    }

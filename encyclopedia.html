@@ -5,10 +5,8 @@
     <title>River Chess</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='css/siteStyles.css' rel='stylesheet' type='text/css'>
-    <link href='css/play.css' rel='stylesheet' type='text/css'>
-    <link href='css/playMobile.css' rel='stylesheet' type='text/css'>
+    <link href='css/encyclopedia.css' rel='stylesheet' type='text/css'>
     <link href='css/stones.css' rel='stylesheet' type='text/css'>
-    <link href='css/chessStyles.css' rel='stylesheet' type='text/css'>
     <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon.png">
 </head>
 <body>
@@ -46,6 +44,7 @@
         </div>
     </div>
 
+
     <!-- =========================
          SIDE MENU
     ========================== -->
@@ -76,7 +75,7 @@
     <nav class="top-nav">
 
         <button id="menuButton"
-                class="nav-button hidden"
+                class="nav-button"
                 aria-label="Open menu">
 
             <span></span>
@@ -85,29 +84,18 @@
 
         </button>
 
-        <button id="drawOfferButton"
-                class="nav-button">
-            <img src="imgs/icons/draw.png" />
-            <img id="drawNotication" src="imgs/icons/notification.png" />
-        </button>
-
-
         <div id="logoContainer">
             <img src="imgs/logo.png" />
         </div>
 
-        <button id="resignButton"
-                class="nav-button">
-            <img src="imgs/icons/resign.png" />
-        </button>
-
-        <a id="homeButton" href="/index.html"
-           class="home-button hidden"
+        <a href="/index.html"
+           class="home-button"
            aria-label="Home">
 
             🏠
 
         </a>
+
     </nav>
 
     <!-- =========================
@@ -115,53 +103,20 @@
     ========================== -->
 
     <main class="river-page">
-        <!--Opponent Stones-->
-        <div id="opponentStonesContainer" class="stones-container"></div>
 
-        <!--Chess!-->
-        <div id="chessContainer">
+        <div class="river-container" id="stonesContainer">
+
+           
+
+
+
 
         </div>
 
-        <!--Player Stones-->
-        <div id="playerStonesContainer" class="stones-container"></div>
-
-        <!--Game Over Popup-->
-        <div id="gameOverPopupContainer" class="hidden">
-            <div id="gameOverPopup">
-                <div id="closeGameOverPopupButton">&times;</div>
-                <img id="gameOverPopupGameModeIcon" src="imgs/icons/duels.png" />
-                <div id="gameOverMessageContainer">
-                    <div id="gameOverTitle">You Won!</div>
-                    <div id="gameOverSubtitle">by Checkmate</div>
-                </div>
-
-                <div id="gameOverPopupInfoSection">
-                    <div class="elo-container">
-                        <div><span id="timeControlDisplay">Blitz</span><span> Elo</span></div>
-                        <div>
-                            <span id="eloContainer">????</span>
-                            <span id="eloChange">+26</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="gameOverPopupButtons">
-                    <a href="/" id="gameOverHomeButton">Home</a>
-                    <div id="newGameButton">New Game</div>
-                </div>
-            </div>
-        </div>
     </main>
 
-
     <script src="js/utility.js"></script>
-    <script src="js/loadAccountAndRun.js"></script>
-    <script src="js/play.js"></script>
+    <script src="js/encyclopedia.js"></script>
     <script src="js/stones.js"></script>
-    <script src="js/sideMenu.js"></script>
-    <script src="lib/signalr/signalr.min.js"></script>
-    <script src="js/multiplayerClient.js"></script>
-    <script src="js/chess.js"></script>
-    <script src="js/chessClock.js"></script>
 </body>
 </html>

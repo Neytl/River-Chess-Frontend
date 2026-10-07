@@ -70,15 +70,47 @@ html {
 }
 
 /* =========================
+   SCROLL
+========================= */
+
+/* Apply to a specific container, or use 'html, body' for the global scrollbar */
+.river-page {
+    overflow-y: auto;
+    /* 1. Modern Standard (Chrome, Firefox, Edge) */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #888888 transparent; /* thumb color | track color */
+}
+
+    /* 2. WebKit Legacy (Safari, older Chrome/Edge) */
+    .river-page::-webkit-scrollbar {
+        width: 8px; /* Width of the vertical scrollbar */
+        height: 8px; /* Height of the horizontal scrollbar */
+    }
+
+    .river-page::-webkit-webkit-scrollbar-track {
+        background: transparent; /* Makes the track completely see-through */
+    }
+
+    .river-page::-webkit-scrollbar-thumb {
+        background-color: #888888; /* Color of the scroll indicator */
+        border-radius: 4px; /* Rounds the corners of the thumb */
+    }
+
+        /* Optional: Make the thumb darken on hover for better UX */
+        .river-page::-webkit-scrollbar-thumb:hover {
+            background-color: #555555;
+        }
+
+/* =========================
    NAVIGATION
 ========================= */
 .top-nav {
     height: 60px;
     display: flex;
     align-items: center;
-/*    justify-content: space-between;*/
+    /*    justify-content: space-between;*/
     justify-content: center;
-    padding: 0 14px;
+    padding: 29px 14px;
     background: linear-gradient(180deg,rgba(8, 20, 28, 1) 0%, rgba(10, 33, 44, 1) 69%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -222,13 +254,6 @@ html {
         align-items: center;
         gap: 2px;
     }
-
-    .elo-container img {
-        width: 25px;
-        height: 25px;
-    }
-
-
 
 
 /* ------------------------- */
