@@ -2,7 +2,7 @@ let apiUrl = (window.location.origin.includes("local") ? "" : "https://river-che
 const stonesContainer = get("stonesContainer");
 
 window.addEventListener("load", () => {
-    fetch(apiUrl + "api/data/stonesData").then(response => response.json()).then(responseJson => {
+    fetch(apiUrl + "/api/data/stonesData").then(response => response.json()).then(responseJson => {
         responseJson.forEach(group => {
             let title = group[0].points + " Point Stones";
             if (group[0].isBurden) title = "Burdens";
