@@ -15,8 +15,8 @@ window.addEventListener("load", () => {
             stonesContainer.appendChild(container);
             container = stonesContainer.lastChild;
             container.classList.add("stone-group");
-
             displayStones(group, container, { isFlipped: true });
         });
+
     });
 }); 
