@@ -1,11 +1,13 @@
 ﻿
+#optionMenu {
+    display: none;
+    visibility: hidden;
+}
 
 /* ------------------------- */
 /* Mobile                    */
 /* ------------------------- */
-
 @media (max-width: 700px) {
-
     /*.river-page {
         justify-content: flex-start;
     }*/
@@ -338,3 +340,52 @@
     #encyclopediaLink:hover h2 {
         text-decoration: underline;
     }
+
+
+/* ------------------------- */
+/* Account Info Panel        */
+/* ------------------------- */
+
+#gameModesTitle {
+    margin-left: .4em;
+}
+
+:root {
+    --white-piece-outline-color: white;
+}
+
+#accountInfo {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+#playerIcon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: #2c6c84;
+    outline: solid #bbbbbb 1px;
+}
+
+    #playerIcon img {
+        width: 40px;
+        height: 40px;
+    }
+
+
+    .pieceImage {
+        filter: drop-shadow(1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 1px 0 var(--white-piece-outline-color)) drop-shadow(-1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -1px 0 var(--white-piece-outline-color));
+    }
+
+#playerName {
+    font-size: 1.4em;
+}
+
+#globalRankLine {
+    font-size: 0.9em;
+    font-style: italic;
+}

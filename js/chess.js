@@ -66,9 +66,10 @@ function generateChessElements() {
     chessGameElement.appendChild(messageElement);
 
     // Top Clock Container
-    let chessClock1 = make("div");
-    chessClock1.classList.add("chessClockContainer");
-    chessGameElement.appendChild(chessClock1);
+    let topClockContainer = make("div");
+    topClockContainer.id = "topClockContainer";
+    topClockContainer.classList.add("chessClockContainer");
+    chessGameElement.appendChild(topClockContainer);
 
     // Board container
     let boardContainer = make("div");
@@ -106,9 +107,35 @@ function generateChessElements() {
     boardContainer.appendChild(graveyardDiv);
 
     // Bottom Clock Container
-    let chessClock2 = make("div");
-    chessClock2.classList.add("chessClockContainer");
-    chessGameElement.appendChild(chessClock2);
+    let bottomClockContainer = make("div");
+    bottomClockContainer.id = "bottomClockContainer";
+    bottomClockContainer.classList.add("chessClockContainer");
+    chessGameElement.appendChild(bottomClockContainer);
+
+    // Player Info
+    let whitePlayerInfo =createElement(`
+         <div class="river-panel" id="accountInfo">
+                <div id="playerIcon">
+                    <img class="pieceImage" src="imgs/pieces/white_king.png" />
+                </div>
+                <div>
+                    <div class="playerName" id="whitePlayerUsername">...</div>
+                    <div class="playerRating"><span id="whitePlayerRating">?</span></div>
+                </div>
+            </div>
+    `);
+
+    let blackPlayerInfo = createElement(`
+         <div class="river-panel" id="accountInfo">
+                <div id="playerIcon">
+                    <img class="pieceImage" src="imgs/pieces/black_king.png" />
+                </div>
+                <div>
+                    <div class="playerName" id="blackPlayerUsername">...</div>
+                    <div class="playerRating"><span id="blackPlayerRating">?</span></div>
+                </div>
+            </div>
+    `);
 
     // Clocks    
     let blackClock = make("div");
@@ -120,16 +147,20 @@ function generateChessElements() {
     whiteClock.classList.add("chessClock");
 
     if (!flipped) {
-        chessClock1.appendChild(blackClock);
-        chessClock2.appendChild(whiteClock);
+        topClockContainer.appendChild(blackPlayerInfo);
+        topClockContainer.appendChild(blackClock);
+        bottomClockContainer.appendChild(whitePlayerInfo);
+        bottomClockContainer.appendChild(whiteClock);
     } else {
-        chessClock2.appendChild(blackClock);
-        chessClock1.appendChild(whiteClock);
+        bottomClockContainer.appendChild(blackPlayerInfo);
+        bottomClockContainer.appendChild(blackClock);
+        topClockContainer.appendChild(whitePlayerInfo);
+        topClockContainer.appendChild(whiteClock);
         boardContainer.classList.add("flippedBoard");
     }
 
-    chessClock1.classList.add("hidden");
-    chessClock2.classList.add("hidden");
+    whiteClock.classList.add("hidden");
+    blackClock.classList.add("hidden");
 
 
     // Choices
@@ -1048,6 +1079,12 @@ function displayStateAnimations(gameState) {
 
 // Hard set everything for the state
 function displayState(gameState) {
+    // Player Info
+    get("whitePlayerUsername").innerHTML = gameState.whitePlayerUsername;
+    get("blackPlayerUsername").innerHTML = gameState.blackPlayerUsername;
+    get("whitePlayerRating").innerHTML = gameState.whitePlayerElo;
+    get("blackPlayerRating").innerHTML = gameState.blackPlayerElo;
+
     // Draw a resized board
     let gameBoard = gameState.board;
     if (gameBoard.range.rows != numRows() || gameBoard.range.columns != numCols()) {
@@ -1077,8 +1114,8 @@ function displayStateCommom(gameState) {
     highlightPreviousMove(gameState.previousMove);
 
     if (gameState.ticking) {
-        get("whiteClock").parentElement.classList.remove("hidden");
-        get("blackClock").parentElement.classList.remove("hidden");
+        get("whiteClock").classList.remove("hidden");
+        get("blackClock").classList.remove("hidden");
         clockUpdate(gameState);
     }
 
@@ -1482,10 +1519,17 @@ function flipBoard() {
         });
     }
 
+    // Flip player info
+    let topContainer = get("topClockContainer");
+    let bottomContainer = get("bottomClockContainer");
+    let topHTML = topClockContainer.innerHTML;
+    topContainer.innerHTML = bottomContainer.innerHTML;
+    bottomContainer.innerHTML = topHTML;
+
     // Flip the clocks
-    if (currentState.ticking) {
-        flipClocks();
-    }
+    // if (currentState.ticking) {
+    //     flipClocks();
+    // }
 }
 
 function flipSquare(square) {

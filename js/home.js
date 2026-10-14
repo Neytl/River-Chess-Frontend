@@ -68,10 +68,16 @@ const runInfo =
 function afterLoadGuest() {
     loadInElo();
 
+    get("playerName").innerHTML = guestInfo.username;
+
     if (!!afterLogin) {
         afterLogin();
         afterLogin = null;
     }
+
+    fetch(apiUrl + "/api/guests/" + guestId + "/homePageInfo").then(response => response.json()).then(responseJson => {
+        get("globalRank").innerHTML = responseJson.globalRank;
+    });
 
 
     /*    if (runState) {
@@ -111,28 +117,28 @@ function loadInElo() {
 }
 
 function loadInEloForGameMode(gameMode, timeControl) {
-    let ELO = 1000;
+    let Elo = 1000;
 
     for (let i = 0; i < guestInfo.ratings.length; i++) {
         let rating = guestInfo.ratings[i];
         if (rating.gameMode == gameMode && rating.timeControl == timeControl) {
-            ELO = rating.elo;
+            Elo = rating.elo;
         }
     }
 
-    document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container span').innerHTML = ELO.toLocaleString();
+    document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container span').innerHTML = Elo.toLocaleString();
 
     /*let imageContainer = document.querySelector('[data-game-mode="' + gameMode + '"] .elo-container img');
 
-    if (ELO < 700) {
+    if (Elo < 700) {
         imageContainer.src = "/imgs/pieces/white_pawn.png";
-    } else if (ELO < 900) {
+    } else if (Elo < 900) {
         imageContainer.src = "/imgs/pieces/white_bishop.png";
-    } else if (ELO < 1100) {
+    } else if (Elo < 1100) {
         imageContainer.src = "/imgs/pieces/white_knight.png";
-    } else if (ELO < 1300) {
+    } else if (Elo < 1300) {
         imageContainer.src = "/imgs/pieces/white_rook.png";
-    } else if (ELO < 1500) {
+    } else if (Elo < 1500) {
         imageContainer.src = "/imgs/pieces/white_queen.png";
     } else {
         imageContainer.src = "/imgs/pieces/white_king.png";

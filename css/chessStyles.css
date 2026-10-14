@@ -42,8 +42,7 @@ html #body .hidden {
 .chessClockContainer {
     display: flex;
     justify-content: flex-end;
-    padding-top: 1em;
-    padding: .5em;
+    padding: .5em 1em;
 }
 
 .paddingTop {
@@ -568,4 +567,61 @@ img.pieceImg.White {
     100% {
         filter: brightness(1) invert(0); /* Fade smoothly back to normal */
     }
+}
+
+/***********************
+ * Player Data
+ * *********************/
+
+#message, #secondaryMessage {
+    display: none;
+}
+
+:root .chessClockContainer {
+    justify-content: space-between;
+}
+
+#topClockContainer {
+    align-items: flex-end;
+}
+#bottomClockContainer {
+    align-items: flex-start;
+}
+
+#accountInfo {
+    display: flex;
+    gap: .7em;
+    align-items: center;
+    font-size: .8em;
+}
+
+#playerIcon {
+    pointer-events: none;
+    background-color: #3a3a3b;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    outline: solid #adadad 1px;
+}
+
+    #playerIcon img {
+        width: 20px;
+        height: 20px;
+    }
+
+
+.pieceImage {
+    filter: drop-shadow(1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 1px 0 var(--white-piece-outline-color)) drop-shadow(-1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -1px 0 var(--white-piece-outline-color));
+}
+
+.playerName {
+
+}
+
+.playerRating {
+    opacity: .7;
+    font-style: italic;
 }
