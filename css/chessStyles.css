@@ -126,13 +126,16 @@ html #body .hidden {
 
 #boardContainer {
     position: relative;
-    touch-action: none;
-    user-select: none;
 }
 
-    #boardContainer * {
+    #boardContainer, #boardContainer * {
         touch-action: none;
         user-select: none;
+        -webkit-touch-callout: none; /* Disables the iOS Safari long-press callout menu */
+        -webkit-user-select: none; /* Safari, Chrome, and Opera mobile */
+        -moz-user-select: none; /* Firefox Mobile */
+        -ms-user-select: none; /* Internet Explorer/Edge Mobile */
+        user-select: none; /* Standard syntax */
     }
 
 #boardDiv {

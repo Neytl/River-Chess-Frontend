@@ -937,9 +937,9 @@ function executeAnimationsFromPoint(gameState, point) {
                 moveToken(animation.from.row, animation.from.column, animation.to.row, animation.to.column);
                 break;
             case "Promote":
-                setTimeout(function () {
+                // setTimeout(function () {
                     putPiece(animation.pieceChoice, animation.from.row, animation.from.column);
-                }, 500);
+                // }, 500);
                 break;
             case "Convert":
                 putPiece(animation.pieceChoice, animation.from.row, animation.from.column);
@@ -1714,6 +1714,36 @@ function buildMovePopup(row, column, options, remakeMove) {
     closeMovePopup();
     movePopup = popup;
     document.body.appendChild(popup);
+
+    // Make sure the popup doesn't go off the screen
+    keepMovePopupOnScreen(popup);
+}
+
+function keepMovePopupOnScreen(popup) {
+    // Reset any previous positioning adjustments.
+    // popup.style.left = "";
+    // popup.style.right = "";
+
+    // Position the popup as a whole
+    const margin = 16;
+    const popupRect = popup.getBoundingClientRect();
+    const viewportWidth = getFirst(".top-nav").getBoundingClientRect().width; // Use the nav as a ruler
+
+    if (popupRect.right > viewportWidth - margin) {
+        const overflow = popupRect.right - (viewportWidth - margin);
+
+        popup.style.left =
+            `${popup.offsetLeft - overflow}px`;
+    }
+
+    const correctedRect = popup.getBoundingClientRect();
+
+    if (correctedRect.left < margin) {
+        const overflow = margin - correctedRect.left;
+
+        popup.style.left =
+            `${popup.offsetLeft + overflow}px`;
+    }
 }
 
 document.addEventListener("click", event => {
