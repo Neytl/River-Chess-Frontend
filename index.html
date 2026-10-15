@@ -139,29 +139,14 @@
 
                         <h2 id="gameModesTitle">Game Modes</h2>
                     </div>
-                    <div class="help-button hover-popup-parent hidden">
-                        <img src="imgs/icons/info.png" />
-                        <div class="hover-popup">
-                            <strong>Duels</strong>
-                            <div>
-                                <span>A game of chess with random additional rules in place – one for each </span>
-                                <i>Stone</i>
-                            </div>
-                        </div>
 
-                        <!--                        <div class="hover-popup">
-                            <strong>Downstream</strong>
-                            <div>
-                                <span>An asymettrical game of chess where each player is given rules based on their skill level</span>
-                            </div>
-                        </div>-->
-                    </div>
                 </div>
 
+                <!--One Stone Duel-->
                 <div id="duelsGameModes">
                     <div class="game-mode-button duels-game-button" data-game-mode="OneStoneDuel">
                         <div>
-                            <img src="imgs/icons/Duels.png" />
+                            <img src="imgs/icons/OneStoneDuel.png" />
                             <div class="game-mode-title">1 Stone Duel</div>
                         </div>
                         <div class="elo-container">
@@ -170,11 +155,25 @@
                                 <span>????</span>
                             </div>
                         </div>
+                    
+                        <div class="help-container">
+                            <div class="help-button hover-popup-parent">
+                                <img src="imgs/icons/info.png" />
+                                <div class="hover-popup">
+                                    <strong>1 Stone Duel</strong>
+                                    <div>
+                                        <span>A game of chess with one random additional rule in place</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hidden game-mode-button duels-game-button" data-game-mode="TwoStoneDuel">
+
+                    <!--Three Stone Duel-->
+                    <div class="game-mode-button duels-game-button" data-game-mode="ThreeStoneDuel">
                         <div>
-                            <img src="imgs/icons/Duels.png" />
-                            <div class="game-mode-title">2 Stone Duel</div>
+                            <img src="imgs/icons/ThreeStoneDuel.png" />
+                            <div class="game-mode-title">3 Stone Duel</div>
                         </div>
                         <div class="elo-container">
                             <div>Elo</div>
@@ -182,11 +181,25 @@
                                 <span>????</span>
                             </div>
                         </div>
+
+                        <div class="help-container">
+                            <div class="help-button hover-popup-parent">
+                                <img src="imgs/icons/info.png" />
+                                <div class="hover-popup">
+                                    <strong>3 Stone Duel</strong>
+                                    <div>
+                                        <span>A game of chess with 3 random additional rules in place</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="game-mode-button duels-game-button" data-game-mode="ThreeStoneDuel">
+
+                    <!--Disabled Game Modes-->
+                    <div class="hidden game-mode-button duels-game-button" data-game-mode="TwoStoneDuel">
                         <div>
-                            <img src="imgs/icons/Duels.png" />
-                            <div class="game-mode-title">3 Stone Duel</div>
+                            <img src="imgs/icons/TwoStoneDuel.png" />
+                            <div class="game-mode-title">2 Stone Duel</div>
                         </div>
                         <div class="elo-container">
                             <div>Elo</div>
@@ -208,11 +221,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--                        <div class="hover-popup">
+        <strong>Downstream</strong>
+        <div>
+            <span>An asymettrical game of chess where each player is given rules based on their skill level</span>
+        </div>
+    </div>-->
+
                 </div>
             </div>
 
             <a href="/encyclopedia" class="river-panel" id="encyclopediaLink">
-                <h2>Stone Encyclopedia</h2>
+                <h2>Encyclopedia</h2>
                 <div class="mini-stones-display">
                     <div class="stone-wrapper stone-white">
                         <img class="stone-image" src="/imgs/stones/Wizards Hat.webp" alt="Stone">

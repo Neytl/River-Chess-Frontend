@@ -184,12 +184,17 @@
 .help-button {
     padding: 5px;
     cursor: pointer;
+    width: fit-content;
+}
+.help-container {
+    display: flex;
+    justify-content: flex-end;
 }
 
-    .help-button img {
-        width: 20px;
-        height: 20px;
-    }
+.help-button img {
+    width: 20px;
+    height: 20px;
+}
 
 /* ------------------------- */
 /* Panels/Game Modes         */
@@ -214,19 +219,23 @@
         }
 
 .game-mode-button > div:first-child img {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
+    filter: drop-shadow(1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 1px 0 var(--white-piece-outline-color)) drop-shadow(-1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -1px 0 var(--white-piece-outline-color));
 }
 
 .game-mode-button {
     position: relative;
-    display: flex;
     border-radius: 10px;
     padding: 10px 15px;
     color: #f1e5bd;
     background: linear-gradient(270deg, #063e51, #3b7f99);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
     cursor: pointer;
+
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 1fr 60px 40px;
     justify-content: space-between;
     align-items: center;
 }
@@ -266,7 +275,7 @@
     .game-mode-button > div:first-child {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
     }
 
 .game-mode-title {
@@ -321,13 +330,20 @@
 /* ------------------------- */
 /* Duels                     */
 /* ------------------------- */
+
 #duelsGameModes {
     display: flex;
     flex-direction: column;
+
     gap: 8px;
     margin-top: 8px;
 }
 
+.right-of-game-mode-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
 
 #encyclopediaLink {
     display: flex;

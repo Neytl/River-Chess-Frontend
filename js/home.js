@@ -10,7 +10,10 @@ window.addEventListener('pageshow', (event) => {
 // ******************************************
 
 getAll(".duels-game-button").forEach(button => {
-    button.addEventListener("click", () => { startDuelsGame(button) });
+    button.addEventListener("click", event => {
+        if (clickedOnClass(event, "help-button")) return;
+        startDuelsGame(button)
+    });
 });
 
 let afterLogin = null;
