@@ -886,15 +886,6 @@ function executeAnimationsFromPoint(gameState, point) {
         let animation = animations[i];
 
         switch (animation.type) {
-            case "Checked":
-                buildIndication("Checked.png", animation.from, "checked");
-                break;
-            case "CPUThinking":
-                buildIndication("CPUThinking.png", animation.from, "thinking");
-                break;
-            case "CPUDoneThinking":
-                remove(get("thinking"));
-                break;
             case "Move":
                 // Hard move
                 if (!!dragRequest && dragRequest.row == animation.from.row && dragRequest.column == animation.from.column) {
@@ -1040,12 +1031,21 @@ function playSound(type) {
     new Audio(directory).play();
 }
 
-function buildIndication(imageFile, square, id) {
+function drawIndicators(indicators) {
+    removeAllClass("pieceIndicator");
+
+    indicators.forEach(indicator => {
+        buildIndication(indicator.type + ".png", indicator.from);
+    });
+}
+
+function buildIndication(imageFile, square) {
+    let piece = get(square.row + "-" + square.column + "-piece");
+    if (!piece) return;
     let img = document.createElement("img");
     img.src = "imgs/icons/" + imageFile
     img.classList.add("pieceIndicator");
-    if (!!id) img.id = id;
-    get(square.row + "-" + square.column + "-piece").appendChild(img);
+    piece.appendChild(img);
 }
 
 function flashElement(element) {
@@ -1101,7 +1101,6 @@ function displayState(gameState) {
 function displayStateCommom(gameState) {
     whitesTurn = gameState.isWhitesTurn;
     clearSecondaryMessage();
-    remove(get("checked"));
     currentMessage = gameState.stateDescription;
     printMessage(gameState.stateDescription);
     unPickPiece();
@@ -1112,6 +1111,7 @@ function displayStateCommom(gameState) {
     loadInLegalMoves(gameState.legalMoves);
     isYourTurn = (gameState.isWhitesTurn ? gameState.whitePlayerID : gameState.blackPlayerID) == guestId;
     highlightPreviousMove(gameState.previousMove);
+    drawIndicators(gameState.indicators);
 
     if (gameState.ticking) {
         get("whiteClock").classList.remove("hidden");
@@ -1169,6 +1169,7 @@ function displayStateCommom(gameState) {
 
         onGameEnd();
     }
+
 }
 
 
@@ -1195,6 +1196,7 @@ function drawStateBoard(gameState) {
 
     // TODO... figure out how to combine this code with displayStateCommon() to not have to run it twice
     highlightPreviousMove(gameState.previousMove);
+    drawIndicators(gameState.indicators);
 
     if (!gameState.finished) {
         choosingSquare = gameState.choosingSquare;
@@ -1561,6 +1563,11 @@ function flipGameState(state) {
         flipSquare(animation.to);
         flipSquare(animation.pieceChoice);
         flipSquare(animation.tokenChoice);
+    });
+
+    // Flip indicators
+    state.indicators.forEach(function (animation) {
+        flipSquare(animation.from);
     });
 
     // Flip Only Move

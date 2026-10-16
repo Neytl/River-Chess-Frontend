@@ -127,30 +127,43 @@
         <div id="playerStonesContainer" class="stones-container"></div>
 
         <!--Game Over Popup-->
-        <div id="gameOverPopupContainer" class="hidden">
-            <div id="gameOverPopup">
-                <div id="closeGameOverPopupButton">&times;</div>
-                <img id="gameOverPopupGameModeIcon" src="imgs/icons/duels.png" />
-                <div id="gameOverMessageContainer">
-                    <div id="gameOverTitle">You Won!</div>
-                    <div id="gameOverSubtitle">by Checkmate</div>
-                </div>
-
-                <div id="gameOverPopupInfoSection">
-                    <div class="elo-container">
-                        <div><span id="timeControlDisplay">Blitz</span><span> Elo</span></div>
-                        <div>
-                            <span id="eloContainer">????</span>
-                            <span id="eloChange">+26</span>
-                        </div>
+        <div id="popupContainer" class="hidden">
+            
+            <div id="popup">
+                <!--Confirm Popup-->
+                <div id="confirmPopup">
+                    <div id="confirmMessage">Are You Sure?</div>
+                    <div class="popupButtons">
+                        <div id="submitConfirmButton">OK</div>
+                        <div id="cancelConfirmButton">Cancel</div>
                     </div>
                 </div>
-                <div id="gameOverPopupButtons">
-                    <a href="/" id="gameOverHomeButton">Home</a>
-                    <div id="newGameButton">New Game</div>
+
+                <!--Game Over Popup-->
+                <div id="gameOverPopup" class="hidden">
+                    <div id="closeGameOverPopupButton">&times;</div>
+                    <img id="gameOverPopupGameModeIcon" src="imgs/icons/duels.png" />
+                    <div id="gameOverMessageContainer">
+                        <div id="gameOverTitle">You Won!</div>
+                        <div id="gameOverSubtitle">by Checkmate</div>
+                    </div>
+
+                    <div id="gameOverPopupInfoSection">
+                        <div class="elo-container">
+                            <div><span class="hidden" id="timeControlDisplay">Blitz</span><span>Elo</span></div>
+                            <div>
+                                <span id="eloContainer">????</span>
+                                <span id="eloChange">+??</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popupButtons">
+                        <a href="/" id="gameOverHomeButton">Home</a>
+                        <div id="newGameButton">New Game</div>
+                    </div>
                 </div>
             </div>
-        </div>
+            </div>
     </main>
 
 

@@ -41,7 +41,9 @@ function onGameEnd() {
     }
 
     setTimeout(() => {
-        get("gameOverPopupContainer").classList.remove("hidden");
+        get("confirmPopup").classList.add("hidden");
+        get("gameOverPopup").classList.remove("hidden");
+        get("popupContainer").classList.remove("hidden");
     }, 1500);
 }
 
@@ -91,34 +93,35 @@ async function loadSession() {
 
 const resignButton = document.getElementById("resignButton");
 resignButton.addEventListener("click", () => {
-    if (!confirm(
-        "Are you sure you want to resign?"
-    )) return;
-    
-    window.multiplayerClient.sendAction("Resign", {});
+    confirmPopup(
+        "Are you sure you want to resign?",
+        () => {
+            window.multiplayerClient.sendAction("Resign", {});
+        }
+    );
 });
-
 
 const drawOfferButton = document.getElementById("drawOfferButton");
 drawOfferButton.addEventListener("click", () => {
     let offeredDraw = drawOfferButton.classList.contains("offeredDraw");
 
-    if (!confirm(
+    confirmPopup(
         offeredDraw ?
-        "Are you sure you want to accept the draw offer?"
-        : "Are you sure you want to offer a draw?"
-    )) return;
-
-    window.multiplayerClient.sendAction("DrawOffer", {});
+            "Are you sure you want to accept the draw offer?"
+            : "Are you sure you want to offer a draw?",
+        () => {
+            window.multiplayerClient.sendAction("DrawOffer", {});
+        }
+    );
 });
 
 get("closeGameOverPopupButton").addEventListener("click", () => {
-    get("gameOverPopupContainer").classList.add("hidden");
+    get("popupContainer").classList.add("hidden");
 });
 
-get("gameOverPopupContainer").addEventListener("click", event => {
-    if (!clickedOn(event, "gameOverPopup")) {
-        get("gameOverPopupContainer").classList.add("hidden");
+get("popupContainer").addEventListener("click", event => {
+    if (!clickedOn(event, "popup")) {
+        get("popupContainer").classList.add("hidden");
         window.multiplayerClient.leaveQueue();
     }
 });
@@ -130,3 +133,17 @@ get("newGameButton").addEventListener("click", () => {
         window.multiplayerClient.leaveQueue();
     }
 });
+
+
+get("cancelConfirmButton").addEventListener("click", () => {
+    get("popupContainer").classList.add("hidden");
+});
+function confirmPopup(message, callOnConfirm) {
+    get("confirmMessage").innerHTML = message;
+    get("popupContainer").classList.remove("hidden");
+
+    get("submitConfirmButton").onclick = () => {
+        get("popupContainer").classList.add("hidden");
+        callOnConfirm();
+    }
+}

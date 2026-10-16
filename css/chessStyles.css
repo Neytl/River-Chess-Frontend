@@ -330,9 +330,6 @@ html #body .hidden {
     height: 2em;
     top: -1em;
     right: 0em;
-}
-
-#checked {
     filter: drop-shadow(2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 2px 0 var(--white-piece-outline-color)) drop-shadow(-2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -2px 0 var(--white-piece-outline-color));
 }
 

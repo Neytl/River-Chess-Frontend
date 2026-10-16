@@ -20,7 +20,7 @@ body .top-nav {
 /* Game Over Popup
 /* ------------------------- */
 
-#gameOverPopupContainer {
+#popupContainer {
     position: fixed;
     z-index: 100;
     top: 0;
@@ -33,12 +33,15 @@ body .top-nav {
     align-items: center;
 }
 
-#gameOverPopup {
+#popup {
     background-color: #1f2021;
     padding: 10px;
     border-radius: 10px;
-    width: 20em;
     position: relative;
+}
+
+#gameOverPopup {
+    width: 20em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,14 +109,14 @@ body .top-nav {
     color: red;
 }
 
-#gameOverPopupButtons {
+.popupButtons {
     display: grid;
     gap: 1em;
     width: 100%;
     grid-template-columns: 1fr 1fr;
 }
 
-    #gameOverPopupButtons > * {
+    .popupButtons > * {
         padding: 8px;
         text-align: center;
         border-radius: 5px;
@@ -198,4 +201,31 @@ body .top-nav {
 }
 #drawOfferButton.offeredDraw #drawNotication {
     visibility: visible;
+}
+
+/* ------------------------- */
+/* Confirm
+/* ------------------------- */
+
+#confirmPopup {
+    width: 12em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#submitConfirmButton {
+    background-color: #4785a1;
+}
+
+#cancelConfirmButton {
+    background-color: #2e444f;
+}
+
+#confirmMessage {
+    text-align: center;
+    padding: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
 }
