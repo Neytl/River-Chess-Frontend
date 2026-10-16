@@ -71,7 +71,7 @@
        Stones
        --------------------------------------------------------- */
 
-    :root .stone-wrapper, :root .stone-wrapper::before {
+/*    :root .stone-wrapper, :root .stone-wrapper::before {
         width: 60px;
         height: 60px;
     }
@@ -87,14 +87,14 @@
         }
 
     :root .stone-points {
-        top: -12px;
+        top: -11px;
     }
 
     :root .stone-wrapper.stone-flipped .stone-points {
-        bottom: -12px;
+        bottom: -11px;
     }
 
     :root .stone-counter {
         transform: scale(.75);
-    }
+    }*/
 }

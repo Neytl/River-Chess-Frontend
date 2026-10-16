@@ -992,45 +992,6 @@ function executeAnimationsFromPoint(gameState, point) {
     dragRequest = false;
 }
 
-function playSound(type) {
-    if (muted) {
-        return;
-    }
-
-    let directory = "./sounds/"
-
-    switch (type) {
-        case "Place":
-            directory += "move.mp3";
-            break;
-        case "Move":
-            directory += "move.mp3";
-            break;
-        case "Capture":
-            directory += "capture.mp3";
-            break;
-        case "Invoke":
-            directory += "invoke.wav";
-            break;
-        case "Promote":
-            directory += "promote.wav";
-            return;
-        case "Check":
-            directory += "check.mp3";
-            break;
-        case "Finished":
-            directory += "finished.mp3";
-            break;
-        case "IllegalMove":
-            directory += "illegal.mp3";
-            return;
-        default:
-            return;
-    }
-
-    new Audio(directory).play();
-}
-
 function drawIndicators(indicators) {
     removeAllClass("pieceIndicator");
 
@@ -1053,6 +1014,79 @@ function flashElement(element) {
     setTimeout(function () {
         element.classList.remove('flash-white');
     }, 500)
+}
+
+
+//-----------------------------
+// Sound
+//-----------------------------
+
+if (navigator.audioSession) {
+    navigator.audioSession.type = "transient";
+}
+
+// 1. Create a global AudioContext (it won't activate until a user gesture)
+let audioCtx = null;
+const audioBuffers = {}; // Cache to prevent re-fetching the sounds
+
+function initAudioContext() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}
+
+// 2. Preload sounds to avoid lag during a game or action
+function preloadSound(type, path) {
+    fetch(path)
+        .then(response => response.arrayBuffer())
+        .then(data => audioCtx.decodeAudioData(data))
+        .then(buffer => {
+            audioBuffers[type] = buffer;
+        })
+        .catch(err => console.error("Error loading sound:", path, err));
+}
+
+// 3. Your modified playSound function using Web Audio API
+function playSound(type) {
+    if (muted) return;
+
+    // Ensure context is running (fixes browser autoplay blocks)
+    initAudioContext();
+
+    let directory = "./sounds/";
+    switch (type) {
+        case "Place": case "Move": directory += "move.mp3"; break;
+        case "Capture": directory += "capture.mp3"; break;
+        case "Invoke": directory += "invoke.wav"; break;
+        case "Promote": directory += "promote.wav"; break;
+        case "Check": directory += "check.mp3"; break;
+        case "Finished": directory += "finished.mp3"; break;
+        case "IllegalMove": directory += "illegal.mp3"; break;
+        default: return;
+    }
+
+    // If already preloaded, play it instantly without interrupting Spotify
+    if (audioBuffers[type]) {
+        const source = audioCtx.createBufferSource();
+        source.buffer = audioBuffers[type];
+        source.connect(audioCtx.destination);
+        source.start(0);
+    } else {
+        // Fallback: Fetch and play on the fly if not cached yet
+        fetch(directory)
+            .then(res => res.arrayBuffer())
+            .then(data => audioCtx.decodeAudioData(data))
+            .then(buffer => {
+                audioBuffers[type] = buffer; // Cache it for next time
+                const source = audioCtx.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioCtx.destination);
+                source.start(0);
+            });
+    }
 }
 
 
