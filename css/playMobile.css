@@ -42,13 +42,8 @@
         height: 12.5vw;
     }
 
-        :root .gameObject.squareHighlight {
-            width: 12.2vw;
-            height: 12.2vw;
-        }
-
     :root .pieceImg {
-        max-width: 9.5vw;
+        max-width: 10.4vw;
     }
 
     #chessContainer {

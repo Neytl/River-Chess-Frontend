@@ -115,7 +115,7 @@ function generateChessElements() {
     // Player Info
     let whitePlayerInfo =createElement(`
          <div class="river-panel" id="accountInfo">
-                <div id="playerIcon">
+                <div class="playerIcon" id="whitePlayerIcon">
                     <img class="pieceImage" src="imgs/pieces/white_king.png" />
                 </div>
                 <div>
@@ -127,7 +127,7 @@ function generateChessElements() {
 
     let blackPlayerInfo = createElement(`
          <div class="river-panel" id="accountInfo">
-                <div id="playerIcon">
+                <div class="playerIcon" id="blackPlayerIcon">
                     <img class="pieceImage" src="imgs/pieces/black_king.png" />
                 </div>
                 <div>
@@ -1138,6 +1138,15 @@ function displayStateCommom(gameState) {
             boardElement.classList.remove("choosingSquare");
         }
 
+        // Player turn indicator
+        /*if (whitesTurn) {
+            get("blackPlayerIcon").classList.remove("active");
+            get("whitePlayerIcon").classList.add("active");
+        } else {
+            get("blackPlayerIcon").classList.add("active");
+            get("whitePlayerIcon").classList.remove("active");
+        }*/
+
         // Draw offer code
         console.log(gameState);
         console.log(gameState.drawOfferFrom);
@@ -1155,6 +1164,9 @@ function displayStateCommom(gameState) {
             }
         }    
     } else {
+        /*get("blackPlayerIcon").classList.remove("active");
+        get("whitePlayerIcon").classList.remove("active");*/
+
         onGameEnd();
     }
 }

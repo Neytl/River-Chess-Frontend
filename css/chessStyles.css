@@ -143,8 +143,7 @@ html #body .hidden {
     position: relative;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    border-top: solid black 2px;
-    border-left: solid black 2px;
+    box-shadow: #000000b8 0 0 10px -2px;
 }
 
 .square, .gameObject {
@@ -153,16 +152,18 @@ html #body .hidden {
 }
 
 .square {
-    border-bottom: solid black 2px;
-    border-right: solid black 2px;
+/*    border-bottom: solid black 2px;*/
+    /*    border-right: solid black 2px;*/
 }
 
 .dark {
-    background-color: #C3914E;
+    /*    background-color: #C3914E;*/
+    background-color: #b58863;
 }
 
 .light {
-    background-color: #EEBB75;
+    /*    background-color: #EEBB75;*/
+    background-color: #edd6b0;
 }
 
 /* Choosing Square */
@@ -200,20 +201,18 @@ html #body .hidden {
  * Squares
  * ***************/
 
-    .gameObject.squareHighlight {
-        width: 58px;
-        height: 58px;
-    }
-
 .picked {
     z-index: 13;
-    box-shadow: inset 0 0 1em 2px #fff942;
+/*    box-shadow: inset 0 0 1em 2px #fff942;*/
+    box-shadow: inset 0 0 3em 0 #e58cbe7d;
 }
 
 
 .legalMove {
     z-index: 13;
-    box-shadow: inset 0 0 3em 0 #fefff67a;
+    /*    box-shadow: inset 0 0 3em 0 #fefff67a;*/
+    /*    box-shadow: inset 0 0 0.5em 0 #1f467794;*/
+    box-shadow: inset 0 0 3em 0 #e58cbe7d;
 }
 
     .legalMove.special {
@@ -222,7 +221,8 @@ html #body .hidden {
     }
 
 .previousMove {
-    box-shadow: inset 0 0 0.5em 0 #1f467794;
+    /*    box-shadow: inset 0 0 0.5em 0 #1f467794;*/
+    box-shadow: inset 0 0 3em 0 #c50d5947;
 }
 
 
@@ -304,8 +304,8 @@ html #body .hidden {
 }
 
 .pieceImg {
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 52px;
+    max-height: 52px;
     pointer-events: none;
 }
 
@@ -328,8 +328,12 @@ html #body .hidden {
     position: absolute;
     width: 2em;
     height: 2em;
-    top: -1.2em;
-    right: .3em;
+    top: -1em;
+    right: 0em;
+}
+
+#checked {
+    filter: drop-shadow(2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 2px 0 var(--white-piece-outline-color)) drop-shadow(-2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -2px 0 var(--white-piece-outline-color));
 }
 
 img.pieceImg.Black {
@@ -598,7 +602,7 @@ img.pieceImg.White {
     font-size: .8em;
 }
 
-#playerIcon {
+.playerIcon {
     pointer-events: none;
     background-color: #3a3a3b;
     width: 32px;
@@ -610,7 +614,13 @@ img.pieceImg.White {
     outline: solid #adadad 1px;
 }
 
-    #playerIcon img {
+
+    .playerIcon.active {
+/*        background-color: #3a3a3b;*/
+/*        outline: solid #ffffff 1px;*/
+    }
+
+    .playerIcon img {
         width: 20px;
         height: 20px;
     }
