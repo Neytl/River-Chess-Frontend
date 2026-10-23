@@ -78,9 +78,9 @@ function afterLoadGuest() {
         afterLogin = null;
     }
 
-    fetch(apiUrl + "/api/guests/" + guestId + "/homePageInfo").then(response => response.json()).then(responseJson => {
-        get("globalRank").innerHTML = responseJson.globalRank;
-    });
+    // fetch(apiUrl + "/api/guests/" + guestId + "/homePageInfo").then(response => response.json()).then(responseJson => {
+    //     get("globalRank").innerHTML = responseJson.globalRank;
+    // });
 
 
     /*    if (runState) {

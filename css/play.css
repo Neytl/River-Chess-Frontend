@@ -198,7 +198,9 @@ body .top-nav {
     right: -8px;
     top: -5px;
     visibility: hidden;
+    filter: drop-shadow(2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 2px 0 var(--white-piece-outline-color)) drop-shadow(-2px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -2px 0 var(--white-piece-outline-color));
 }
+
 #drawOfferButton.offeredDraw #drawNotication {
     visibility: visible;
 }

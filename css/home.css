@@ -185,6 +185,7 @@
     padding: 5px;
     cursor: pointer;
     width: fit-content;
+    display: flex;
 }
 .help-container {
     display: flex;
@@ -194,6 +195,7 @@
 .help-button img {
     width: 20px;
     height: 20px;
+    opacity: 0.8;
 }
 
 /* ------------------------- */
@@ -204,7 +206,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin: 0 0 12px 10px;
 }
 
     .game-mode-panel-header > div:first-child {
@@ -216,6 +218,7 @@
         .game-mode-panel-header > div:first-child img {
             width: 30px;
             height: 30px;
+            filter: drop-shadow(1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 1px 0 var(--white-piece-outline-color)) drop-shadow(-1px 0 0 var(--white-piece-outline-color)) drop-shadow(0 -1px 0 var(--white-piece-outline-color));
         }
 
 .game-mode-button > div:first-child img {
@@ -227,15 +230,13 @@
 .game-mode-button {
     position: relative;
     border-radius: 10px;
-    padding: 10px 15px;
+    padding: 13px 15px;
     color: #f1e5bd;
-    background: linear-gradient(270deg, #063e51, #3b7f99);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.04);
     cursor: pointer;
-
     display: grid;
     gap: 5px;
-    grid-template-columns: 1fr 60px 40px;
+    grid-template-columns: 1fr 52px 40px;
     justify-content: space-between;
     align-items: center;
 }
@@ -326,15 +327,54 @@
             }
 
 
+/* ------------------------- */
+/* Rainbow Filter */
+/* ------------------------- */
 
+.game-mode-button {
+    /*    background: linear-gradient(270deg, #063e51, #3b7f99);*/
+    /*    background: linear-gradient(270deg, #934d69, #376d68);*/
+    /*    background: linear-gradient(270deg, #934d69,#615843, #376d68,#376d68,#376d68);*/
+    background: linear-gradient(270deg, #6e4777, #40757d);
+}
+
+.game-mode-button-filter {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    position: absolute;
+    opacity: .05;
+    pointer-events: none;
+    z-index: 1;
+
+    /* Attaches the rainbow animation */
+/*    background-color: darkblue;*/
+    background-color: hsl(var(--hue), 100%, 80%);
+    animation: shift-rainbow 8s linear infinite;
+}
+
+@property --hue {
+    syntax: "<number>";
+    initial-value: 0;
+    inherits: false;
+}
+
+/* Cycle the hue completely around the color wheel */
+@keyframes shift-rainbow {
+    from {
+        --hue: 0;
+    }
+
+    to {
+        --hue: 360;
+    }
+}
 /* ------------------------- */
 /* Duels                     */
 /* ------------------------- */
-
 #duelsGameModes {
     display: flex;
     flex-direction: column;
-
     gap: 8px;
     margin-top: 8px;
 }
@@ -363,7 +403,9 @@
 /* ------------------------- */
 
 #gameModesTitle {
-    margin-left: .4em;
+    color: #f1e5bd;
+    font-weight: bold;
+    font-size: 1.6em;
 }
 
 :root {
