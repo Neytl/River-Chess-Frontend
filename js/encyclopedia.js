@@ -19,4 +19,25 @@ window.addEventListener("load", () => {
         });
 
     });
+
+    // fetch(apiUrl + "/api/data/stonesData").then(response => response.json()).then(responseJson => {
+    //     let stones = [];
+
+    //     responseJson.forEach(group => {
+    //         group.forEach(stone => stones.push(stone));
+    //     });
+
+    //     stones = shuffle(stones);
+
+    //     displayStones(stones, stonesContainer, { isFlipped: true });
+    // });
+
 }); 
+
+// function shuffle(array) {
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//     return array;
+// }
