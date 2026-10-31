@@ -254,6 +254,10 @@ function selectOption(optionId) {
 
 // Load in the time control
 (() => {
+    //= TESTING - Forced time contol
+    localStorage.setItem("timeControl", "Rapid");
+    //= TESTING =//
+
     let loadedTimeControl = localStorage.getItem("timeControl", "Untimed");
 
     const selectedIndex =

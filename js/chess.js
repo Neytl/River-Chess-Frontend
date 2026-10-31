@@ -1183,7 +1183,7 @@ function displayStateCommom(gameState) {
 
         // Draw offer code
         console.log(gameState);
-        console.log(gameState.drawOfferFrom);
+        // console.log(gameState.drawOfferFrom);
 
         if (gameState.drawOfferFrom == "None") {
             drawOfferButton.classList.remove("offeringDraw");

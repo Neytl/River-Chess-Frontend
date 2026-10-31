@@ -82,12 +82,13 @@ html #body .hidden {
     font-size: 0.8em;
 }
 
+
 #rank {
-    left: 0.4em;
-    top: -1.7em;
+    left: 0.2em;
+    top: -1.8em;
     height: 100%;
     flex-direction: column;
-}
+} 
 
 #file {
     bottom: 0.0em;

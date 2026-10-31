@@ -57,8 +57,8 @@
     }
 
     :root #rank {
-        left: 1vw;
-        top: -4.4vw;
+        left: .5vw;
+        top: -4.6vw;
     }
 
     :root #file {
